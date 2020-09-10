@@ -1,9 +1,9 @@
-use brcode::parse::parse;
+use brcode::from_str;
 use criterion::{criterion_group, criterion_main, Criterion};
 
 fn criterion_benchmark(c: &mut Criterion) {
     let code = code();
-    c.bench_function("parse", |b| b.iter(|| parse(&code)));
+    c.bench_function("parse", |b| b.iter(|| from_str(&code)));
 }
 
 criterion_group!(benches, criterion_benchmark);

@@ -13,12 +13,15 @@ brcode = "0.1.0"
 
 **Parse String**
 ```rust
-use brcode::parse::{parse, Data};
+use brcode::{
+    from_str,
+    parse::Data
+};
 
 fn main() {
     let code = "00020104141234567890123426580014BR.GOV.BCB.PIX0136123e4567-e12b-12d1-a456-42665544000027300012BR.COM.OUTRO011001234567895204000053039865406123.455802BR5917NOME DO RECEBEDOR6008BRASILIA61087007490062190515RP12345678-201980390012BR.COM.OUTRO01190123.ABCD.3456.WXYZ6304AD38";
 
-    assert_eq!(parse(code), expected());
+    assert_eq!(from_str(code), expected());
 }
 
 fn expected() -> Vec<(usize, Data)> {
@@ -45,6 +48,12 @@ fn expected() -> Vec<(usize, Data)> {
             (1, Data::Single("0123.ABCD.3456.WXYZ".to_string()))])), 
         (63, Data::Single("AD38".to_string()))]
 }
+```
+## Benchmark
+
+**from_str** in `benches/parse.rs`
+```
+time:   [16.200 us 16.251 us 16.319 us] 
 ```
 
 ## Goals

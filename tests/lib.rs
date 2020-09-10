@@ -1,8 +1,8 @@
-use brcode::parse::{parse, Data};
+use brcode::{from_str, parse::Data};
 
 #[test]
 fn name() {
-    assert_eq!(parse(&code()), expected());
+    assert_eq!(from_str(&code()), expected());
 }
 
 fn code() -> String {

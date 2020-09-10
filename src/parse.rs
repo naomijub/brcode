@@ -6,14 +6,14 @@ pub enum Data {
     Vector(Vec<(usize, Data)>),
 }
 
-pub fn parse(code: &str) -> Vec<(usize, Data)> {
+pub (crate) fn parse(code: &str, max: usize) -> Vec<(usize, Data)> {
     let mut chars = code.chars();
-    (0usize..=99usize)
+    (0usize..=max)
         .filter_map(|_| parse_code(&mut chars))
         .map(|code| match code.0 {
-            26..=51 => (code.0, Data::Vector(parse(&code.1))),
-            80..=99 => (code.0, Data::Vector(parse(&code.1))),
-            62 => (code.0, Data::Vector(parse(&code.1))),
+            26..=51 => (code.0, Data::Vector(parse(&code.1, 99))),
+            80..=99 => (code.0, Data::Vector(parse(&code.1, 99))),
+            62 => (code.0, Data::Vector(parse(&code.1, 25))),
             _ => (code.0, Data::Single(code.1)),
         })
         .collect()
@@ -41,7 +41,7 @@ mod test {
         let code = "0011hello-world";
         let expected = vec![(0usize, Data::Single(String::from("hello-world")))];
 
-        assert_eq!(parse(code), expected);
+        assert_eq!(parse(code, 99), expected);
     }
 
     #[test]
@@ -62,6 +62,6 @@ mod test {
             ),
         ];
 
-        assert_eq!(parse(code), expected);
+        assert_eq!(parse(code, 99), expected);
     }
 }
