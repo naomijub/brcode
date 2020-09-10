@@ -1,6 +1,5 @@
+use brcode::parse::parse;
 use criterion::{criterion_group, criterion_main, Criterion};
-use brcode::parse::{parse};
-
 
 fn criterion_benchmark(c: &mut Criterion) {
     let code = code();

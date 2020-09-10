@@ -10,14 +10,12 @@ pub fn parse(code: &str) -> Vec<(usize, Data)> {
     let mut chars = code.chars();
     (0usize..=99usize)
         .filter_map(|_| parse_code(&mut chars))
-        .map(|code|
-            match code.0 {
-                26..=51 => (code.0, Data::Vector(parse(&code.1))),
-                80..=99 => (code.0, Data::Vector(parse(&code.1))),
-                62 => (code.0, Data::Vector(parse(&code.1))),
-                _ => (code.0, Data::Single(code.1))
-            }
-        )
+        .map(|code| match code.0 {
+            26..=51 => (code.0, Data::Vector(parse(&code.1))),
+            80..=99 => (code.0, Data::Vector(parse(&code.1))),
+            62 => (code.0, Data::Vector(parse(&code.1))),
+            _ => (code.0, Data::Single(code.1)),
+        })
         .collect()
 }
 
@@ -49,7 +47,20 @@ mod test {
     #[test]
     fn code_with_inner_values() {
         let code = "00020104141234567890123426580014BR.GOV.BCB.PIX0136123e4567-e12b-12d1-a456-426655440000";
-        let expected = vec![(0usize, Data::Single("01".to_string())), (4usize, Data::Single("12345678901234".to_string())), (26, Data::Vector(vec![(0usize, Data::Single("BR.GOV.BCB.PIX".to_string())), (1usize, Data::Single("123e4567-e12b-12d1-a456-426655440000".to_string()))]))];
+        let expected = vec![
+            (0usize, Data::Single("01".to_string())),
+            (4usize, Data::Single("12345678901234".to_string())),
+            (
+                26,
+                Data::Vector(vec![
+                    (0usize, Data::Single("BR.GOV.BCB.PIX".to_string())),
+                    (
+                        1usize,
+                        Data::Single("123e4567-e12b-12d1-a456-426655440000".to_string()),
+                    ),
+                ]),
+            ),
+        ];
 
         assert_eq!(parse(code), expected);
     }
