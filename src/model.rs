@@ -1,14 +1,16 @@
 use crate::parse::Data;
+use crate::aux::HashBrCode;
+
 #[derive(Debug, PartialEq)]
 pub struct BrCode {
     payload_version: u8,
     initiation_methos: Option<u8>,
     // merchant_information: Vec<Info>,
     merchant_category_code: u32,
-    // merchant_name: String,
-    // merchant_city: String,
+    merchant_name: String,
+    merchant_city: String,
     // postal_code: Option<String>,
-    // currency: String,
+    currency: String,
     // amount: Option<f64>,
     // country_code: String,
     // field_template: Vec<Label>,
@@ -16,9 +18,10 @@ pub struct BrCode {
     // templates: Option<Vec<(usize, Data)>>
 }
 
-pub struct Label {
-    reference_label: String,
-}
+// #[derive(Debug, PartialEq)]
+// pub struct Label {
+//     reference_label: String,
+// }
 
 #[derive(Debug, PartialEq)]
 pub struct Info {
@@ -28,16 +31,16 @@ pub struct Info {
 
 impl From<Vec<(usize, Data)>> for BrCode {
     fn from(code: Vec<(usize, Data)>) -> Self {
-        let mut mut_code = code.iter();
+        let hash = HashBrCode::new(code).0;
         BrCode {
-            payload_version: mut_code.find(|e| e.0 == 0usize).unwrap().to_owned().1.to_str().parse().unwrap(),
-            initiation_methos: mut_code.find(|e| e.0 == 1usize).map(|(_, code)| (*code).to_str().parse().unwrap()),
+            payload_version: hash[&0usize].to_str().parse().unwrap(),
+            initiation_methos: hash.get(&1usize).map(|e| e.to_str().parse().unwrap()),
             // merchant_information: ,
-            merchant_category_code: mut_code.find(|e| e.0 == 0usize).unwrap().to_owned().1.to_str().parse().unwrap(),
-            // merchant_name: mut_code.find(|e| e.0 == 59usize).unwrap().1.to_str(),
-            // merchant_city: ,
+            merchant_category_code: hash[&52usize].to_str().parse().unwrap(),
+            merchant_name: hash[&59usize].to_str(),
+            merchant_city: hash[&60usize].to_str(),
             // postal_code: ,
-            // currency: ,
+            currency: hash[&53usize].to_str(),
             // amount: ,
             // country_code: ,
             // field_template: ,
@@ -61,7 +64,9 @@ mod test {
             payload_version: 1,
             initiation_methos: None,
             merchant_category_code: 0000u32,
-            // merchant_name: "NOME DO RECEBEDOR".to_string(),
+            merchant_name: "NOME DO RECEBEDOR".to_string(),
+            merchant_city: "BRASILIA".to_string(),
+            currency: "986".to_string(),
         }
     }
     
