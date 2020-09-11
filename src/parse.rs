@@ -22,7 +22,7 @@ impl Data {
     }
 }
 
-pub (crate) fn parse(code: &str, max: usize) -> Vec<(usize, Data)> {
+pub(crate) fn parse(code: &str, max: usize) -> Vec<(usize, Data)> {
     let mut chars = code.chars();
     (0usize..=max)
         .filter_map(|_| parse_code(&mut chars))

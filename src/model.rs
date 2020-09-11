@@ -1,5 +1,5 @@
-use crate::parse::Data;
 use crate::aux::HashBrCode;
+use crate::parse::Data;
 
 #[derive(Debug, PartialEq)]
 pub struct BrCode {
@@ -26,7 +26,7 @@ pub struct BrCode {
 #[derive(Debug, PartialEq)]
 pub struct Info {
     id: usize,
-    info: String
+    info: String,
 }
 
 impl From<Vec<(usize, Data)>> for BrCode {
@@ -69,7 +69,7 @@ mod test {
             currency: "986".to_string(),
         }
     }
-    
+
     fn code() -> Vec<(usize, Data)> {
         vec![
             (0, Data::Single("01".to_string())),
@@ -112,5 +112,4 @@ mod test {
             (63, Data::Single("AD38".to_string())),
         ]
     }
-    
 }
