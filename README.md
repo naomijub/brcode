@@ -248,6 +248,9 @@ time:   [30.717 us 30.981 us 31.303 us]
 - [x] Parse BR Code String;
 - [x] Parse BR Code to `BrCode` struct;
 - [ ] Emit BR Code from `BrCode` struct;
-- [ ] FFI
-    - [ ] Open FFI
+- [ ] FFI for parse
+    - [ ] JS
+    - [x] Json
+    - [x] Edn
     - [x] Clojure
+- [ ] FFI for emit
