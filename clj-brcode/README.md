@@ -8,11 +8,11 @@ Download from http://example.com/FIXME.
 
 ## Usage
 
-1. include in your `project.clj` dependencies `[clj-brcode "0.1.1-SNAPSHOT"]`:
+1. include in your `project.clj` dependencies `[clj-brcode "0.1.2-SNAPSHOT"]`:
 
 ```clojure
   :dependencies [[org.clojure/clojure "1.10.1"]
-                 [clj-brcode "0.1.1-SNAPSHOT"]]
+                 [clj-brcode "0.1.2-SNAPSHOT"]]
 ```
  2. Copy `libbrcode.*` from [brcode](https://github.com/naomijub/brcode/tree/master/clj-brcode) to your Clojure project root:
  - for linux copy ``libbrcode.so`.
