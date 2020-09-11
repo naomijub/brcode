@@ -19,3 +19,7 @@ criterion = "0.3"
 [[bench]]
 name = "parse"
 harness = false
+
+[[bench]]
+name = "to_brcode"
+harness = false

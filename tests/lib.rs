@@ -1,8 +1,13 @@
-use brcode::{from_str, parse::Data};
+use brcode::{from_str, str_to_brcode, BrCode, Data, Info, Label, MerchantInfo, Template};
 
 #[test]
-fn name() {
-    assert_eq!(from_str(&code()), expected());
+fn test_from_str() {
+    assert_eq!(from_str(&code()), data_expected());
+}
+
+#[test]
+fn test_str_to_brcode() {
+    assert_eq!(str_to_brcode(&code()), brcode_expected());
 }
 
 fn code() -> String {
@@ -10,7 +15,66 @@ fn code() -> String {
     .to_string()
 }
 
-fn expected() -> Vec<(usize, Data)> {
+fn brcode_expected() -> BrCode {
+    BrCode {
+        payload_version: 1,
+        initiation_methos: None,
+        merchant_category_code: 0000u32,
+        merchant_name: "NOME DO RECEBEDOR".to_string(),
+        merchant_city: "BRASILIA".to_string(),
+        merchant_information: vec![
+            MerchantInfo {
+                id: 26,
+                info: vec![
+                    Info {
+                        id: 0,
+                        info: "BR.GOV.BCB.PIX".to_string(),
+                    },
+                    Info {
+                        id: 1,
+                        info: "123e4567-e12b-12d1-a456-426655440000".to_string(),
+                    },
+                ],
+            },
+            MerchantInfo {
+                id: 27,
+                info: vec![
+                    Info {
+                        id: 0,
+                        info: "BR.COM.OUTRO".to_string(),
+                    },
+                    Info {
+                        id: 1,
+                        info: "0123456789".to_string(),
+                    },
+                ],
+            },
+        ],
+        currency: "986".to_string(),
+        postal_code: Some("70074900".to_string()),
+        amount: Some(123.45),
+        country_code: "BR".to_string(),
+        field_template: vec![Label {
+            reference_label: "RP12345678-2019".to_string(),
+        }],
+        crc1610: "AD38".to_string(),
+        templates: Some(vec![Template {
+            id: 80usize,
+            info: vec![
+                Info {
+                    id: 0usize,
+                    info: "BR.COM.OUTRO".to_string(),
+                },
+                Info {
+                    id: 1usize,
+                    info: "0123.ABCD.3456.WXYZ".to_string(),
+                },
+            ],
+        }]),
+    }
+}
+
+fn data_expected() -> Vec<(usize, Data)> {
     vec![
         (0, Data::Single("01".to_string())),
         (4, Data::Single("12345678901234".to_string())),

@@ -3,42 +3,42 @@ use crate::parse::Data;
 
 #[derive(Debug, PartialEq)]
 pub struct BrCode {
-    payload_version: u8,
-    initiation_methos: Option<u8>,
-    merchant_information: Vec<MerchantInfo>,
-    merchant_category_code: u32,
-    merchant_name: String,
-    merchant_city: String,
-    postal_code: Option<String>,
-    currency: String,
-    amount: Option<f64>,
-    country_code: String,
-    field_template: Vec<Label>,
-    crc1610: String,
-    templates: Option<Vec<Template>>,
+    pub payload_version: u8,
+    pub initiation_methos: Option<u8>,
+    pub merchant_information: Vec<MerchantInfo>,
+    pub merchant_category_code: u32,
+    pub merchant_name: String,
+    pub merchant_city: String,
+    pub postal_code: Option<String>,
+    pub currency: String,
+    pub amount: Option<f64>,
+    pub country_code: String,
+    pub field_template: Vec<Label>,
+    pub crc1610: String,
+    pub templates: Option<Vec<Template>>,
 }
 
 #[derive(Debug, PartialEq)]
 pub struct Label {
-    reference_label: String,
+    pub reference_label: String,
 }
 
 #[derive(Debug, PartialEq)]
 pub struct MerchantInfo {
-    id: usize,
-    info: Vec<Info>,
+    pub id: usize,
+    pub info: Vec<Info>,
 }
 
 #[derive(Debug, PartialEq)]
 pub struct Template {
-    id: usize,
-    info: Vec<Info>,
+    pub id: usize,
+    pub info: Vec<Info>,
 }
 
 #[derive(Debug, PartialEq)]
 pub struct Info {
-    id: usize,
-    info: String,
+    pub id: usize,
+    pub info: String,
 }
 
 impl From<Vec<(usize, Data)>> for BrCode {
