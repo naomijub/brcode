@@ -22,4 +22,5 @@ jobs:
       run: |
         make build-linux
         cd clj-brcode 
+        ls -la
         lein test
