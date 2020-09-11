@@ -1,12 +1,28 @@
 use std::str::Chars;
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Clone)]
 pub enum Data {
     Single(String),
     Vector(Vec<(usize, Data)>),
 }
 
-pub (crate) fn parse(code: &str, max: usize) -> Vec<(usize, Data)> {
+impl Data {
+    pub fn to_str(&self) -> String {
+        match self {
+            Data::Single(s) => String::from(&s[..]),
+            _ => String::new(),
+        }
+    }
+
+    pub fn to_vec(&self) -> Vec<(usize, Data)> {
+        match self {
+            Data::Vector(v) => (*v).to_vec(),
+            _ => Vec::new(),
+        }
+    }
+}
+
+pub(crate) fn parse(code: &str, max: usize) -> Vec<(usize, Data)> {
     let mut chars = code.chars();
     (0usize..=max)
         .filter_map(|_| parse_code(&mut chars))
