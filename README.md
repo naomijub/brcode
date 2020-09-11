@@ -1,6 +1,6 @@
 # BR Code
 
-A crate to parse and emit [BR Code](https://www.bcb.gov.br/content/estabilidadefinanceira/spb_docs/ManualBRCode.pdf).
+A crate to parse and emit [PIX BR Code](https://www.bcb.gov.br/content/estabilidadefinanceira/spb_docs/ManualBRCode.pdf).
 
 ## Usage
 
@@ -133,7 +133,7 @@ time:   [25.424 us 25.570 us 25.710 us]
 ## Goals
 - [x] Parse BR Code String;
 - [x] Parse BR Code to `BrCode` struct;
-- [ ] Emit BR COde from `BrCode` struct;
+- [ ] Emit BR Code from `BrCode` struct;
 - [ ] FFI
     - [ ] Open FFI
     - [ ] Clojure
