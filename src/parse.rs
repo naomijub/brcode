@@ -27,11 +27,19 @@ pub(crate) fn parse(code: &str, max: usize) -> Vec<(usize, Data)> {
     (0usize..=max)
         .filter_map(|_| parse_code(&mut chars))
         .map(|code| match code.0 {
-            26..=51 => (code.0, Data::Vector(parse(&code.1, 99))),
-            80..=99 => (code.0, Data::Vector(parse(&code.1, 99))),
-            62 => (code.0, Data::Vector(parse(&code.1, 25))),
+            26..=51 => (code.0, Data::Vector(inner_parse(&code.1, 99))),
+            80..=99 => (code.0, Data::Vector(inner_parse(&code.1, 99))),
+            62 => (code.0, Data::Vector(inner_parse(&code.1, 25))),
             _ => (code.0, Data::Single(code.1)),
         })
+        .collect()
+}
+
+pub(crate) fn inner_parse(code: &str, max: usize) -> Vec<(usize, Data)> {
+    let mut chars = code.chars();
+    (0usize..=max)
+        .filter_map(|_| parse_code(&mut chars))
+        .map(|code| (code.0, Data::Single(code.1)))
         .collect()
 }
 

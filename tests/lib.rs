@@ -10,6 +10,17 @@ fn test_str_to_brcode() {
     assert_eq!(str_to_brcode(&code()), brcode_expected());
 }
 
+#[test]
+fn minimum_breaking_code() {
+    let code = "26062602oi";
+    let expected = vec![
+        (26usize, Data::Vector(
+            vec![
+                (26usize, Data::Single("oi".to_string()))
+            ]))];
+    assert_eq!(from_str(code), expected);
+}
+
 fn code() -> String {
     "00020104141234567890123426580014BR.GOV.BCB.PIX0136123e4567-e12b-12d1-a456-42665544000027300012BR.COM.OUTRO011001234567895204000053039865406123.455802BR5917NOME DO RECEBEDOR6008BRASILIA61087007490062190515RP12345678-201980390012BR.COM.OUTRO01190123.ABCD.3456.WXYZ6304AD38"
     .to_string()
