@@ -6,7 +6,7 @@ A crate to parse and emit [BR Code](https://www.bcb.gov.br/content/estabilidadef
 
 ```toml
 [dependencies]
-brcode = "0.1.0"
+brcode = "0.1.1"
 ```
 
 ## Example
