@@ -22,6 +22,18 @@ FIXME: explanation
 (= (brcode-from-str brcode) edn)
 ```
 
+## Benchmark with Criterium
+
+**brcode-from-str**
+```
+Evaluation count : 4644 in 6 samples of 774 calls.
+             Execution time mean : 131.416626 µs
+    Execution time std-deviation : 2.218919 µs
+   Execution time lower quantile : 130.073353 µs ( 2.5%)
+   Execution time upper quantile : 135.212868 µs (97.5%)
+                   Overhead used : 8.079635 ns
+```
+
 ## License
 
 Copyright © 2020 FIXME

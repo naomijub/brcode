@@ -136,4 +136,4 @@ time:   [25.424 us 25.570 us 25.710 us]
 - [ ] Emit BR Code from `BrCode` struct;
 - [ ] FFI
     - [ ] Open FFI
-    - [ ] Clojure
+    - [x] Clojure
