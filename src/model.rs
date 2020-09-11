@@ -9,12 +9,12 @@ pub struct BrCode {
     merchant_category_code: u32,
     merchant_name: String,
     merchant_city: String,
-    // postal_code: Option<String>,
+    postal_code: Option<String>,
     currency: String,
-    // amount: Option<f64>,
-    // country_code: String,
+    amount: Option<f64>,
+    country_code: String,
     // field_template: Vec<Label>,
-    // crc1610: String,
+    crc1610: String,
     // templates: Option<Vec<(usize, Data)>>
 }
 
@@ -39,12 +39,12 @@ impl From<Vec<(usize, Data)>> for BrCode {
             merchant_category_code: hash[&52usize].to_str().parse().unwrap(),
             merchant_name: hash[&59usize].to_str(),
             merchant_city: hash[&60usize].to_str(),
-            // postal_code: ,
+            postal_code: hash.get(&61usize).map(|e| e.to_str()),
             currency: hash[&53usize].to_str(),
-            // amount: ,
-            // country_code: ,
+            amount: hash.get(&54usize).map(|e| e.to_str().parse().unwrap()),
+            country_code: hash[&58usize].to_str(),
             // field_template: ,
-            // crc1610: ,
+            crc1610: hash[&63usize].to_str(),
             // templates: ,
         }
     }
@@ -67,6 +67,10 @@ mod test {
             merchant_name: "NOME DO RECEBEDOR".to_string(),
             merchant_city: "BRASILIA".to_string(),
             currency: "986".to_string(),
+            postal_code: Some("70074900".to_string()),
+            amount: Some(123.45),
+            country_code: "BR".to_string(),
+            crc1610: "AD38".to_string(),
         }
     }
 
