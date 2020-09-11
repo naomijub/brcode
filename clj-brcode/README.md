@@ -8,9 +8,31 @@ Download from http://example.com/FIXME.
 
 ## Usage
 
-FIXME: explanation
+1. include in your `project.clj` dependencies `[clj-brcode "0.1.1-SNAPSHOT"]`:
 
-    $ java -jar clj-brcode-0.1.0-standalone.jar [args]
+```clojure
+  :dependencies [[org.clojure/clojure "1.10.1"]
+                 [clj-brcode "0.1.1-SNAPSHOT"]]
+```
+ 2. Copy `libbrcode.*` from [brcode](https://github.com/naomijub/brcode/tree/master/clj-brcode) to your Clojure project root:
+ - for linux copy ``libbrcode.so`.
+ - for macos copy `libbrcode.dylib`.
+ - `cargo build --release` project from [git](https://github.com/naomijub/brcode) and copy the `libbrcode.*` from `target/release/libbrcode.*` to your Clojure project root
+
+3. reuire it in your project namespace `(:require [clj-brcode.core :as pix]))`.
+
+4. Use it!
+```clojure
+(ns test-code.core
+  (:require [clj-brcode.core :as pix]))
+
+(def code "00020104141234567890123426580014BR.GOV.BCB.PIX0136123e4567-e12b-12d1-a456-42665544000027300012BR.COM.OUTRO011001234567895204000053039865406123.455802BR5917NOME DO RECEBEDOR6008BRASILIA61087007490062190515RP12345678-201980390012BR.COM.OUTRO01190123.ABCD.3456.WXYZ6304AD38")
+
+(defn -main
+  "I don't do a whole lot ... yet."
+  [& args]
+  (println (pix/brcode-from-str code)))
+```
 
 ## Examples
 
