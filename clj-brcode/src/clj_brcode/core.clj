@@ -4,7 +4,7 @@
 (def mem-brcode
     (let [lib-brcode (-> (gen-interface :name "LibC" :methods [[edn_to_brcode [String] String]])
                          LibraryLoader/create
-                         (.load "libbrcode.so"))]
+                         (.load "brcode"))]
       lib-brcode))
 
 (defn brcode-from-str [s]          
