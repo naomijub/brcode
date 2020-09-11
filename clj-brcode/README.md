@@ -34,6 +34,10 @@ Evaluation count : 4644 in 6 samples of 774 calls.
                    Overhead used : 8.079635 ns
 ```
 
+## Milestones
+- [x] parse, `brcode-from-str`
+- [ ] emit 
+
 ## License
 
 Copyright © 2020 FIXME
