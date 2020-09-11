@@ -15,7 +15,7 @@ license = "LGPL-3.0"
 [lib]
 name = "brcode"
 path = "src/lib.rs"
-crate-type = ["dylib"]
+crate-type = ["rlib", "dylib"]
 
 [dependencies]
 edn-rs = "0.13.3"
