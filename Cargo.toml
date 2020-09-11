@@ -1,6 +1,6 @@
 [package]
 name = "brcode"
-version = "0.1.1"
+version = "0.1.2"
 authors = ["Julia Naomi <jnboeira@outlook.com>"]
 edition = "2018"
 description = "Crate to parse and emit BR Codes"
@@ -11,10 +11,17 @@ keywords = ["BRCode", "QRCode", "EMV"]
 license = "LGPL-3.0"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+[lib]
+name = "brcode"
+path = "src/lib.rs"
+crate-type = ["dylib"]
+
+[dependencies]
+edn-rs = "0.13.3"
+edn-derive = "0.3.2"
 
 [dev-dependencies]
 criterion = "0.3"
-
 
 [[bench]]
 name = "parse"
