@@ -1,7 +1,8 @@
 use crate::aux::HashBrCode;
 use crate::parse::Data;
+use edn_derive::{Deserialize, Serialize};
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub struct BrCode {
     pub payload_version: u8,
     pub initiation_methos: Option<u8>,
@@ -18,24 +19,24 @@ pub struct BrCode {
     pub templates: Option<Vec<Template>>,
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub struct Label {
     pub reference_label: String,
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub struct MerchantInfo {
     pub id: usize,
     pub info: Vec<Info>,
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub struct Template {
     pub id: usize,
     pub info: Vec<Info>,
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub struct Info {
     pub id: usize,
     pub info: String,

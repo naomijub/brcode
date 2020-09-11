@@ -6,7 +6,7 @@ A crate to parse and emit [PIX BR Code](https://www.bcb.gov.br/content/estabilid
 
 ```toml
 [dependencies]
-brcode = "0.1.1"
+brcode = "0.1.2"
 ```
 
 ## Example
@@ -136,4 +136,4 @@ time:   [25.424 us 25.570 us 25.710 us]
 - [ ] Emit BR Code from `BrCode` struct;
 - [ ] FFI
     - [ ] Open FFI
-    - [ ] Clojure
+    - [x] Clojure
