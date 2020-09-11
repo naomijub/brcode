@@ -1,5 +1,6 @@
 (ns clj-brcode.core
-  (:import jnr.ffi.LibraryLoader))
+  (:import jnr.ffi.LibraryLoader)
+  (:gen-class))
 
 (def mem-brcode
     (let [lib-brcode (-> (gen-interface :name "LibC" :methods [[edn_to_brcode [String] String]])
