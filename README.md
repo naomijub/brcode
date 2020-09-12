@@ -121,6 +121,7 @@ fn expected() -> BrCode {
 ## FFI
 
 ### Clojure FFI 
+[DCOS](https://github.com/naomijub/brcode/blob/master/clj-brcode/README.md)
 
 **BR Code as Edn** call function `edn_from_brcode` or use clojar `[clj-brcode "0.2.0-SNAPSHOT"]`. Example:
 ```clojure
@@ -170,6 +171,7 @@ Expected Edn:
 
 
 ### Node FFI 
+[DCOS](https://github.com/naomijub/brcode/blob/master/node-brcode/README.md)
 
 **BR Code as Json** call function `parse`. Example:
 ```js
