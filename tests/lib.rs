@@ -1,11 +1,19 @@
 use brcode::{
-    edn_from_brcode, from_str, json_from_brcode, str_to_brcode, BrCode, Data, Info, Label,
+    self, edn_from_brcode, from_str, json_from_brcode, str_to_brcode, BrCode, Data, Info, Label,
     MerchantInfo, Template,
 };
 
 #[test]
 fn test_from_str() {
     assert_eq!(from_str(&code()), data_expected());
+}
+
+#[test]
+fn test_to_string() {
+    let actual = brcode::to_string(data_expected());
+    let expected = code();
+
+    assert_eq!(actual, expected);
 }
 
 #[test]

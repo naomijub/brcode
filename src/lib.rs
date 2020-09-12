@@ -1,4 +1,5 @@
 pub(crate) mod aux;
+pub(crate) mod emit;
 pub(crate) mod model;
 pub(crate) mod parse;
 
@@ -7,6 +8,10 @@ pub use parse::Data;
 
 pub fn from_str(code: &str) -> Vec<(usize, parse::Data)> {
     parse::parse(code, 99)
+}
+
+pub fn to_string(code: Vec<(usize, parse::Data)>) -> String {
+    emit::emit(code)
 }
 
 pub fn str_to_brcode(code: &str) -> BrCode {
@@ -20,7 +25,7 @@ use std::mem;
 use std::os::raw::c_char;
 use std::str;
 
-fn to_string(pointer: *const c_char) -> String {
+fn chars_to_string(pointer: *const c_char) -> String {
     let slice = unsafe { CStr::from_ptr(pointer).to_bytes() };
     str::from_utf8(slice).unwrap().to_string()
 }
@@ -35,7 +40,7 @@ fn to_c_char(s: String) -> *const c_char {
 // Edn
 #[no_mangle]
 pub extern "C" fn edn_from_brcode(edn: *const c_char) -> *const c_char {
-    let edn_str = to_string(edn);
+    let edn_str = chars_to_string(edn);
     let brcode = str_to_brcode(&edn_str);
     to_c_char(edn_rs::to_string(brcode))
 }
@@ -43,7 +48,7 @@ pub extern "C" fn edn_from_brcode(edn: *const c_char) -> *const c_char {
 // Json
 #[no_mangle]
 pub extern "C" fn json_from_brcode(json: *const c_char) -> *const c_char {
-    let json_str = to_string(json);
+    let json_str = chars_to_string(json);
     let brcode = str_to_brcode(&json_str);
     to_c_char(serde_json::to_string(&brcode).unwrap_or("error".to_string()))
 }
