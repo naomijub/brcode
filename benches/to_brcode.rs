@@ -1,4 +1,4 @@
-use brcode::{edn_to_brcode, json_from_brcode, str_to_brcode};
+use brcode::{edn_from_brcode, json_from_brcode, str_to_brcode};
 use criterion::{criterion_group, criterion_main, Criterion};
 
 fn rust_criterion_benchmark(c: &mut Criterion) {
@@ -8,7 +8,7 @@ fn rust_criterion_benchmark(c: &mut Criterion) {
 
 fn edn_criterion_benchmark(c: &mut Criterion) {
     let code = to_c_char(code());
-    c.bench_function("edn_to_brcode", |b| b.iter(|| edn_to_brcode(code)));
+    c.bench_function("edn_from_brcode", |b| b.iter(|| edn_from_brcode(code)));
 }
 
 fn json_criterion_benchmark(c: &mut Criterion) {

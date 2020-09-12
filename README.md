@@ -120,7 +120,7 @@ fn expected() -> BrCode {
 
 ## FFI
 
-**BR Code as Edn** call function `edn_to_brcode` or use clojar `[clj-brcode "0.1.2-SNAPSHOT"]`. Example:
+**BR Code as Edn** call function `edn_from_brcode` or use clojar `[clj-brcode "0.2.0-SNAPSHOT"]`. Example:
 
 
 ```clojure
@@ -129,13 +129,13 @@ fn expected() -> BrCode {
   (:gen-class))
 
 (def mem-brcode
-    (let [lib-brcode (-> (gen-interface :name "LibC" :methods [[edn_to_brcode [String] String]])
+    (let [lib-brcode (-> (gen-interface :name "LibC" :methods [[edn_from_brcode [String] String]])
                          LibraryLoader/create
                          (.load "brcode"))]
       lib-brcode))
 
 (defn brcode-from-str [s]          
-    (-> mem-brcode (.edn_to_brcode s) read-string))
+    (-> mem-brcode (.edn_from_brcode s) read-string))
 ```
 
 Input:
@@ -234,7 +234,7 @@ time:   [16.200 us 16.251 us 16.319 us]
 time:   [25.424 us 25.570 us 25.710 us]
 ```
 
-**edn_to_brcode** in `benches/to_brcode`
+**edn_from_brcode** in `benches/to_brcode`
 ```
 time:   [55.027 us 55.202 us 55.382 us]
 ```

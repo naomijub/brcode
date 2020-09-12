@@ -10,3 +10,8 @@ build-linux:
 
 build-so:
 	DOCKER_BUILDKIT=1 docker build --file Dockerfile --output out .
+	cp out/libbrcode.so ./
+	cp libbrcode.so clj-brcode/
+	cp libbrcode.so node-brcode/
+	cp libbrcode.dylib clj-brcode/
+	cp libbrcode.dylib node-brcode/

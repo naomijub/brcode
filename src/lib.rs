@@ -34,7 +34,7 @@ fn to_c_char(s: String) -> *const c_char {
 
 // Edn
 #[no_mangle]
-pub extern "C" fn edn_to_brcode(edn: *const c_char) -> *const c_char {
+pub extern "C" fn edn_from_brcode(edn: *const c_char) -> *const c_char {
     let edn_str = to_string(edn);
     let brcode = str_to_brcode(&edn_str);
     to_c_char(edn_rs::to_string(brcode))
