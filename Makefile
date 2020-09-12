@@ -2,9 +2,11 @@ build-macos:
 	cargo build --release
 	cp target/release/libbrcode.dylib clj-brcode/
 	cp target/release/libbrcode.dylib node-brcode/
-	chmod 777 clj-brcode/libbrcode.dylib
 
 build-linux:
 	cargo build --release
 	cp target/release/libbrcode.so clj-brcode/
-	chmod 777 clj-brcode/libbrcode.so
+	cp target/release/libbrcode.so node-brcode/
+
+build-so:
+	DOCKER_BUILDKIT=1 docker build --file Dockerfile --output out .

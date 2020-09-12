@@ -1,5 +1,7 @@
 /target
 Cargo.lock
+/out
+.DS_Store
 
 */target
 */classes
