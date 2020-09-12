@@ -120,22 +120,18 @@ fn expected() -> BrCode {
 
 ## FFI
 
+### Clojure FFI 
+
 **BR Code as Edn** call function `edn_from_brcode` or use clojar `[clj-brcode "0.2.0-SNAPSHOT"]`. Example:
-
-
 ```clojure
-(ns clj-brcode.core
-  (:import jnr.ffi.LibraryLoader)
-  (:gen-class))
+(ns example.core
+  (:require [clj-brcode.core :refer :all]))
 
-(def mem-brcode
-    (let [lib-brcode (-> (gen-interface :name "LibC" :methods [[edn_from_brcode [String] String]])
-                         LibraryLoader/create
-                         (.load "brcode"))]
-      lib-brcode))
+(def code "00020104141234567890123426580014BR.GOV.BCB.PIX0136123e4567-e12b-12d1-a456-42665544000027300012BR.COM.OUTRO011001234567895204000053039865406123.455802BR5917NOME DO RECEBEDOR6008BRASILIA61087007490062190515RP12345678-201980390012BR.COM.OUTRO01190123.ABCD.3456.WXYZ6304AD38")
 
-(defn brcode-from-str [s]          
-    (-> mem-brcode (.edn_from_brcode s) read-string))
+(brcode-from-str code)
+
+; {:payload-version 1, :initiation-methos nil, :merchant-information [{:id 26, :info [{:id 0, :info "BR.GOV.BCB.PIX"}, {:id 1, :info "123e4567-e12b-12d1-a456-426655440000"}]}, {:id 27, :info [{:id 0, :info "BR.COM.OUTRO"}, {:id 1, :info "0123456789"}]}], :merchant-category-code 0, :merchant-name "NOME DO RECEBEDOR", :merchant-city "BRASILIA", :postal-code "70074900", :currency "986", :amount 123.45, :country-code "BR", :field-template [{:reference-label "RP12345678-2019"}], :crc1610 "AD38", :templates [{:id 80, :info [{:id 0, :info "BR.COM.OUTRO"}, {:id 1, :info "0123.ABCD.3456.WXYZ"}]}]}
 ```
 
 Input:
@@ -173,15 +169,44 @@ Expected Edn:
 ```
 
 
-**BR Code as Json** call function `json_from_brcode`. Example:
-```rust
-fn json_ffi() {
-    let code = code();
-    let result = json_from_brcode(to_c_char(code));
-    let actual = to_string(result);
+### Node FFI 
 
-    assert_eq!(actual, json());
-}
+**BR Code as Json** call function `parse`. Example:
+```js
+const brcode = require('./index');
+
+const code = "00020104141234567890123426580014BR.GOV.BCB.PIX0136123e4567-e12b-12d1-a456-42665544000027300012BR.COM.OUTRO011001234567895204000053039865406123.455802BR5917NOME DO RECEBEDOR6008BRASILIA61087007490062190515RP12345678-201980390012BR.COM.OUTRO01190123.ABCD.3456.WXYZ6304AD38";
+
+console.log(brcode.parse(code));
+// {
+//     "payload_version":1,
+//     "initiation_methos":null,
+//     "merchant_information":[
+//         {"id":26,"info":[
+//             {"id":0,"info":"BR.GOV.BCB.PIX"},
+//             {"id":1,"info":"123e4567-e12b-12d1-a456-426655440000"}
+//         ]},
+//         {"id":27,"info":[
+//             {"id":0,"info":"BR.COM.OUTRO"},
+//             {"id":1,"info":"0123456789"}
+//         ]}
+//     ],
+//     "merchant_category_code":0,
+//     "merchant_name":"NOME DO RECEBEDOR",
+//     "merchant_city":"BRASILIA",
+//     "postal_code":"70074900",
+//     "currency":"986",
+//     "amount":123.45,
+//     "country_code":"BR",
+//     "field_template":[{"reference_label":"RP12345678-2019"}],
+//     "crc1610":"AD38",
+//     "templates":[
+//         {"id":80,"info":[
+//             {"id":0,"info":"BR.COM.OUTRO"},
+//             {"id":1,"info":"0123.ABCD.3456.WXYZ"}
+//         ]}
+//     ]
+// }
 ```
 
 Input:
@@ -247,10 +272,15 @@ time:   [30.717 us 30.981 us 31.303 us]
 ## Goals
 - [x] Parse BR Code String;
 - [x] Parse BR Code to `BrCode` struct;
+- [ ] Emit BR Code from `Vec<(usize, Data)>`;
 - [ ] Emit BR Code from `BrCode` struct;
-- [ ] FFI for parse
+- [x] FFI for parse
     - [x] JS/Node
     - [x] Json
     - [x] Edn
     - [x] Clojure
 - [ ] FFI for emit
+    - [ ] JS/Node
+    - [ ] Json
+    - [ ] Edn
+    - [ ] Clojure
