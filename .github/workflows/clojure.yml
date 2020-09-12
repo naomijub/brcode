@@ -18,8 +18,8 @@ jobs:
         make build-linux
         cd clj-brcode 
         lein deps
-    - name: Run tests
-      run: |
-        make build-linux
-        cd clj-brcode 
-        lein test
+    # - name: Run tests
+    #   run: |
+    #     make build-linux
+    #     cd clj-brcode 
+    #     lein test

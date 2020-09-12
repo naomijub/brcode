@@ -1,4 +1,7 @@
-use brcode::{from_str, str_to_brcode, BrCode, Data, Info, Label, MerchantInfo, Template};
+use brcode::{
+    edn_from_brcode, from_str, json_from_brcode, str_to_brcode, BrCode, Data, Info, Label,
+    MerchantInfo, Template,
+};
 
 #[test]
 fn test_from_str() {
@@ -13,16 +16,43 @@ fn test_str_to_brcode() {
 #[test]
 fn minimum_breaking_code() {
     let code = "26062602oi";
-    let expected = vec![
-        (26usize, Data::Vector(
-            vec![
-                (26usize, Data::Single("oi".to_string()))
-            ]))];
+    let expected = vec![(
+        26usize,
+        Data::Vector(vec![(26usize, Data::Single("oi".to_string()))]),
+    )];
     assert_eq!(from_str(code), expected);
+}
+
+#[test]
+fn json_ffi() {
+    let code = code();
+    let result = json_from_brcode(to_c_char(code));
+    let actual = to_string(result);
+
+    assert_eq!(actual, json());
+}
+
+#[test]
+fn edn_ffi() {
+    let code = code();
+    let result = edn_from_brcode(to_c_char(code));
+    let actual = to_string(result);
+
+    assert_eq!(actual, edn());
 }
 
 fn code() -> String {
     "00020104141234567890123426580014BR.GOV.BCB.PIX0136123e4567-e12b-12d1-a456-42665544000027300012BR.COM.OUTRO011001234567895204000053039865406123.455802BR5917NOME DO RECEBEDOR6008BRASILIA61087007490062190515RP12345678-201980390012BR.COM.OUTRO01190123.ABCD.3456.WXYZ6304AD38"
+    .to_string()
+}
+
+fn json() -> String {
+    "{\"payload_version\":1,\"initiation_methos\":null,\"merchant_information\":[{\"id\":26,\"info\":[{\"id\":0,\"info\":\"BR.GOV.BCB.PIX\"},{\"id\":1,\"info\":\"123e4567-e12b-12d1-a456-426655440000\"}]},{\"id\":27,\"info\":[{\"id\":0,\"info\":\"BR.COM.OUTRO\"},{\"id\":1,\"info\":\"0123456789\"}]}],\"merchant_category_code\":0,\"merchant_name\":\"NOME DO RECEBEDOR\",\"merchant_city\":\"BRASILIA\",\"postal_code\":\"70074900\",\"currency\":\"986\",\"amount\":123.45,\"country_code\":\"BR\",\"field_template\":[{\"reference_label\":\"RP12345678-2019\"}],\"crc1610\":\"AD38\",\"templates\":[{\"id\":80,\"info\":[{\"id\":0,\"info\":\"BR.COM.OUTRO\"},{\"id\":1,\"info\":\"0123.ABCD.3456.WXYZ\"}]}]}"
+    .to_string()
+}
+
+fn edn() -> String {
+    "{ :payload-version 1, :initiation-methos nil, :merchant-information [{ :id 26, :info [{ :id 0, :info \"BR.GOV.BCB.PIX\", }, { :id 1, :info \"123e4567-e12b-12d1-a456-426655440000\", }], }, { :id 27, :info [{ :id 0, :info \"BR.COM.OUTRO\", }, { :id 1, :info \"0123456789\", }], }], :merchant-category-code 0, :merchant-name \"NOME DO RECEBEDOR\", :merchant-city \"BRASILIA\", :postal-code \"70074900\", :currency \"986\", :amount 123.45, :country-code \"BR\", :field-template [{ :reference-label \"RP12345678-2019\", }], :crc1610 \"AD38\", :templates [{ :id 80, :info [{ :id 0, :info \"BR.COM.OUTRO\", }, { :id 1, :info \"0123.ABCD.3456.WXYZ\", }], }], }"
     .to_string()
 }
 
@@ -126,4 +156,22 @@ fn data_expected() -> Vec<(usize, Data)> {
         ),
         (63, Data::Single("AD38".to_string())),
     ]
+}
+
+// FFI Tests
+use std::ffi::{CStr, CString};
+use std::mem;
+use std::os::raw::c_char;
+use std::str;
+
+fn to_string(pointer: *const c_char) -> String {
+    let slice = unsafe { CStr::from_ptr(pointer).to_bytes() };
+    str::from_utf8(slice).unwrap().to_string()
+}
+
+fn to_c_char(s: String) -> *const c_char {
+    let cs = CString::new(s.as_bytes()).unwrap();
+    let ptr = cs.as_ptr();
+    mem::forget(cs);
+    ptr
 }
