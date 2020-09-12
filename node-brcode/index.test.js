@@ -1,4 +1,4 @@
-const brcode= require('./index');
+const brcode = require('./index');
 
 test('adds positive numbers correctly', () => {
   expect(brcode.parse(code)).toEqual(exp_json);
