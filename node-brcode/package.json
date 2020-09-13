@@ -1,6 +1,6 @@
 {
   "name": "node-brcode",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "A wrapper for Rust brcode",
   "main": "index.js",
   "directories": {
@@ -25,7 +25,7 @@
     "url": "https://github.com/naomijub/brcode/issues"
   },
   "homepage": "https://github.com/naomijub/brcode#readme",
-  "jest": {     
+  "jest": {
     "verbose": true
   },
   "dependencies": {

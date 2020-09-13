@@ -255,14 +255,14 @@ fn brcode_value() -> BrCode {
 ### Clojure FFI 
 [DOCS](https://github.com/naomijub/brcode/blob/master/clj-brcode/README.md)
 
-**BR Code as Edn** call function `edn_from_brcode` or use clojar `[clj-brcode "1.0.0-SNAPSHOT"]`. Example:
+**BR Code as Edn** call function FFI `edn_from_brcode` or use clojar `[clj-brcode "1.0.0-SNAPSHOT"]`. Example:
 ```clojure
 (ns example.core
   (:require [clj-brcode.core :refer :all]))
 
 (def code "00020104141234567890123426580014BR.GOV.BCB.PIX0136123e4567-e12b-12d1-a456-42665544000027300012BR.COM.OUTRO011001234567895204000053039865406123.455802BR5917NOME DO RECEBEDOR6008BRASILIA61087007490062190515RP12345678-201980390012BR.COM.OUTRO01190123.ABCD.3456.WXYZ6304AD38")
 
-(brcode-from-str code)
+(brcode->edn code)
 
 ; {:payload-version 1, :initiation-methos nil, :merchant-information [{:id 26, :info [{:id 0, :info "BR.GOV.BCB.PIX"}, {:id 1, :info "123e4567-e12b-12d1-a456-426655440000"}]}, {:id 27, :info [{:id 0, :info "BR.COM.OUTRO"}, {:id 1, :info "0123456789"}]}], :merchant-category-code 0, :merchant-name "NOME DO RECEBEDOR", :merchant-city "BRASILIA", :postal-code "70074900", :currency "986", :amount 123.45, :country-code "BR", :field-template [{:reference-label "RP12345678-2019"}], :crc1610 "AD38", :templates [{:id 80, :info [{:id 0, :info "BR.COM.OUTRO"}, {:id 1, :info "0123.ABCD.3456.WXYZ"}]}]}
 ```
@@ -302,12 +302,25 @@ Expected Edn:
 ```
 
 
+**Edn as BR Code** call function FFI `edn_to_brcode` or use clojar `[clj-brcode "1.0.0-SNAPSHOT"]`. Example:
+```clojure
+(ns example.core
+  (:require [clj-brcode.core :refer :all]))
+
+(def edn {:payload-version 1, :initiation-methos nil, :merchant-information [{:id 26, :info [{:id 0, :info "BR.GOV.BCB.PIX"}, {:id 1, :info "123e4567-e12b-12d1-a456-426655440000"}]}, {:id 27, :info [{:id 0, :info "BR.COM.OUTRO"}, {:id 1, :info "0123456789"}]}], :merchant-category-code 0, :merchant-name "NOME DO RECEBEDOR", :merchant-city "BRASILIA", :postal-code "70074900", :currency "986", :amount 123.45, :country-code "BR", :field-template [{:reference-label "RP12345678-2019"}], :crc1610 "AD38", :templates [{:id 80, :info [{:id 0, :info "BR.COM.OUTRO"}, {:id 1, :info "0123.ABCD.3456.WXYZ"}]}]})
+
+(brcode->edn edn)
+
+; "00020104141234567890123426580014BR.GOV.BCB.PIX0136123e4567-e12b-12d1-a456-42665544000027300012BR.COM.OUTRO011001234567895204000053039865406123.455802BR5917NOME DO RECEBEDOR6008BRASILIA61087007490062190515RP12345678-201980390012BR.COM.OUTRO01190123.ABCD.3456.WXYZ6304AD38"
+```
+
+
 ### Node FFI 
 [DOCS](https://github.com/naomijub/brcode/blob/master/node-brcode/README.md)
 
 **BR Code as Json** call function `parse`. Example:
 ```js
-const brcode = require('./index');
+const brcode = require('node-brecode');
 
 const code = "00020104141234567890123426580014BR.GOV.BCB.PIX0136123e4567-e12b-12d1-a456-42665544000027300012BR.COM.OUTRO011001234567895204000053039865406123.455802BR5917NOME DO RECEBEDOR6008BRASILIA61087007490062190515RP12345678-201980390012BR.COM.OUTRO01190123.ABCD.3456.WXYZ6304AD38";
 
@@ -381,6 +394,43 @@ Expected Json:
 }
 ```
 
+**Json as BR Code** call function `emit`. Example:
+```js
+const brcode = require('node-brcode');
+const json = {
+    "payload_version":1,
+    "initiation_methos":null,
+    "merchant_information":[
+        {"id":26,"info":[
+            {"id":0,"info":"BR.GOV.BCB.PIX"},
+            {"id":1,"info":"123e4567-e12b-12d1-a456-426655440000"}
+        ]},
+        {"id":27,"info":[
+            {"id":0,"info":"BR.COM.OUTRO"},
+            {"id":1,"info":"0123456789"}
+        ]}
+    ],
+    "merchant_category_code":0,
+    "merchant_name":"NOME DO RECEBEDOR",
+    "merchant_city":"BRASILIA",
+    "postal_code":"70074900",
+    "currency":"986",
+    "amount":123.45,
+    "country_code":"BR",
+    "field_template":[{"reference_label":"RP12345678-2019"}],
+    "crc1610":"AD38",
+    "templates":[
+        {"id":80,"info":[
+            {"id":0,"info":"BR.COM.OUTRO"},
+            {"id":1,"info":"0123.ABCD.3456.WXYZ"}
+        ]}
+    ]
+};
+
+console.log(brcode.emit(json))
+// "00020104141234567890123426580014BR.GOV.BCB.PIX0136123e4567-e12b-12d1-a456-42665544000027300012BR.COM.OUTRO011001234567895204000053039865406123.455802BR5917NOME DO RECEBEDOR6008BRASILIA61087007490062190515RP12345678-201980390012BR.COM.OUTRO01190123.ABCD.3456.WXYZ6304AD38"
+```
+
 ## Benchmark
 
 **from_str** in `benches/parse.rs`
@@ -408,13 +458,8 @@ time:   [30.717 us 30.981 us 31.303 us]
 - [x] Parse BR Code to `BrCode` struct;
 - [x] Emit BR Code from `Vec<(usize, Data)>`;
 - [x] Emit BR Code from `BrCode` struct;
-- [x] FFI for parse
+- [x] FFI 
     - [x] JS/Node
     - [x] Json
     - [x] Edn
     - [x] Clojure
-- [ ] FFI for emit
-    - [ ] JS/Node
-    - [ ] Json
-    - [ ] Edn
-    - [ ] Clojure
