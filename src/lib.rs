@@ -14,6 +14,10 @@ pub fn to_string(code: Vec<(usize, parse::Data)>) -> String {
     emit::emit(code)
 }
 
+pub fn brcode_to_string(code: BrCode) -> String {
+    code.encode()
+}
+
 pub fn str_to_brcode(code: &str) -> BrCode {
     let codes = parse::parse(code, 99);
     BrCode::from(codes)

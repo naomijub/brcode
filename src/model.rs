@@ -3,10 +3,11 @@ use crate::parse::Data;
 use edn_derive::{Deserialize, Serialize};
 use serde_derive::{Deserialize as SerdeDeserialize, Serialize as SerdeSerialize};
 
-#[derive(Debug, PartialEq, Serialize, Deserialize, SerdeDeserialize, SerdeSerialize)]
+#[derive(Debug, PartialEq, Clone, Serialize, Deserialize, SerdeDeserialize, SerdeSerialize)]
 pub struct BrCode {
     pub payload_version: u8,
     pub initiation_methos: Option<u8>,
+    pub merchant_account_information: Option<String>,
     pub merchant_information: Vec<MerchantInfo>,
     pub merchant_category_code: u32,
     pub merchant_name: String,
@@ -20,27 +21,33 @@ pub struct BrCode {
     pub templates: Option<Vec<Template>>,
 }
 
-#[derive(Debug, PartialEq, Serialize, Deserialize, SerdeDeserialize, SerdeSerialize)]
+#[derive(Debug, PartialEq, Clone, Serialize, Deserialize, SerdeDeserialize, SerdeSerialize)]
 pub struct Label {
     pub reference_label: String,
 }
 
-#[derive(Debug, PartialEq, Serialize, Deserialize, SerdeDeserialize, SerdeSerialize)]
+#[derive(Debug, PartialEq, Clone, Serialize, Deserialize, SerdeDeserialize, SerdeSerialize)]
 pub struct MerchantInfo {
     pub id: usize,
     pub info: Vec<Info>,
 }
 
-#[derive(Debug, PartialEq, Serialize, Deserialize, SerdeDeserialize, SerdeSerialize)]
+#[derive(Debug, PartialEq, Clone, Serialize, Deserialize, SerdeDeserialize, SerdeSerialize)]
 pub struct Template {
     pub id: usize,
     pub info: Vec<Info>,
 }
 
-#[derive(Debug, PartialEq, Serialize, Deserialize, SerdeDeserialize, SerdeSerialize)]
+#[derive(Debug, PartialEq, Clone, Serialize, Deserialize, SerdeDeserialize, SerdeSerialize)]
 pub struct Info {
     pub id: usize,
     pub info: String,
+}
+
+impl std::fmt::Display for BrCode {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}", self.clone().encode())
+    }
 }
 
 impl From<Vec<(usize, Data)>> for BrCode {
@@ -92,6 +99,7 @@ impl From<Vec<(usize, Data)>> for BrCode {
         BrCode {
             payload_version: hash[&0usize].to_str().parse().unwrap(),
             initiation_methos: hash.get(&1usize).map(|e| e.to_str().parse().unwrap()),
+            merchant_account_information: hash.get(&4usize).map(|e| e.to_str()),
             merchant_information: merchant_information,
             merchant_category_code: hash[&52usize].to_str().parse().unwrap(),
             merchant_name: hash[&59usize].to_str(),
@@ -113,6 +121,72 @@ impl From<Vec<(usize, Data)>> for BrCode {
     }
 }
 
+impl BrCode {
+    pub fn encode(self) -> String {
+        let mut encode = String::new();
+        encode.push_str(&format!("0002{:02}", self.payload_version));
+        match self.initiation_methos {
+            None => (),
+            Some(m) => encode.push_str(&format!("0102{:02}", m)),
+        }
+        match self.merchant_account_information {
+            None => (),
+            Some(m) => encode.push_str(&format!("0414{:02}", m)),
+        }
+        //26 -51
+        self.merchant_information.iter().for_each(|m| {
+            let id = m.id;
+            let inner_size: usize = m.info.iter().map(|i| i.info.len() + 4).sum();
+            encode.push_str(&format!("{:02}{:02}", id, inner_size));
+            m.info.iter().for_each(|i| {
+                encode.push_str(&format!("{:02}{:02}{}", i.id, i.info.len(), i.info));
+            });
+        });
+        encode.push_str(&format!("5204{:04}", self.merchant_category_code));
+        encode.push_str(&format!("5303{:02}", self.currency));
+        match self.amount {
+            None => (),
+            Some(a) => encode.push_str(&format!("54{:02}{}", a.to_string().len(), a)),
+        }
+        encode.push_str(&format!("5802{}", self.country_code));
+        encode.push_str(&format!(
+            "59{:02}{}",
+            self.merchant_name.len(),
+            self.merchant_name
+        ));
+        encode.push_str(&format!(
+            "60{:02}{}",
+            self.merchant_city.len(),
+            self.merchant_city
+        ));
+        match self.postal_code {
+            None => (),
+            Some(p) => encode.push_str(&format!("61{:02}{}", p.to_string().len(), p)),
+        }
+        let field_template = self.field_template[0].reference_label.clone();
+        encode.push_str(&format!(
+            "62{:02}{}",
+            field_template.len() + 4,
+            format!("05{:02}{}", field_template.len(), field_template)
+        ));
+        //80-99
+        match self.templates {
+            None => (),
+            Some(template) => template.iter().for_each(|m| {
+                let id = m.id;
+                let inner_size: usize = m.info.iter().map(|i| i.info.len() + 4).sum();
+                encode.push_str(&format!("{:02}{:02}", id, inner_size));
+                m.info.iter().for_each(|i| {
+                    encode.push_str(&format!("{:02}{:02}{}", i.id, i.info.len(), i.info));
+                });
+            }), //TODO
+        }
+        encode.push_str(&format!("6304{:04}", self.crc1610));
+
+        encode
+    }
+}
+
 #[cfg(test)]
 mod test {
     use super::*;
@@ -122,10 +196,84 @@ mod test {
         assert_eq!(expected(), BrCode::from(code()));
     }
 
+    #[test]
+    fn enconde_brcode() {
+        let actual = brcode_value().encode();
+        let expected = encoded();
+
+        assert_eq!(actual, expected);
+    }
+
     fn expected() -> BrCode {
         BrCode {
             payload_version: 1,
             initiation_methos: None,
+            merchant_account_information: Some(String::from("12345678901234")),
+            merchant_category_code: 0000u32,
+            merchant_name: "NOME DO RECEBEDOR".to_string(),
+            merchant_city: "BRASILIA".to_string(),
+            merchant_information: vec![
+                MerchantInfo {
+                    id: 26,
+                    info: vec![
+                        Info {
+                            id: 0,
+                            info: "BR.GOV.BCB.PIX".to_string(),
+                        },
+                        Info {
+                            id: 1,
+                            info: "123e4567-e12b-12d1-a456-426655440000".to_string(),
+                        },
+                    ],
+                },
+                MerchantInfo {
+                    id: 27,
+                    info: vec![
+                        Info {
+                            id: 0,
+                            info: "BR.COM.OUTRO".to_string(),
+                        },
+                        Info {
+                            id: 1,
+                            info: "0123456789".to_string(),
+                        },
+                    ],
+                },
+            ],
+            currency: "986".to_string(),
+            postal_code: Some("70074900".to_string()),
+            amount: Some(123.45),
+            country_code: "BR".to_string(),
+            field_template: vec![Label {
+                reference_label: "RP12345678-2019".to_string(),
+            }],
+            crc1610: "AD38".to_string(),
+            templates: Some(vec![Template {
+                id: 80usize,
+                info: vec![
+                    Info {
+                        id: 0usize,
+                        info: "BR.COM.OUTRO".to_string(),
+                    },
+                    Info {
+                        id: 1usize,
+                        info: "0123.ABCD.3456.WXYZ".to_string(),
+                    },
+                ],
+            }]),
+        }
+    }
+
+    fn encoded() -> String {
+        "00020104141234567890123426580014BR.GOV.BCB.PIX0136123e4567-e12b-12d1-a456-42665544000027300012BR.COM.OUTRO011001234567895204000053039865406123.455802BR5917NOME DO RECEBEDOR6008BRASILIA61087007490062190515RP12345678-201980390012BR.COM.OUTRO01190123.ABCD.3456.WXYZ6304AD38"
+        .to_string()
+    }
+
+    fn brcode_value() -> BrCode {
+        BrCode {
+            payload_version: 1,
+            initiation_methos: None,
+            merchant_account_information: Some(String::from("12345678901234")),
             merchant_category_code: 0000u32,
             merchant_name: "NOME DO RECEBEDOR".to_string(),
             merchant_city: "BRASILIA".to_string(),
