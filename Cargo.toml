@@ -1,6 +1,6 @@
 [package]
 name = "brcode"
-version = "0.1.2"
+version = "0.2.0"
 authors = ["Julia Naomi <jnboeira@outlook.com>"]
 edition = "2018"
 description = "Crate to parse and emit BR Codes"
