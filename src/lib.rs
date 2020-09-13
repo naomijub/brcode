@@ -49,7 +49,6 @@ pub extern "C" fn edn_from_brcode(edn: *const c_char) -> *const c_char {
     to_c_char(edn_rs::to_string(brcode))
 }
 
-// Edn
 #[no_mangle]
 pub extern "C" fn edn_to_brcode(edn: *const c_char) -> *const c_char {
     let edn_str = chars_to_string(edn);
@@ -64,4 +63,12 @@ pub extern "C" fn json_from_brcode(json: *const c_char) -> *const c_char {
     let json_str = chars_to_string(json);
     let brcode = str_to_brcode(&json_str);
     to_c_char(serde_json::to_string(&brcode).unwrap_or("error".to_string()))
+}
+
+#[no_mangle]
+pub extern "C" fn json_to_brcode(edn: *const c_char) -> *const c_char {
+    let edn_str = chars_to_string(edn);
+    let brcode: BrCode = serde_json::from_str(&edn_str).unwrap();
+
+    to_c_char(brcode_to_string(brcode))
 }

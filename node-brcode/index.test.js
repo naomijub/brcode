@@ -1,14 +1,16 @@
 const brcode = require('./index');
 
-test('adds positive numbers correctly', () => {
-  expect(brcode.parse(code)).toEqual(exp_json);
+test('Parses and Emit Br Codes', () => {
+  expect(brcode.parse(code)).toEqual(json);
+  expect(brcode.emit(json)).toEqual(code);
 });
 
 const code = "00020104141234567890123426580014BR.GOV.BCB.PIX0136123e4567-e12b-12d1-a456-42665544000027300012BR.COM.OUTRO011001234567895204000053039865406123.455802BR5917NOME DO RECEBEDOR6008BRASILIA61087007490062190515RP12345678-201980390012BR.COM.OUTRO01190123.ABCD.3456.WXYZ6304AD38";
 
-const exp_json = {
+const json = {
     "payload_version":1,
     "initiation_methos":null,
+    "merchant_account_information": "12345678901234",
     "merchant_information":[
         {"id":26,"info":[
             {"id":0,"info":"BR.GOV.BCB.PIX"},

@@ -1,5 +1,5 @@
 use brcode::{
-    self, edn_from_brcode, edn_to_brcode, from_str, json_from_brcode, str_to_brcode, BrCode, Data,
+    self, edn_from_brcode, edn_to_brcode, from_str, json_from_brcode, json_to_brcode, str_to_brcode, BrCode, Data,
     Info, Label, MerchantInfo, Template,
 };
 
@@ -62,6 +62,16 @@ fn edn_to_brcode_ffi() {
     let edn = edn();
     let code = code();
     let result = edn_to_brcode(to_c_char(edn));
+    let actual = to_string(result);
+
+    assert_eq!(actual, code);
+}
+
+#[test]
+fn json_to_brcode_ffi() {
+    let json = json();
+    let code = code();
+    let result = json_to_brcode(to_c_char(json));
     let actual = to_string(result);
 
     assert_eq!(actual, code);
