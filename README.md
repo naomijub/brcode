@@ -6,7 +6,7 @@ A crate to parse and emit [PIX BR Code](https://www.bcb.gov.br/content/estabilid
 
 ```toml
 [dependencies]
-brcode = "0.2.0"
+brcode = "0.2.1"
 ```
 
 ## Example
@@ -255,7 +255,7 @@ fn brcode_value() -> BrCode {
 ### Clojure FFI 
 [DOCS](https://github.com/naomijub/brcode/blob/master/clj-brcode/README.md)
 
-**BR Code as Edn** call function `edn_from_brcode` or use clojar `[clj-brcode "0.2.0-SNAPSHOT"]`. Example:
+**BR Code as Edn** call function `edn_from_brcode` or use clojar `[clj-brcode "0.3.0-RELEASE"]`. Example:
 ```clojure
 (ns example.core
   (:require [clj-brcode.core :refer :all]))

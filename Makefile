@@ -1,5 +1,6 @@
 build-macos:
 	cargo build --release
+	cp target/release/libbrcode.dylib ./
 	cp target/release/libbrcode.dylib clj-brcode/
 	cp target/release/libbrcode.dylib node-brcode/
 
