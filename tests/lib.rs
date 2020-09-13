@@ -1,11 +1,27 @@
 use brcode::{
-    edn_from_brcode, from_str, json_from_brcode, str_to_brcode, BrCode, Data, Info, Label,
+    self, edn_from_brcode, from_str, json_from_brcode, str_to_brcode, BrCode, Data, Info, Label,
     MerchantInfo, Template,
 };
 
 #[test]
 fn test_from_str() {
     assert_eq!(from_str(&code()), data_expected());
+}
+
+#[test]
+fn test_to_string() {
+    let actual = brcode::to_string(data_expected());
+    let expected = code();
+
+    assert_eq!(actual, expected);
+}
+
+#[test]
+fn test_brcode_to_string() {
+    let actual = brcode::brcode_to_string(brcode_expected());
+    let expected = code();
+
+    assert_eq!(actual, expected);
 }
 
 #[test]
@@ -47,12 +63,12 @@ fn code() -> String {
 }
 
 fn json() -> String {
-    "{\"payload_version\":1,\"initiation_methos\":null,\"merchant_information\":[{\"id\":26,\"info\":[{\"id\":0,\"info\":\"BR.GOV.BCB.PIX\"},{\"id\":1,\"info\":\"123e4567-e12b-12d1-a456-426655440000\"}]},{\"id\":27,\"info\":[{\"id\":0,\"info\":\"BR.COM.OUTRO\"},{\"id\":1,\"info\":\"0123456789\"}]}],\"merchant_category_code\":0,\"merchant_name\":\"NOME DO RECEBEDOR\",\"merchant_city\":\"BRASILIA\",\"postal_code\":\"70074900\",\"currency\":\"986\",\"amount\":123.45,\"country_code\":\"BR\",\"field_template\":[{\"reference_label\":\"RP12345678-2019\"}],\"crc1610\":\"AD38\",\"templates\":[{\"id\":80,\"info\":[{\"id\":0,\"info\":\"BR.COM.OUTRO\"},{\"id\":1,\"info\":\"0123.ABCD.3456.WXYZ\"}]}]}"
+    "{\"payload_version\":1,\"initiation_methos\":null,\"merchant_account_information\":\"12345678901234\",\"merchant_information\":[{\"id\":26,\"info\":[{\"id\":0,\"info\":\"BR.GOV.BCB.PIX\"},{\"id\":1,\"info\":\"123e4567-e12b-12d1-a456-426655440000\"}]},{\"id\":27,\"info\":[{\"id\":0,\"info\":\"BR.COM.OUTRO\"},{\"id\":1,\"info\":\"0123456789\"}]}],\"merchant_category_code\":0,\"merchant_name\":\"NOME DO RECEBEDOR\",\"merchant_city\":\"BRASILIA\",\"postal_code\":\"70074900\",\"currency\":\"986\",\"amount\":123.45,\"country_code\":\"BR\",\"field_template\":[{\"reference_label\":\"RP12345678-2019\"}],\"crc1610\":\"AD38\",\"templates\":[{\"id\":80,\"info\":[{\"id\":0,\"info\":\"BR.COM.OUTRO\"},{\"id\":1,\"info\":\"0123.ABCD.3456.WXYZ\"}]}]}"
     .to_string()
 }
 
 fn edn() -> String {
-    "{ :payload-version 1, :initiation-methos nil, :merchant-information [{ :id 26, :info [{ :id 0, :info \"BR.GOV.BCB.PIX\", }, { :id 1, :info \"123e4567-e12b-12d1-a456-426655440000\", }], }, { :id 27, :info [{ :id 0, :info \"BR.COM.OUTRO\", }, { :id 1, :info \"0123456789\", }], }], :merchant-category-code 0, :merchant-name \"NOME DO RECEBEDOR\", :merchant-city \"BRASILIA\", :postal-code \"70074900\", :currency \"986\", :amount 123.45, :country-code \"BR\", :field-template [{ :reference-label \"RP12345678-2019\", }], :crc1610 \"AD38\", :templates [{ :id 80, :info [{ :id 0, :info \"BR.COM.OUTRO\", }, { :id 1, :info \"0123.ABCD.3456.WXYZ\", }], }], }"
+    "{ :payload-version 1, :initiation-methos nil, :merchant-account-information \"12345678901234\", :merchant-information [{ :id 26, :info [{ :id 0, :info \"BR.GOV.BCB.PIX\", }, { :id 1, :info \"123e4567-e12b-12d1-a456-426655440000\", }], }, { :id 27, :info [{ :id 0, :info \"BR.COM.OUTRO\", }, { :id 1, :info \"0123456789\", }], }], :merchant-category-code 0, :merchant-name \"NOME DO RECEBEDOR\", :merchant-city \"BRASILIA\", :postal-code \"70074900\", :currency \"986\", :amount 123.45, :country-code \"BR\", :field-template [{ :reference-label \"RP12345678-2019\", }], :crc1610 \"AD38\", :templates [{ :id 80, :info [{ :id 0, :info \"BR.COM.OUTRO\", }, { :id 1, :info \"0123.ABCD.3456.WXYZ\", }], }], }"
     .to_string()
 }
 
@@ -60,6 +76,7 @@ fn brcode_expected() -> BrCode {
     BrCode {
         payload_version: 1,
         initiation_methos: None,
+        merchant_account_information: Some(String::from("12345678901234")),
         merchant_category_code: 0000u32,
         merchant_name: "NOME DO RECEBEDOR".to_string(),
         merchant_city: "BRASILIA".to_string(),
