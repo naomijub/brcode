@@ -6,9 +6,9 @@ Node wrapper of `brcode` to parse and emit [PIX BR Code](https://www.bcb.gov.br/
 
 1. `npm install node-brcode --save`
 2. Copy `libbrcode.*` from [brcode](https://github.com/naomijub/brcode/tree/master/clj-brcode) to your Node project root:
- - for linux copy `libbrcode.so`.
- - for macos copy `libbrcode.dylib`.
- - `cargo build --release` project from [git](https://github.com/naomijub/brcode) and copy the `libbrcode.*` from `target/release/libbrcode.*` to your Node project root
+  - for linux copy `libbrcode.so`.
+  - for macos copy `libbrcode.dylib`.
+  - `cargo build --release` project from [git](https://github.com/naomijub/brcode) and copy the `libbrcode.*` from `target/release/libbrcode.*` to your Node project root
 
 3. Use it!
 
