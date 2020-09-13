@@ -6,7 +6,7 @@ A crate to parse and emit [PIX BR Code](https://www.bcb.gov.br/content/estabilid
 
 ```toml
 [dependencies]
-brcode = "0.2.0"
+brcode = "0.2.1"
 ```
 
 ## Example
