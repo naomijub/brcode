@@ -255,7 +255,7 @@ fn brcode_value() -> BrCode {
 ### Clojure FFI 
 [DOCS](https://github.com/naomijub/brcode/blob/master/clj-brcode/README.md)
 
-**BR Code as Edn** call function `edn_from_brcode` or use clojar `[clj-brcode "0.3.0-RELEASE"]`. Example:
+**BR Code as Edn** call function `edn_from_brcode` or use clojar `[clj-brcode "1.0.0-SNAPSHOT"]`. Example:
 ```clojure
 (ns example.core
   (:require [clj-brcode.core :refer :all]))
