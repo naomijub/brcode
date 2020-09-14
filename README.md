@@ -9,6 +9,26 @@ A crate to parse and emit [PIX BR Code](https://www.bcb.gov.br/content/estabilid
 brcode = "1.0.1"
 ```
 
+Shellscript to get files from release:
+
+**So**
+```sh
+curl -s https://api.github.com/repos/naomijub/brcode/releases/latest \
+| grep "browser_download_url.*so" \
+| cut -d : -f 2,3 \
+| tr -d \" \
+| wget -qi -
+```
+
+**dylib**
+```sh
+curl -s https://api.github.com/repos/naomijub/brcode/releases/latest \
+| grep "browser_download_url.*dylib" \
+| cut -d : -f 2,3 \
+| tr -d \" \
+| wget -qi -
+```
+
 ## Example
 
 **Parse String**
