@@ -20,7 +20,7 @@ const code = "00020104141234567890123426580014BR.GOV.BCB.PIX0136123e4567-e12b-12
 brcode.parse(code)
 ```
 
-### Output
+Output:
 
 ```json
 {
@@ -90,10 +90,28 @@ const json = {
 brcode.emit(json)
 ```
 
-### Output
+Output:
 
 ```json
 "00020104141234567890123426580014BR.GOV.BCB.PIX0136123e4567-e12b-12d1-a456-42665544000027300012BR.COM.OUTRO011001234567895204000053039865406123.455802BR5917NOME DO RECEBEDOR6008BRASILIA61087007490062190515RP12345678-201980390012BR.COM.OUTRO01190123.ABCD.3456.WXYZ6304AD38"
+```
+
+## Benchmark
+
+**parse**
+```js
+{ source: 'function() { return parse(code, 1000); }',
+    raw: [ 0, 3202224 ],
+    duration: '3 ms 202 μs 224 ns',
+    name: 'parser' } 
+```
+
+**emit**
+```js
+{ source: 'function() { return emit(json, 1000); }',
+    raw: [ 0, 3386206 ],
+    duration: '3 ms 386 μs 206 ns',
+    name: 'emitter' }
 ```
 
 ## Milestones
