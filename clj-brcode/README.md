@@ -62,6 +62,26 @@ Evaluation count : 4644 in 6 samples of 774 calls.
                    Overhead used : 8.079635 ns
 ```
 
+**edn->brcode**
+```
+Evaluation count : 3816 in 6 samples of 636 calls.
+             Execution time mean : 157.407924 µs
+    Execution time std-deviation : 3.556917 µs
+   Execution time lower quantile : 154.338082 µs ( 2.5%)
+   Execution time upper quantile : 162.800564 µs (97.5%)
+                   Overhead used : 8.102766 ns
+```
+
+**(-> brcode brcode->edn edn->brcode)**
+```
+Evaluation count : 1920 in 6 samples of 320 calls.
+             Execution time mean : 344.903181 µs
+    Execution time std-deviation : 26.518055 µs
+   Execution time lower quantile : 328.923528 µs ( 2.5%)
+   Execution time upper quantile : 390.059255 µs (97.5%)
+                   Overhead used : 8.071450 ns
+```
+
 ## Milestones
 - [x] parse, `brcode->edn`
 - [x] emit  `edn->brcode`
