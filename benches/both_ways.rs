@@ -1,9 +1,11 @@
-use brcode::{from_str, to_string, brcode_to_string, str_to_brcode};
+use brcode::{brcode_to_string, from_str, str_to_brcode, to_string};
 use criterion::{criterion_group, criterion_main, Criterion};
 
 fn brcode_benchmark(c: &mut Criterion) {
     let code = code();
-    c.bench_function("using brcode", |b| b.iter(|| brcode_to_string(str_to_brcode(&code))));
+    c.bench_function("using brcode", |b| {
+        b.iter(|| brcode_to_string(str_to_brcode(&code)))
+    });
 }
 
 fn vec_benchmark(c: &mut Criterion) {
