@@ -34,3 +34,7 @@ harness = false
 [[bench]]
 name = "to_brcode"
 harness = false
+
+[[bench]]
+name = "both_ways"
+harness = false

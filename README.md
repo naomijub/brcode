@@ -453,6 +453,16 @@ time:   [55.027 us 55.202 us 55.382 us]
 time:   [30.717 us 30.981 us 31.303 us]
 ```
 
+**both-ways using `BrCode`**
+```
+time:   [33.238 us 33.555 us 33.924 us]                          
+```
+
+**both-ways using `Vec<(usize, Data)>`**
+```
+time:   [24.537 us 25.391 us 26.260 us] 
+```
+
 ## Goals
 - [x] Parse BR Code String;
 - [x] Parse BR Code to `BrCode` struct;

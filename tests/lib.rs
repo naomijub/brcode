@@ -1,6 +1,6 @@
 use brcode::{
-    self, edn_from_brcode, edn_to_brcode, from_str, json_from_brcode, json_to_brcode, str_to_brcode, BrCode, Data,
-    Info, Label, MerchantInfo, Template,
+    self, edn_from_brcode, edn_to_brcode, from_str, json_from_brcode, json_to_brcode,
+    str_to_brcode, BrCode, Data, Info, Label, MerchantInfo, Template,
 };
 
 #[test]
