@@ -179,10 +179,11 @@ impl BrCode {
                 m.info.iter().for_each(|i| {
                     encode.push_str(&format!("{:02}{:02}{}", i.id, i.info.len(), i.info));
                 });
-            }), //TODO
+            }),
         }
-        encode.push_str(&format!("6304{:04}", self.crc1610));
-
+        encode.push_str("6304");
+        let crc16 = crate::aux::crc16_ccitt(&encode);
+        encode.push_str(&crc16);
         encode
     }
 }

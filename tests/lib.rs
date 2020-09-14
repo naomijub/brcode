@@ -17,6 +17,14 @@ fn test_to_string() {
 }
 
 #[test]
+fn assert_both_ways() {
+    let from = brcode::from_str(&dynamic_code());
+    let to = brcode::to_string(from);
+
+    assert_eq!(to, dynamic_code())
+}
+
+#[test]
 fn test_brcode_to_string() {
     let actual = brcode::brcode_to_string(brcode_expected());
     let expected = code();
@@ -75,6 +83,11 @@ fn json_to_brcode_ffi() {
     let actual = to_string(result);
 
     assert_eq!(actual, code);
+}
+
+fn dynamic_code() -> String {
+    "00020101021226740014br.gov.bcb.spi210812345678220412342308123456782420001122334455667788995204000053039865406123.455802BR5913FULANO DE TAL6008BRASILIA62190515RP12345678-201980720014br.gov.bcb.spi2550bx.com.br/spi/U0VHUkVET1RPVEFMTUVOVEVBTEVBVE9SSU8=630434D1"
+    .to_string()
 }
 
 fn code() -> String {

@@ -1,6 +1,6 @@
 [package]
 name = "brcode"
-version = "1.0.1"
+version = "1.1.0"
 authors = ["Julia Naomi <jnboeira@outlook.com>"]
 edition = "2018"
 description = "Crate to parse and emit BR Codes"
@@ -37,4 +37,8 @@ harness = false
 
 [[bench]]
 name = "both_ways"
+harness = false
+
+[[bench]]
+name = "crc16"
 harness = false

@@ -5,6 +5,7 @@ pub(crate) mod parse;
 
 pub use model::{BrCode, Info, Label, MerchantInfo, Template};
 pub use parse::Data;
+pub use aux::crc16_ccitt;
 
 pub fn from_str(code: &str) -> Vec<(usize, parse::Data)> {
     parse::parse(code, 99)

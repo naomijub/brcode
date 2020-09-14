@@ -1,12 +1,14 @@
 # BR Code
 
 A crate to parse and emit [PIX BR Code](https://www.bcb.gov.br/content/estabilidadefinanceira/spb_docs/ManualBRCode.pdf).
+* [Technical and Business specs for BR Code usage](https://www.bcb.gov.br/content/estabilidadefinanceira/forumpireunioes/Anexo%20I%20-%20QRCodes%20-%20Especifica%C3%A7%C3%A3o%20-%20vers%C3%A3o%201-1.pdf)
+
 
 ## Usage
 
 ```toml
 [dependencies]
-brcode = "1.0.1"
+brcode = "1.1.0"
 ```
 
 Shellscript to get files from release:
@@ -481,6 +483,11 @@ time:   [33.238 us 33.555 us 33.924 us]
 **both-ways using `Vec<(usize, Data)>`**
 ```
 time:   [24.537 us 25.391 us 26.260 us] 
+```
+
+**crc16_ccitt** in `benches/crc16`:
+```
+time:   [3.0738 us 3.0825 us 3.0938 us]
 ```
 
 ## Goals

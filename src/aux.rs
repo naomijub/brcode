@@ -51,6 +51,29 @@ impl FromIterator<(usize, parse::Data)> for HashBrCode {
     }
 }
 
+pub fn crc16_ccitt(message: &str) -> String {
+    let mut crc: u16 = 0xFFFF;          // initial value
+    let polynomial: u16 = 0x1021;   // 0001 0000 0010 0001  (0, 5, 12) 
+
+    // byte[] testBytes = "123456789".getBytes("ASCII");
+
+    let bytes = message.as_bytes();
+
+    for b in bytes {
+        for i in 0u16..8u16 {
+            let bit = (b   >> (7-i) & 1) == 1;
+            let c15 = (crc >> 15    & 1) == 1;
+            crc <<= 1;
+            if c15 ^ bit {crc ^= polynomial};
+        }
+    }
+
+    crc &= 0xffff;
+    
+    
+    format!("{:X}", crc)
+}
+
 #[cfg(test)]
 mod test {
     use super::*;
@@ -69,6 +92,14 @@ mod test {
         let hash: HashBrCode = vec.into_iter().collect();
 
         assert_eq!(hash.0, expected);
+    }
+
+    #[test]
+    fn test_crc16_ccitt() {
+        let crc16 = crc16_ccitt("123456789");
+        let expected = "29B1";
+
+        assert_eq!(crc16, expected);
     }
 
     #[test]
