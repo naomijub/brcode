@@ -10,10 +10,29 @@ Clojure wrapper of `brcode` to parse and emit [PIX BR Code](https://www.bcb.gov.
   :dependencies [[org.clojure/clojure "1.10.1"]
                  [clj-brcode "1.0.0-SNAPSHOT"]]
 ```
- 2. Copy `libbrcode.*` from [brcode](https://github.com/naomijub/brcode/tree/master/clj-brcode) to your Clojure project root:
- - for linux copy `libbrcode.so`.
- - for macos copy `libbrcode.dylib`.
- - `cargo build --release` project from [git](https://github.com/naomijub/brcode) and copy the `libbrcode.*` from `target/release/libbrcode.*` to your Clojure project root
+2. Copy `libbrcode.*` from [brcode](https://github.com/naomijub/brcode/tree/master/clj-brcode) to your Clojure project root:
+  - for linux copy `libbrcode.so`.
+  - for macos copy `libbrcode.dylib`.
+  - `cargo build --release` project from [git](https://github.com/naomijub/brcode) and copy the `libbrcode.*` from `target/release/libbrcode.*` to your Clojure project root
+  - Shellscript to get files from release:
+
+  **So**
+  ```sh
+  curl -s https://api.github.com/repos/naomijub/brcode/releases/latest \
+  | grep "browser_download_url.*so" \
+  | cut -d : -f 2,3 \
+  | tr -d \" \
+  | wget -qi -
+  ```
+
+  **dylib**
+  ```sh
+  curl -s https://api.github.com/repos/naomijub/brcode/releases/latest \
+  | grep "browser_download_url.*dylib" \
+  | cut -d : -f 2,3 \
+  | tr -d \" \
+  | wget -qi -
+  ```
 
 3. require it in your project namespace `(:require [clj-brcode.core :as pix]))`.
 
