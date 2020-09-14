@@ -114,6 +114,14 @@ Output:
     name: 'emitter' }
 ```
 
+**parse(emit(json))**
+```
+{ source: 'function() { return parse(emit(json), 1000); }',
+    raw: [ 0, 4309501 ],
+    duration: '4 ms 309 μs 501 ns',
+    name: 'both-ways' } 
+```
+
 ## Milestones
 - [x] parse, `parse`
 - [x] emit 
