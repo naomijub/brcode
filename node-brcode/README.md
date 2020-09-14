@@ -9,6 +9,24 @@ Node wrapper of `brcode` to parse and emit [PIX BR Code](https://www.bcb.gov.br/
   - for linux copy `libbrcode.so`.
   - for macos copy `libbrcode.dylib`.
   - `cargo build --release` project from [git](https://github.com/naomijub/brcode) and copy the `libbrcode.*` from `target/release/libbrcode.*` to your Node project root
+  - Shellscript to get files from release:
+  **So**
+  ```sh
+  curl -s https://api.github.com/repos/naomijub/brcode/releases/latest \
+  | grep "browser_download_url.*so" \
+  | cut -d : -f 2,3 \
+  | tr -d \" \
+  | wget -qi -
+  ```
+
+  **dylib**
+  ```sh
+  curl -s https://api.github.com/repos/naomijub/brcode/releases/latest \
+  | grep "browser_download_url.*dylib" \
+  | cut -d : -f 2,3 \
+  | tr -d \" \
+  | wget -qi -
+  ```
 
 3. Use it!
 
