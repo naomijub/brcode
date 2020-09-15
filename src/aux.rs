@@ -26,7 +26,7 @@ impl Data {
 
     pub fn to_hash(&self) -> HashMap<usize, Data> {
         match self {
-            Data::Hash(map) => (map.0).clone().to_owned(),
+            Data::Hash(map) => (map.0).to_owned(),
             _ => HashMap::new(),
         }
     }

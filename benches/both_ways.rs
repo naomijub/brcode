@@ -10,7 +10,7 @@ fn brcode_benchmark(c: &mut Criterion) {
 
 fn vec_benchmark(c: &mut Criterion) {
     let code = code();
-    c.bench_function("using vec", |b| b.iter(|| to_string(from_str(&code))));
+    c.bench_function("using vec", |b| b.iter(|| to_string(&from_str(&code))));
 }
 
 criterion_group!(benches, brcode_benchmark, vec_benchmark);

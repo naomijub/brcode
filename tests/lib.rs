@@ -10,7 +10,7 @@ fn test_from_str() {
 
 #[test]
 fn test_to_string() {
-    let actual = brcode::to_string(data_expected());
+    let actual = brcode::to_string(&data_expected());
     let expected = code();
 
     assert_eq!(actual, expected);
@@ -19,7 +19,7 @@ fn test_to_string() {
 #[test]
 fn assert_both_ways() {
     let from = brcode::from_str(&dynamic_code());
-    let to = brcode::to_string(from);
+    let to = brcode::to_string(&from);
 
     assert_eq!(to, dynamic_code())
 }

@@ -54,14 +54,14 @@ impl From<Vec<(usize, Data)>> for BrCode {
     fn from(code: Vec<(usize, Data)>) -> Self {
         let hash = HashBrCode::new(code).0;
         let merchant_information = (26usize..=51usize)
-            .map(|i| (i, hash.get(&i).clone()))
+            .map(|i| (i, hash.get(&i)))
             .filter_map(|e| {
                 e.1.map(|d| {
                     Some(MerchantInfo {
                         id: e.0,
                         info: {
                             let hm = d.to_hash();
-                            let mut keys = hm.keys().map(|k| *k).collect::<Vec<usize>>();
+                            let mut keys = hm.keys().copied().collect::<Vec<usize>>();
                             keys.sort();
                             keys.into_iter()
                                 .map(|idx| Info {
@@ -75,14 +75,14 @@ impl From<Vec<(usize, Data)>> for BrCode {
             })
             .collect::<Vec<MerchantInfo>>();
         let templates = (80usize..=99usize)
-            .map(|i| (i, hash.get(&i).clone()))
+            .map(|i| (i, hash.get(&i)))
             .filter_map(|e| {
                 e.1.map(|d| {
                     Some(Template {
                         id: e.0,
                         info: {
                             let hm = d.to_hash();
-                            let mut keys = hm.keys().map(|k| *k).collect::<Vec<usize>>();
+                            let mut keys = hm.keys().copied().collect::<Vec<usize>>();
                             keys.sort();
                             keys.into_iter()
                                 .map(|idx| Info {
@@ -99,12 +99,12 @@ impl From<Vec<(usize, Data)>> for BrCode {
         BrCode {
             payload_version: hash[&0usize].to_str().parse().unwrap(),
             initiation_methos: hash.get(&1usize).map(|e| e.to_str().parse().unwrap()),
-            merchant_account_information: hash.get(&4usize).map(|e| e.to_str()),
+            merchant_account_information: hash.get(&4usize).map(crate::aux::Data::to_str),
             merchant_information: merchant_information,
             merchant_category_code: hash[&52usize].to_str().parse().unwrap(),
             merchant_name: hash[&59usize].to_str(),
             merchant_city: hash[&60usize].to_str(),
-            postal_code: hash.get(&61usize).map(|e| e.to_str()),
+            postal_code: hash.get(&61usize).map(crate::aux::Data::to_str),
             currency: hash[&53usize].to_str(),
             amount: hash.get(&54usize).map(|e| e.to_str().parse().unwrap()),
             country_code: hash[&58usize].to_str(),
