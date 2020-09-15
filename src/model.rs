@@ -54,7 +54,7 @@ impl From<Vec<(usize, Data)>> for BrCode {
     fn from(code: Vec<(usize, Data)>) -> Self {
         let hash = HashBrCode::new(code).0;
         let merchant_information = (26usize..=51usize)
-            .map(|i| (i, hash.get(&i).clone()))
+            .map(|i| (i, hash.get(&i)))
             .filter_map(|e| {
                 e.1.map(|d| {
                     Some(MerchantInfo {
@@ -75,7 +75,7 @@ impl From<Vec<(usize, Data)>> for BrCode {
             })
             .collect::<Vec<MerchantInfo>>();
         let templates = (80usize..=99usize)
-            .map(|i| (i, hash.get(&i).clone()))
+            .map(|i| (i, hash.get(&i)))
             .filter_map(|e| {
                 e.1.map(|d| {
                     Some(Template {
