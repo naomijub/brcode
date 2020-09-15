@@ -61,7 +61,7 @@ impl From<Vec<(usize, Data)>> for BrCode {
                         id: e.0,
                         info: {
                             let hm = d.to_hash();
-                            let mut keys = hm.keys().map(|k| *k).collect::<Vec<usize>>();
+                            let mut keys = hm.keys().copied().collect::<Vec<usize>>();
                             keys.sort();
                             keys.into_iter()
                                 .map(|idx| Info {
@@ -82,7 +82,7 @@ impl From<Vec<(usize, Data)>> for BrCode {
                         id: e.0,
                         info: {
                             let hm = d.to_hash();
-                            let mut keys = hm.keys().map(|k| *k).collect::<Vec<usize>>();
+                            let mut keys = hm.keys().copied().collect::<Vec<usize>>();
                             keys.sort();
                             keys.into_iter()
                                 .map(|idx| Info {
