@@ -7,7 +7,7 @@ Dart wrapper of `brcode` to parse and emit [PIX BR Code](https://www.bcb.gov.br/
 1. Include `dartbrcode` in `pub.yaml`
 ```yaml
 dependencies:
-  dartbrcode: ^1.0.0
+  dartbrcode: ^0.1.0
 ```
 2. Copy `libbrcode.*` from [brcode](https://github.com/naomijub/brcode/tree/master/clj-brcode) to your Node project root:
   - for linux copy `libbrcode.so`.

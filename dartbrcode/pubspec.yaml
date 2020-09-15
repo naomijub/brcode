@@ -1,5 +1,5 @@
 name: dartbrcode
-version: 1.0.0
+version: 0.1.0
 description: Dart wrapper for Rust BrCode
 repository: https://github.com/naomijub/brcode
 sdk: ">=1.8.0 <2.0.0"
