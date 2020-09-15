@@ -457,22 +457,22 @@ console.log(brcode.emit(json))
 
 **from_str** in `benches/parse.rs`
 ```
-time:   [16.200 us 16.251 us 16.319 us] 
+time:   [15.734 us 15.758 us 15.782 us]
 ```
 
 **str_to_brcode** in `benches/to_brcode`
 ```
-time:   [25.424 us 25.570 us 25.710 us]
+time:   [24.886 us 24.931 us 24.977 us]
 ```
 
 **edn_from_brcode** in `benches/to_brcode`
 ```
-time:   [55.027 us 55.202 us 55.382 us]
+time:   [52.670 us 52.795 us 52.929 us]
 ```
 
 **json_from_brcode** in `benches/to_brcode`
 ```
-time:   [30.717 us 30.981 us 31.303 us]
+time:    [28.229 us 28.284 us 28.339 us]
 ```
 
 **both-ways using `BrCode`**
@@ -482,7 +482,7 @@ time:   [33.238 us 33.555 us 33.924 us]
 
 **both-ways using `Vec<(usize, Data)>`**
 ```
-time:   [24.537 us 25.391 us 26.260 us] 
+time:   [22.867 us 22.958 us 23.107 us]
 ```
 
 **crc16_ccitt** in `benches/crc16`:
