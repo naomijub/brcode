@@ -11,8 +11,8 @@ pub fn from_str(code: &str) -> Vec<(usize, parse::Data)> {
     parse::parse(code, 99)
 }
 
-pub fn to_string(code: Vec<(usize, parse::Data)>) -> String {
-    emit::emit(code)
+pub fn to_string(code: &[(usize, parse::Data)]) -> String {
+    emit::emit(&code)
 }
 
 pub fn brcode_to_string(code: BrCode) -> String {
@@ -35,7 +35,7 @@ fn chars_to_string(pointer: *const c_char) -> String {
     str::from_utf8(slice).unwrap().to_string()
 }
 
-fn to_c_char(s: String) -> *const c_char {
+fn to_c_char(s: &str) -> *const c_char {
     let cs = CString::new(s.as_bytes()).unwrap();
     let ptr = cs.as_ptr();
     mem::forget(cs);
@@ -47,7 +47,7 @@ fn to_c_char(s: String) -> *const c_char {
 pub extern "C" fn edn_from_brcode(edn: *const c_char) -> *const c_char {
     let edn_str = chars_to_string(edn);
     let brcode = str_to_brcode(&edn_str);
-    to_c_char(edn_rs::to_string(brcode))
+    to_c_char(&edn_rs::to_string(brcode))
 }
 
 #[no_mangle]
@@ -55,7 +55,7 @@ pub extern "C" fn edn_to_brcode(edn: *const c_char) -> *const c_char {
     let edn_str = chars_to_string(edn);
     let brcode: BrCode = edn_rs::from_str(&edn_str).unwrap();
 
-    to_c_char(brcode_to_string(brcode))
+    to_c_char(&brcode_to_string(brcode))
 }
 
 // Json
@@ -63,7 +63,7 @@ pub extern "C" fn edn_to_brcode(edn: *const c_char) -> *const c_char {
 pub extern "C" fn json_from_brcode(json: *const c_char) -> *const c_char {
     let json_str = chars_to_string(json);
     let brcode = str_to_brcode(&json_str);
-    to_c_char(serde_json::to_string(&brcode).unwrap_or_else(|_| "error".to_string()))
+    to_c_char(&serde_json::to_string(&brcode).unwrap_or_else(|_| "error".to_string()))
 }
 
 #[no_mangle]
@@ -71,5 +71,5 @@ pub extern "C" fn json_to_brcode(edn: *const c_char) -> *const c_char {
     let edn_str = chars_to_string(edn);
     let brcode: BrCode = serde_json::from_str(&edn_str).unwrap();
 
-    to_c_char(brcode_to_string(brcode))
+    to_c_char(&brcode_to_string(brcode))
 }
