@@ -104,8 +104,32 @@ autogen_warning = "// NOTE: Append the lines below to ios/Classes/Brcode.h"
 ```
 7. Create C bindigns via:  `cbindgen ./src/lib.rs -c cbindgen.toml | grep -v \#include | uniq`
 
+## Benchmarks
+
+### with `dart_benchmark`
+**jsonToBrcode**
+```
+For 100 runs: peak: 371 us,	bottom: 048 us,	avg: ~083 us
+```
+
+**brcodeToJson**
+```
+For 100 runs: peak: 327 us,	bottom: 069 us,	avg: ~101 us
+```
+
+### with `benchmark_harness`
+**jsonToBrcode**
+```
+For 10 runs: 207.51774227018055 us.
+```
+
+**brcodeToJson**
+```
+For 10 runs: 378.68780764861793 us.
+```
+
 ## Milestones
-- [x] parse, `jsonFromBrcode`
+- [x] parse, `brcodeToJson`
 - [x] emit, `jsonToBrcode`
 - [ ] parse returning `Map<String, dynamic>`
 - [ ] emit receiving `Map<String, dynamic>` as args
