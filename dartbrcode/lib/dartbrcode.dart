@@ -5,9 +5,9 @@ import 'package:ffi/ffi.dart';
 
 typedef NativeRustJsonToBrcode = ffi.Pointer<Utf8> Function(ffi.Pointer<Utf8>);
 typedef NativeJsonToBrcode = ffi.Pointer<Utf8> Function();
-final os = Platform.isMacOS ? "libbrcode.dylib" : Platform.isIOS? "libbrcode.a" : "libbrcode.so";
+final osSpecificFile = Platform.isMacOS ? "libbrcode.dylib" : Platform.isIOS? "libbrcode.a" : "libbrcode.so";
 final ffi.DynamicLibrary dl =
-      ffi.DynamicLibrary.open(os);
+      ffi.DynamicLibrary.open(osSpecificFile);
 
 String jsonToBrcode(String json) {
   final json_to_brcode =
@@ -19,7 +19,7 @@ String jsonToBrcode(String json) {
   return Utf8.fromUtf8(utf8_from_json).toString();
 }
 
-String jsonFromBrcode(String json) {
+String brcodeToJson(String json) {
   final json_from_brcode =
       dl.lookupFunction<NativeRustJsonToBrcode, NativeRustJsonToBrcode>(
           "json_from_brcode");

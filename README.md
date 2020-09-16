@@ -11,6 +11,13 @@ A crate to parse and emit [PIX BR Code](https://www.bcb.gov.br/content/estabilid
 brcode = "1.1.1"
 ```
 
+### Build from source
+1. Install [rustup](https://rustup.rs/).
+2. `make build-macos` for macos and ios files or `make build-linux` for linux and android files.
+3. Files will be located at `target/release/libbrcode.*`, `target/<target-platform>/release/libbrcode.so`.
+
+
+### Copy files from Github Release
 Shellscript to get files from release:
 
 **So**

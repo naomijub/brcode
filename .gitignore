@@ -16,3 +16,5 @@ Cargo.lock
 */.hgignore
 */.hg/
 */node_modules
+*/.dart_tool/
+*/.packages

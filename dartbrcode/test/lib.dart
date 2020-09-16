@@ -11,7 +11,7 @@ void main() {
   });
 
     test('generated json is correct for brcode', () {
-    final actual = jsonFromBrcode(brcode);
+    final actual = brcodeToJson(brcode);
     expect(actual, equals(json));
   });
 }
