@@ -8,7 +8,7 @@ A crate to parse and emit [PIX BR Code](https://www.bcb.gov.br/content/estabilid
 
 ```toml
 [dependencies]
-brcode = "1.1.1"
+brcode = "1.2.0"
 ```
 
 Shellscript to get files from release:
