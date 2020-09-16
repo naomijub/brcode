@@ -6,7 +6,7 @@ use serde_derive::{Deserialize as SerdeDeserialize, Serialize as SerdeSerialize}
 #[derive(Debug, PartialEq, Clone, Serialize, Deserialize, SerdeDeserialize, SerdeSerialize)]
 pub struct BrCode {
     pub payload_version: u8,
-    pub initiation_methos: Option<u8>,
+    pub initiation_method: Option<u8>,
     pub merchant_account_information: Option<String>,
     pub merchant_information: Vec<MerchantInfo>,
     pub merchant_category_code: u32,
@@ -98,7 +98,7 @@ impl From<Vec<(usize, Data)>> for BrCode {
 
         BrCode {
             payload_version: hash[&0usize].to_str().parse().unwrap(),
-            initiation_methos: hash.get(&1usize).map(|e| e.to_str().parse().unwrap()),
+            initiation_method: hash.get(&1usize).map(|e| e.to_str().parse().unwrap()),
             merchant_account_information: hash.get(&4usize).map(crate::aux::Data::to_str),
             merchant_information: merchant_information,
             merchant_category_code: hash[&52usize].to_str().parse().unwrap(),
@@ -125,7 +125,7 @@ impl BrCode {
     pub fn encode(self) -> String {
         let mut encode = String::new();
         encode.push_str(&format!("0002{:02}", self.payload_version));
-        match self.initiation_methos {
+        match self.initiation_method {
             None => (),
             Some(m) => encode.push_str(&format!("0102{:02}", m)),
         }
@@ -208,7 +208,7 @@ mod test {
     fn expected() -> BrCode {
         BrCode {
             payload_version: 1,
-            initiation_methos: None,
+            initiation_method: None,
             merchant_account_information: Some(String::from("12345678901234")),
             merchant_category_code: 0000u32,
             merchant_name: "NOME DO RECEBEDOR".to_string(),
@@ -273,7 +273,7 @@ mod test {
     fn brcode_value() -> BrCode {
         BrCode {
             payload_version: 1,
-            initiation_methos: None,
+            initiation_method: None,
             merchant_account_information: Some(String::from("12345678901234")),
             merchant_category_code: 0000u32,
             merchant_name: "NOME DO RECEBEDOR".to_string(),
