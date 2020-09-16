@@ -54,9 +54,6 @@ impl FromIterator<(usize, parse::Data)> for HashBrCode {
 pub fn crc16_ccitt(message: &str) -> String {
     let mut crc: u16 = 0xFFFF;          // initial value
     let polynomial: u16 = 0x1021;   // 0001 0000 0010 0001  (0, 5, 12) 
-
-    // byte[] testBytes = "123456789".getBytes("ASCII");
-
     let bytes = message.as_bytes();
 
     for b in bytes {
