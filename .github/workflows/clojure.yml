@@ -18,8 +18,12 @@ jobs:
         make build-linux
         cd clj-brcode 
         lein deps
-    # - name: Run tests
-    #   run: |
-    #     make build-linux
-    #     cd clj-brcode 
-    #     lein test
+    - name: Run tests
+      run: |
+        cd clj-brcode 
+        curl -s https://api.github.com/repos/naomijub/brcode/releases/latest \
+        | grep "browser_download_url.*so" \
+        | cut -d : -f 2,3 \
+        | tr -d \" \
+        | wget -qi -
+        lein test
