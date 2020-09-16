@@ -16,5 +16,7 @@ build-so:
 	cp out/libbrcode.so ./
 	cp libbrcode.so clj-brcode/
 	cp libbrcode.so node-brcode/
+	cp libbrcode.so dartbrcode/
+	cp libbrcode.dylib dartbrcode/
 	cp libbrcode.dylib clj-brcode/
 	cp libbrcode.dylib node-brcode/
