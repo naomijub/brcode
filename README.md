@@ -3,7 +3,9 @@
 A crate to parse and emit [PIX BR Code](https://www.bcb.gov.br/content/estabilidadefinanceira/spb_docs/ManualBRCode.pdf).
 * [Technical and Business specs for BR Code usage](https://www.bcb.gov.br/content/estabilidadefinanceira/forumpireunioes/Anexo%20I%20-%20QRCodes%20-%20Especifica%C3%A7%C3%A3o%20-%20vers%C3%A3o%201-1.pdf)
 
-* Version `1.2`has a small break for a `BrCode` field. [PR](https://github.com/naomijub/brcode/pull/14).
+## Important Changes
+
+* Version `1.2` has a small break for a `BrCode` field. [PR](https://github.com/naomijub/brcode/pull/14) fixes `model::BrCode` field `initiation_method` naming.
 
 ## Usage
 
