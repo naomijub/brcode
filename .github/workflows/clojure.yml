@@ -9,20 +9,20 @@ on:
 jobs:
   build:
 
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v2
     - name: Install dependencies
       run: | 
-        make build-macos
+        make build-linux
         cd clj-brcode 
         lein deps
     - name: test
       run: |
         cd clj-brcode 
         curl -s https://api.github.com/repos/naomijub/brcode/releases/latest \
-        | grep "browser_download_url.*dylib" \
+        | grep "browser_download_url.*so" \
         | cut -d : -f 2,3 \
         | tr -d \" \
         | wget -qi -
