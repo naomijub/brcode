@@ -1,6 +1,6 @@
 {
   "name": "node-brcode",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "A wrapper for Rust brcode",
   "main": "index.js",
   "directories": {
