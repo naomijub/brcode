@@ -324,7 +324,7 @@ time:   [3.0738 us 3.0825 us 3.0938 us]
 ### Clojure FFI 
 [DOCS](https://github.com/naomijub/brcode/blob/master/clj-brcode/README.md)
 
-**BR Code as Edn** call function FFI `edn_from_brcode` or use clojar `[clj-brcode "1.0.0-SNAPSHOT"]`. Example:
+**BR Code as Edn** call function FFI `edn_from_brcode` or use clojar `[clj-brcode "1.1.0-SNAPSHOT"]`. Example:
 ```clojure
 (ns example.core
   (:require [clj-brcode.core :refer :all]))
@@ -354,7 +354,7 @@ Expected Edn:
 ```
 
 
-**Edn as BR Code** call function FFI `edn_to_brcode` or use clojar `[clj-brcode "1.0.0-SNAPSHOT"]`. Example:
+**Edn as BR Code** call function FFI `edn_to_brcode` or use clojar `[clj-brcode "1.1.0-SNAPSHOT"]`. Example:
 ```clojure
 (ns example.core
   (:require [clj-brcode.core :refer :all]))

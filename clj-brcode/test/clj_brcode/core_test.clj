@@ -10,3 +10,9 @@
     (is (= (brcode->edn code) edn)))
   (testing "conform edn to brcode"
     (is (= (edn->brcode edn) code))))
+
+(def unchecked-code "00020104141234567890123426580014BR.GOV.BCB.PIX0136123e4567-e12b-12d1-a456-42665544000027300012BR.COM.OUTRO011001234567895204000053039865406123.455802BR5917NOME DO RECEBEDOR6008BRASILIA61087007490062190515RP12345678-201980390012BR.COM.OUTRO01190123.ABCD.3456.WXYZ6304")
+(deftest crc16-test
+  (testing "biscuit is B8CE"
+    (is (= (crc16-ccitt "biscuit") "B8CE"))
+    (is (= (crc16-ccitt unchecked-code) "AD38"))))

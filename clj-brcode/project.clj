@@ -1,4 +1,4 @@
-(defproject clj-brcode "1.0.0-SNAPSHOT"
+(defproject clj-brcode "1.1.0-SNAPSHOT"
   :description "Clojure wrapper of Rust's `brcode` parser and emitter"
   :url "http:https://github.com/naomijub/brcode"
   :license {:name "LGPL-3.0"
