@@ -25,5 +25,4 @@ jobs:
         | cut -d : -f 2,3 \
         | tr -d \" \
         | wget -qi -
-        ls
         lein test
