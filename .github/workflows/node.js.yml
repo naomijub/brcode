@@ -36,31 +36,31 @@ jobs:
         export LD_LIBRARY_PATH=.    
         npm test
 
-    build-macos:
+  build-macos:
 
-        runs-on: macos-latest
+    runs-on: macos-latest
 
-        strategy:
-            matrix:
-            node-version: [12.x, 14.x]
+    strategy:
+        matrix:
+        node-version: [12.x, 14.x]
 
-        steps:
-        - uses: actions/checkout@v2
-        - name: Use Node.js ${{ matrix.node-version }}
-            uses: actions/setup-node@v1
-            with:
-            node-version: ${{ matrix.node-version }}
-        - name: build
-            run: |
-            cd node-brcode
-            npm install
-        - name: test
-            run: |
-            cd node-brcode
-            curl -s https://api.github.com/repos/naomijub/brcode/releases/latest \
-            | grep "browser_download_url.*dylib" \
-            | cut -d : -f 2,3 \
-            | tr -d \" \
-            | wget -qi -
-            export LD_LIBRARY_PATH=.    
-            npm test
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+        node-version: ${{ matrix.node-version }}
+    - name: build
+        run: |
+        cd node-brcode
+        npm install
+    - name: test
+        run: |
+        cd node-brcode
+        curl -s https://api.github.com/repos/naomijub/brcode/releases/latest \
+        | grep "browser_download_url.*dylib" \
+        | cut -d : -f 2,3 \
+        | tr -d \" \
+        | wget -qi -
+        export LD_LIBRARY_PATH=.    
+        npm test
