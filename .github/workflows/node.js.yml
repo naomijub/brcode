@@ -21,11 +21,14 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - run: |
+    - name: build
+      run: |
         cd node-brcode
         npm install -g node-gyp
+        node-gyp rebuild
         npm ci
-    - run: |
+    - name: test
+      run: |
         cd node-brcode
         curl -s https://api.github.com/repos/naomijub/brcode/releases/latest \
         | grep "browser_download_url.*so" \
