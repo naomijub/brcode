@@ -9,7 +9,7 @@ const code = "00020104141234567890123426580014BR.GOV.BCB.PIX0136123e4567-e12b-12
 
 const json = {
     "payload_version":1,
-    "initiation_methos":null,
+    "initiation_method":null,
     "merchant_account_information": "12345678901234",
     "merchant_information":[
         {"id":26,"info":[

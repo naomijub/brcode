@@ -43,7 +43,7 @@ Output:
 ```json
 {
     "payload_version":1,
-    "initiation_methos":null,
+    "initiation_method":null,
     "merchant_information":[
         {"id":26,"info":[
             {"id":0,"info":"BR.GOV.BCB.PIX"},
@@ -77,7 +77,7 @@ Output:
 const brcode = require('node-brcode');
 const json = {
     "payload_version":1,
-    "initiation_methos":null,
+    "initiation_method":null,
     "merchant_information":[
         {"id":26,"info":[
             {"id":0,"info":"BR.GOV.BCB.PIX"},
