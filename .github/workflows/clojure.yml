@@ -1,4 +1,4 @@
-name: Clojure CI
+name: Clojure
 
 on:
   push:
@@ -13,12 +13,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Install dependencies
-      run: | 
-        make build-linux
-        cd clj-brcode 
-        lein deps
-    - name: Run tests
+    - name: test
       run: |
         cd clj-brcode 
         curl -s https://api.github.com/repos/naomijub/brcode/releases/latest \

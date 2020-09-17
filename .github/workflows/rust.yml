@@ -20,6 +20,7 @@ jobs:
       run: cargo build --release
     - name: Run tests
       run: cargo test --release --verbose
+      
   macos:
 
     runs-on: macos-latest
