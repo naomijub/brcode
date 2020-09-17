@@ -14,7 +14,8 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Install dependencies
-      run: |
+      run: | 
+        make build-macos
         cd clj-brcode 
         lein deps
     - name: test
