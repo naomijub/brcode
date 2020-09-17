@@ -18,3 +18,4 @@ Cargo.lock
 */node_modules
 */.dart_tool/
 */.packages
+*/.calva/
