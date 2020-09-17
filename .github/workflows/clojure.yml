@@ -14,7 +14,9 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Install dependencies
-      run: lein deps
+      run: |
+        cd clj-brcode 
+        lein deps
     - name: test
       run: |
         cd clj-brcode 
