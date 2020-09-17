@@ -9,7 +9,7 @@ on:
 jobs:
   build:
 
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
 
     container:
       image:  google/dart:latest
@@ -24,7 +24,7 @@ jobs:
       run: |
         cd dartbrcode/
         curl -s https://api.github.com/repos/naomijub/brcode/releases/latest \
-        | grep "browser_download_url.*so" \
+        | grep "browser_download_url.*dylib" \
         | cut -d : -f 2,3 \
         | tr -d \" \
         | wget -qi -
