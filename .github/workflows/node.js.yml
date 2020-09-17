@@ -23,6 +23,7 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - run: |
         cd node-brcode
+        npm install -g node-gyp
         npm ci
     - run: |
         cd node-brcode
