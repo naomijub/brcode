@@ -24,7 +24,7 @@ jobs:
     - name: build
       run: |
         cd node-brcode
-        npm ci
+        npm install
     - name: test
       run: |
         cd node-brcode
