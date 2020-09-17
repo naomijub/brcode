@@ -366,6 +366,11 @@ Expected Edn:
 ; "00020104141234567890123426580014BR.GOV.BCB.PIX0136123e4567-e12b-12d1-a456-42665544000027300012BR.COM.OUTRO011001234567895204000053039865406123.455802BR5917NOME DO RECEBEDOR6008BRASILIA61087007490062190515RP12345678-201980390012BR.COM.OUTRO01190123.ABCD.3456.WXYZ6304AD38"
 ```
 
+**Other available functions**:
+- `json->brcode`
+- `brcode->json`
+- `crc16-ccitt`
+
 ### Clojure Benchmark with Criterium
 
 **brcode->edn**
@@ -457,6 +462,8 @@ console.log(brcode.emit(json))
 // "00020104141234567890123426580014BR.GOV.BCB.PIX0136123e4567-e12b-12d1-a456-42665544000027300012BR.COM.OUTRO011001234567895204000053039865406123.455802BR5917NOME DO RECEBEDOR6008BRASILIA61087007490062190515RP12345678-201980390012BR.COM.OUTRO01190123.ABCD.3456.WXYZ6304AD38"
 ```
 
+**Other available functions**:
+- `crc16Ccitt`
 
 ### Node Benchmark with microbench
 
@@ -484,10 +491,64 @@ console.log(brcode.emit(json))
     name: 'both-ways' } 
 ```
 
+### Dart FFI
+[DOCS](https://github.com/naomijub/brcode/blob/master/dartbrcode/README.md)
+
+**Parse**
+```dart
+import 'package:dartbrcode/dartbrcode.dart';
+
+final json = '{"payload_version":1,"initiation_method":null,"merchant_account_information":"12345678901234","merchant_information":[{"id":26,"info":[{"id":0,"info":"BR.GOV.BCB.PIX"},{"id":1,"info":"123e4567-e12b-12d1-a456-426655440000"}]},{"id":27,"info":[{"id":0,"info":"BR.COM.OUTRO"},{"id":1,"info":"0123456789"}]}],"merchant_category_code":0,"merchant_name":"NOME DO RECEBEDOR","merchant_city":"BRASILIA","postal_code":"70074900","currency":"986","amount":123.45,"country_code":"BR","field_template":[{"reference_label":"RP12345678-2019"}],"crc1610":"AD38","templates":[{"id":80,"info":[{"id":0,"info":"BR.COM.OUTRO"},{"id":1,"info":"0123.ABCD.3456.WXYZ"}]}]}';
+
+void main() {
+  jsonToBrcode(json);
+  // '00020104141234567890123426580014BR.GOV.BCB.PIX0136123e4567-e12b-12d1-a456-42665544000027300012BR.COM.OUTRO011001234567895204000053039865406123.455802BR5917NOME DO RECEBEDOR6008BRASILIA61087007490062190515RP12345678-201980390012BR.COM.OUTRO01190123.ABCD.3456.WXYZ6304AD38'
+}
+```
+
+**Emit**
+```dart
+import 'package:dartbrcode/dartbrcode.dart';
+
+final brcode = '00020104141234567890123426580014BR.GOV.BCB.PIX0136123e4567-e12b-12d1-a456-42665544000027300012BR.COM.OUTRO011001234567895204000053039865406123.455802BR5917NOME DO RECEBEDOR6008BRASILIA61087007490062190515RP12345678-201980390012BR.COM.OUTRO01190123.ABCD.3456.WXYZ6304AD38';
+
+void main() {
+  jsonFromBrcode(brcode);
+  // '{"payload_version":1,"initiation_method":null,"merchant_account_information":"12345678901234","merchant_information":[{"id":26,"info":[{"id":0,"info":"BR.GOV.BCB.PIX"},{"id":1,"info":"123e4567-e12b-12d1-a456-426655440000"}]},{"id":27,"info":[{"id":0,"info":"BR.COM.OUTRO"},{"id":1,"info":"0123456789"}]}],"merchant_category_code":0,"merchant_name":"NOME DO RECEBEDOR","merchant_city":"BRASILIA","postal_code":"70074900","currency":"986","amount":123.45,"country_code":"BR","field_template":[{"reference_label":"RP12345678-2019"}],"crc1610":"AD38","templates":[{"id":80,"info":[{"id":0,"info":"BR.COM.OUTRO"},{"id":1,"info":"0123.ABCD.3456.WXYZ"}]}]}'
+}
+```
+
+**Other available functions**:
+- `crc16Ccitt`
+
+### Benchmarks
+
+* with `dart_benchmark`
+**jsonToBrcode**
+```
+For 100 runs: peak: 371 us,	bottom: 048 us,	avg: ~083 us
+```
+
+**brcodeToJson**
+```
+For 100 runs: peak: 327 us,	bottom: 069 us,	avg: ~101 us
+```
+
+* with `benchmark_harness`
+**jsonToBrcode**
+```
+For 10 runs: 207.51774227018055 us.
+```
+
+**brcodeToJson**
+```
+For 10 runs: 378.68780764861793 us.
+```
+
 ## Goals
 - [x] Parse BR Code String;
 - [x] Parse BR Code to `BrCode` struct;
 - [x] Emit BR Code from `Vec<(usize, Data)>`;
 - [x] Emit BR Code from `BrCode` struct;
-- [x] Crc16_ccitt
+- [x] CRC16_CCITT
 - [x] FFI 
