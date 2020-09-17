@@ -25,4 +25,5 @@ jobs:
         | cut -d : -f 2,3 \
         | tr -d \" \
         | wget -qi -
+        export LD_LIBRARY_PATH=.
         lein test
