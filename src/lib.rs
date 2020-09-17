@@ -42,6 +42,13 @@ fn to_c_char(s: &str) -> *const c_char {
     ptr
 }
 
+#[no_mangle]
+pub extern "C" fn crc16_ccitt_from_message(message: *const c_char) -> *const c_char {
+    let message_str = chars_to_string(message);
+    let checksum = crc16_ccitt(&message_str);
+    to_c_char(&checksum)
+}
+
 // Edn
 #[no_mangle]
 pub extern "C" fn edn_from_brcode(edn: *const c_char) -> *const c_char {

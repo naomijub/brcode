@@ -4,11 +4,11 @@ Clojure wrapper of `brcode` to parse and emit [PIX BR Code](https://www.bcb.gov.
 
 ## Usage
 
-1. include in your `project.clj` dependencies `[clj-brcode "1.0.0-SNAPSHOT"]`:
+1. include in your `project.clj` dependencies `[clj-brcode "1.1.0-SNAPSHOT"]`:
 
 ```clojure
   :dependencies [[org.clojure/clojure "1.10.1"]
-                 [clj-brcode "1.0.0-SNAPSHOT"]]
+                 [clj-brcode "1.1.0-SNAPSHOT"]]
 ```
 2. Copy `libbrcode.*` from [brcode](https://github.com/naomijub/brcode/tree/master/clj-brcode) to your Clojure project root:
   - for linux copy `libbrcode.so`.
@@ -67,6 +67,13 @@ Clojure wrapper of `brcode` to parse and emit [PIX BR Code](https://www.bcb.gov.
 
 (= (edn->brcode edn) code)
 
+```
+
+**crc16-ccitt**
+```clojure
+(def unchecked-code "00020104141234567890123426580014BR.GOV.BCB.PIX0136123e4567-e12b-12d1-a456-42665544000027300012BR.COM.OUTRO011001234567895204000053039865406123.455802BR5917NOME DO RECEBEDOR6008BRASILIA61087007490062190515RP12345678-201980390012BR.COM.OUTRO01190123.ABCD.3456.WXYZ6304")
+
+(= (crc16-ccitt unchecked-code) "AD38")
 ```
 
 ## Benchmark with Criterium

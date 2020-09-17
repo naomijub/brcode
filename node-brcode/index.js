@@ -21,6 +21,17 @@ const emit = (json) => {
     });
     return api.json_to_brcode(JSON.stringify(json));
 }
+
+const crc16Ccitt = (message) => {
+    const library_name =  process.platform === "darwin" 
+    ? './libbrcode.dylib'
+    : './libbrcode.so';
+
+    const  api = ffi.Library(library_name, {
+        'crc16_ccitt_from_message': ['string', ['string']]
+    });
+    return api.crc16_ccitt_from_message(message);
+}
 module.exports =  {
-    parse, emit
+    parse, emit, crc16Ccitt
 }

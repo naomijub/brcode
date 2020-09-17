@@ -1,6 +1,6 @@
 use brcode::{
     self, edn_from_brcode, edn_to_brcode, from_str, json_from_brcode, json_to_brcode,
-    str_to_brcode, BrCode, Data, Info, Label, MerchantInfo, Template,
+    str_to_brcode, BrCode, Data, Info, Label, MerchantInfo, Template, crc16_ccitt_from_message
 };
 
 #[test]
@@ -83,6 +83,17 @@ fn json_to_brcode_ffi() {
     let actual = to_string(result);
 
     assert_eq!(actual, code);
+}
+
+#[test]
+fn crc16_test() {
+    let message = "00020101021226740014br.gov.bcb.spi210812345678220412342308123456782420001122334455667788995204000053039865406123.455802BR5913FULANO DE TAL6008BRASILIA62190515RP12345678-201980720014br.gov.bcb.spi2550bx.com.br/spi/U0VHUkVET1RPVEFMTUVOVEVBTEVBVE9SSU8=6304";
+    let expected = "34D1";
+
+    let result = crc16_ccitt_from_message(to_c_char(message.to_string()));
+    let actual = to_string(result);
+
+    assert_eq!(actual, expected);
 }
 
 fn dynamic_code() -> String {
