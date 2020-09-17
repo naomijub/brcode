@@ -9,11 +9,11 @@ on:
 jobs:
   build:
 
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
 
     strategy:
       matrix:
-        node-version: [10.x, 12.x, 14.x]
+        node-version: [10.x]
 
     steps:
     - uses: actions/checkout@v2
@@ -24,12 +24,12 @@ jobs:
     - name: build
       run: |
         cd node-brcode
-        npm install
+        npm ci
     - name: test
       run: |
         cd node-brcode
         curl -s https://api.github.com/repos/naomijub/brcode/releases/latest \
-        | grep "browser_download_url.*dylib" \
+        | grep "browser_download_url.*so" \
         | cut -d : -f 2,3 \
         | tr -d \" \
         | wget -qi -
