@@ -9,6 +9,9 @@ typedef NativeJsonToBrcode = ffi.Pointer<Utf8> Function();
 typedef NativeRustBrcodeToJson = ffi.Pointer<Utf8> Function(ffi.Pointer<Utf8>);
 typedef NativeBrcodeToJson = ffi.Pointer<Utf8> Function();
 
+typedef NativeRustCrc16 = ffi.Pointer<Utf8> Function(ffi.Pointer<Utf8>);
+typedef NativeCrc16 = ffi.Pointer<Utf8> Function();
+
 final osSpecificFile = Platform.isMacOS
     ? "libbrcode.dylib"
     : Platform.isIOS ? "libbrcode.a" : "libbrcode.so";
@@ -36,7 +39,7 @@ String brcodeToJson(String code) {
 
 String crc16Ccitt(String code) {
   final crc16_ccitt_from_message =
-      dl.lookupFunction<NativeRustJsonToBrcode, NativeRustJsonToBrcode>(
+      dl.lookupFunction<NativeRustCrc16, NativeRustCrc16>(
           "crc16_ccitt_from_message");
   final Pointer<Utf8> utf8_message = Utf8.toUtf8(code).cast();
   final checksum = crc16_ccitt_from_message(utf8_message);
