@@ -3,14 +3,8 @@ import 'dart:ffi';
 import 'dart:io';
 import 'package:ffi/ffi.dart';
 
-typedef NativeRustJsonToBrcode = ffi.Pointer<Utf8> Function(ffi.Pointer<Utf8>);
-typedef NativeJsonToBrcode = ffi.Pointer<Utf8> Function();
-
-typedef NativeRustBrcodeToJson = ffi.Pointer<Utf8> Function(ffi.Pointer<Utf8>);
-typedef NativeBrcodeToJson = ffi.Pointer<Utf8> Function();
-
-typedef NativeRustCrc16 = ffi.Pointer<Utf8> Function(ffi.Pointer<Utf8>);
-typedef NativeCrc16 = ffi.Pointer<Utf8> Function();
+typedef NativeRustUt8ToUt8 = ffi.Pointer<Utf8> Function(ffi.Pointer<Utf8>);
+typedef NativeUt8ToUt8 = ffi.Pointer<Utf8> Function(String);
 
 final osSpecificFile = Platform.isMacOS
     ? "libbrcode.dylib"
@@ -18,9 +12,8 @@ final osSpecificFile = Platform.isMacOS
 final ffi.DynamicLibrary dl = ffi.DynamicLibrary.open(osSpecificFile);
 
 String jsonToBrcode(String json) {
-  final json_to_brcode =
-      dl.lookupFunction<NativeRustJsonToBrcode, NativeRustJsonToBrcode>(
-          "json_to_brcode");
+  final json_to_brcode = dl
+      .lookupFunction<NativeRustUt8ToUt8, NativeRustUt8ToUt8>("json_to_brcode");
   final Pointer<Utf8> utf8_brcode = Utf8.toUtf8(json).cast();
   final utf8_from_json = json_to_brcode(utf8_brcode);
 
@@ -29,7 +22,7 @@ String jsonToBrcode(String json) {
 
 String brcodeToJson(String code) {
   final json_from_brcode =
-      dl.lookupFunction<NativeRustBrcodeToJson, NativeRustBrcodeToJson>(
+      dl.lookupFunction<NativeRustUt8ToUt8, NativeRustUt8ToUt8>(
           "json_from_brcode");
   final Pointer<Utf8> utf8_brcode = Utf8.toUtf8(code).cast();
   final utf8_to_json = json_from_brcode(utf8_brcode);
@@ -39,7 +32,7 @@ String brcodeToJson(String code) {
 
 String crc16Ccitt(String code) {
   final crc16_ccitt_from_message =
-      dl.lookupFunction<NativeRustCrc16, NativeRustCrc16>(
+      dl.lookupFunction<NativeRustUt8ToUt8, NativeRustUt8ToUt8>(
           "crc16_ccitt_from_message");
   final Pointer<Utf8> utf8_message = Utf8.toUtf8(code).cast();
   final checksum = crc16_ccitt_from_message(utf8_message);
