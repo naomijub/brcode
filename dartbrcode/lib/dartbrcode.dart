@@ -4,7 +4,6 @@ import 'dart:io';
 import 'package:ffi/ffi.dart';
 
 typedef NativeRustUt8ToUt8 = ffi.Pointer<Utf8> Function(ffi.Pointer<Utf8>);
-typedef NativeUt8ToUt8 = ffi.Pointer<Utf8> Function(String);
 
 final osSpecificFile = Platform.isMacOS
     ? "libbrcode.dylib"
