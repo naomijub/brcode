@@ -7,7 +7,7 @@ Dart wrapper of `brcode` to parse and emit [PIX BR Code](https://www.bcb.gov.br/
 1. Include `dartbrcode` in `pubspec.yaml`
 ```yaml
 dependencies:
-  dartbrcode: ^0.2.0
+  dartbrcode: ^0.3.0
 ```
 2. Copy `libbrcode.*` from [brcode](https://github.com/naomijub/brcode) to your Dart/Flutter project root:
   - for Linux/Android copy `libbrcode.so`.
@@ -143,5 +143,5 @@ For 10 runs: 378.68780764861793 us.
 ## Milestones
 - [x] parse, `brcodeToJson`
 - [x] emit, `jsonToBrcode`
-- [ ] parse returning `Map<String, dynamic>`
-- [ ] emit receiving `Map<String, dynamic>` as args
+- [x] parse returning `Map<String, dynamic>`
+- [x] emit receiving `Map<String, dynamic>` as args
