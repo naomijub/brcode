@@ -11,7 +11,7 @@ A crate to parse and emit [PIX BR Code](https://www.bcb.gov.br/content/estabilid
 
 ```toml
 [dependencies]
-brcode = "1.3.0"
+brcode = "1.3.1"
 ```
 
 ### Build from source
@@ -546,7 +546,7 @@ For 10 runs: 378.68780764861793 us.
 ```
 
 ## Goals
-- [x] Parse BR Code String;
+- [x] Parse BR Code String to  `Vec<(usize, Data)>` (more flexible solution);
 - [x] Parse BR Code to `BrCode` struct;
 - [x] Emit BR Code from `Vec<(usize, Data)>`;
 - [x] Emit BR Code from `BrCode` struct;

@@ -1,6 +1,6 @@
 use brcode::{
-    self, edn_from_brcode, edn_to_brcode, from_str, json_from_brcode, json_to_brcode,
-    str_to_brcode, BrCode, Data, Info, Label, MerchantInfo, Template, crc16_ccitt_from_message
+    self, crc16_ccitt_from_message, edn_from_brcode, edn_to_brcode, from_str, json_from_brcode,
+    json_to_brcode, str_to_brcode, BrCode, Data, Info, Label, MerchantInfo, Template,
 };
 
 #[test]
@@ -45,6 +45,37 @@ fn minimum_breaking_code() {
         Data::Vector(vec![(26usize, Data::Single("oi".to_string()))]),
     )];
     assert_eq!(from_str(code), expected);
+}
+
+#[test]
+fn brcode_is_pix() {
+    let from = str_to_brcode(&code());
+
+    assert!(from.is_pix())
+}
+
+#[test]
+fn brcode_label() {
+    let from = str_to_brcode(&code());
+
+    assert_eq!(
+        from.get_transaction_id(),
+        Some("RP12345678-2019".to_string())
+    )
+}
+
+#[test]
+fn brcode_get_alias() {
+    let from = str_to_brcode(&brcode_with_alias_message());
+
+    assert_eq!(from.get_alias(), Some(vec!["11999887766".to_string()]))
+}
+
+#[test]
+fn brcode_get_message() {
+    let from = str_to_brcode(&brcode_with_alias_message());
+
+    assert_eq!(from.get_message(), Some(vec!["Hello message".to_string()]))
 }
 
 #[test]
@@ -107,12 +138,12 @@ fn code() -> String {
 }
 
 fn json() -> String {
-    "{\"payload_version\":1,\"initiation_method\":null,\"merchant_account_information\":\"12345678901234\",\"merchant_information\":[{\"id\":26,\"info\":[{\"id\":0,\"info\":\"BR.GOV.BCB.PIX\"},{\"id\":1,\"info\":\"123e4567-e12b-12d1-a456-426655440000\"}]},{\"id\":27,\"info\":[{\"id\":0,\"info\":\"BR.COM.OUTRO\"},{\"id\":1,\"info\":\"0123456789\"}]}],\"merchant_category_code\":0,\"merchant_name\":\"NOME DO RECEBEDOR\",\"merchant_city\":\"BRASILIA\",\"postal_code\":\"70074900\",\"currency\":\"986\",\"amount\":123.45,\"country_code\":\"BR\",\"field_template\":[{\"reference_label\":\"RP12345678-2019\"}],\"crc1610\":\"AD38\",\"templates\":[{\"id\":80,\"info\":[{\"id\":0,\"info\":\"BR.COM.OUTRO\"},{\"id\":1,\"info\":\"0123.ABCD.3456.WXYZ\"}]}]}"
+    "{\"payload_version\":1,\"merchant_account_information\":\"12345678901234\",\"merchant_information\":[{\"id\":26,\"info\":[{\"id\":0,\"info\":\"BR.GOV.BCB.PIX\"},{\"id\":1,\"info\":\"123e4567-e12b-12d1-a456-426655440000\"}]},{\"id\":27,\"info\":[{\"id\":0,\"info\":\"BR.COM.OUTRO\"},{\"id\":1,\"info\":\"0123456789\"}]}],\"merchant_category_code\":0,\"merchant_name\":\"NOME DO RECEBEDOR\",\"merchant_city\":\"BRASILIA\",\"postal_code\":\"70074900\",\"currency\":\"986\",\"amount\":123.45,\"country_code\":\"BR\",\"field_template\":[{\"reference_label\":\"RP12345678-2019\"}],\"crc1610\":\"AD38\",\"templates\":[{\"id\":80,\"info\":[{\"id\":0,\"info\":\"BR.COM.OUTRO\"},{\"id\":1,\"info\":\"0123.ABCD.3456.WXYZ\"}]}]}"
     .to_string()
 }
 
 fn edn() -> String {
-    "{ :payload-version 1, :initiation-method nil, :merchant-account-information \"12345678901234\", :merchant-information [{ :id 26, :info [{ :id 0, :info \"BR.GOV.BCB.PIX\", }, { :id 1, :info \"123e4567-e12b-12d1-a456-426655440000\", }], }, { :id 27, :info [{ :id 0, :info \"BR.COM.OUTRO\", }, { :id 1, :info \"0123456789\", }], }], :merchant-category-code 0, :merchant-name \"NOME DO RECEBEDOR\", :merchant-city \"BRASILIA\", :postal-code \"70074900\", :currency \"986\", :amount 123.45, :country-code \"BR\", :field-template [{ :reference-label \"RP12345678-2019\", }], :crc1610 \"AD38\", :templates [{ :id 80, :info [{ :id 0, :info \"BR.COM.OUTRO\", }, { :id 1, :info \"0123.ABCD.3456.WXYZ\", }], }], }"
+    "{ :payload-version 1, :initiation-method nil, :merchant-account-information \"12345678901234\", :merchant-information [{ :id 26, :info [{ :id 0, :info \"BR.GOV.BCB.PIX\", }, { :id 1, :info \"123e4567-e12b-12d1-a456-426655440000\", }], }, { :id 27, :info [{ :id 0, :info \"BR.COM.OUTRO\", }, { :id 1, :info \"0123456789\", }], }], :merchant-category-code 0, :merchant-name \"NOME DO RECEBEDOR\", :merchant-city \"BRASILIA\", :convenience nil, :convenience-fee-fixed nil, :convenience-fee-percentage nil, :postal-code \"70074900\", :currency \"986\", :amount 123.45, :country-code \"BR\", :field-template [{ :reference-label \"RP12345678-2019\", }], :crc1610 \"AD38\", :templates [{ :id 80, :info [{ :id 0, :info \"BR.COM.OUTRO\", }, { :id 1, :info \"0123.ABCD.3456.WXYZ\", }], }], }"
     .to_string()
 }
 
@@ -124,6 +155,9 @@ fn brcode_expected() -> BrCode {
         merchant_category_code: 0000u32,
         merchant_name: "NOME DO RECEBEDOR".to_string(),
         merchant_city: "BRASILIA".to_string(),
+        convenience: None,
+        convenience_fee_fixed: None,
+        convenience_fee_percentage: None,
         merchant_information: vec![
             MerchantInfo {
                 id: 26,
@@ -217,6 +251,11 @@ fn data_expected() -> Vec<(usize, Data)> {
         ),
         (63, Data::Single("AD38".to_string())),
     ]
+}
+
+fn brcode_with_alias_message() -> String {
+    "00020104141234567890123426500014BR.GOV.BCB.PIX0111119998877660213Hello message27300012BR.COM.OUTRO011001234567895204000053039865406123.455802BR5917NOME DO RECEBEDOR6008BRASILIA61087007490062190515RP12345678-201980390012BR.COM.OUTRO01190123.ABCD.3456.WXYZ63049059"
+    .to_string()
 }
 
 // FFI Tests

@@ -6,18 +6,29 @@ use serde_derive::{Deserialize as SerdeDeserialize, Serialize as SerdeSerialize}
 #[derive(Debug, PartialEq, Clone, Serialize, Deserialize, SerdeDeserialize, SerdeSerialize)]
 pub struct BrCode {
     pub payload_version: u8,
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub initiation_method: Option<u8>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub merchant_account_information: Option<String>,
     pub merchant_information: Vec<MerchantInfo>,
     pub merchant_category_code: u32,
     pub merchant_name: String,
     pub merchant_city: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub convenience: Option<String>, //{pub type 55 pub kind pub scalar}
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub convenience_fee_fixed: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")] // {pub type 56 pub kind pub scalar}
+    pub convenience_fee_percentage: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")] // {pub type 57 pub kind pub scalar}
     pub postal_code: Option<String>,
     pub currency: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub amount: Option<f64>,
     pub country_code: String,
     pub field_template: Vec<Label>,
     pub crc1610: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub templates: Option<Vec<Template>>,
 }
 
@@ -107,6 +118,9 @@ impl From<Vec<(usize, Data)>> for BrCode {
             postal_code: hash.get(&61usize).map(crate::aux::Data::to_str),
             currency: hash[&53usize].to_str(),
             amount: hash.get(&54usize).map(|e| e.to_str().parse().unwrap()),
+            convenience: hash.get(&55usize).map(crate::aux::Data::to_str),
+            convenience_fee_fixed: hash.get(&56usize).map(crate::aux::Data::to_str),
+            convenience_fee_percentage: hash.get(&67usize).map(crate::aux::Data::to_str),
             country_code: hash[&58usize].to_str(),
             field_template: vec![Label {
                 reference_label: hash[&62usize].to_hash()[&5usize].to_str(),
@@ -122,6 +136,66 @@ impl From<Vec<(usize, Data)>> for BrCode {
 }
 
 impl BrCode {
+    pub fn is_pix(&self) -> bool {
+        self.merchant_information
+            .iter()
+            .filter(|e| e.id >= 26 && e.id <= 51)
+            .any(|e| {
+                e.info
+                    .iter()
+                    .filter(|i| i.id == 0)
+                    .any(|i| i.info.to_uppercase() == "BR.GOV.BCB.PIX")
+            })
+    }
+
+    pub fn get_transaction_id(&self) -> Option<String> {
+        Some(self.field_template.first()?.reference_label.clone())
+    }
+
+    pub fn get_alias(&self) -> Option<Vec<String>> {
+        if self.is_pix() {
+            Some(
+                self.merchant_information
+                    .iter()
+                    .filter(|e| e.id >= 26 && e.id <= 51)
+                    .flat_map(|e| {
+                        e.info
+                            .iter()
+                            .filter(|i| {
+                                i.id == 1 && e.info.first().unwrap().info == "BR.GOV.BCB.PIX"
+                            })
+                            .map(|i| i.info.clone())
+                            .collect::<Vec<String>>()
+                    })
+                    .collect::<Vec<String>>(),
+            )
+        } else {
+            None
+        }
+    }
+
+    pub fn get_message(&self) -> Option<Vec<String>> {
+        if self.is_pix() {
+            Some(
+                self.merchant_information
+                    .iter()
+                    .filter(|e| e.id >= 26 && e.id <= 51)
+                    .flat_map(|e| {
+                        e.info
+                            .iter()
+                            .filter(|i| {
+                                i.id == 2 && e.info.first().unwrap().info == "BR.GOV.BCB.PIX"
+                            })
+                            .map(|i| i.info.clone())
+                            .collect::<Vec<String>>()
+                    })
+                    .collect::<Vec<String>>(),
+            )
+        } else {
+            None
+        }
+    }
+
     pub fn encode(self) -> String {
         let mut encode = String::new();
         encode.push_str(&format!("0002{:02}", self.payload_version));
@@ -147,6 +221,18 @@ impl BrCode {
         match self.amount {
             None => (),
             Some(a) => encode.push_str(&format!("54{:02}{}", a.to_string().len(), a)),
+        }
+        match self.convenience {
+            None => (),
+            Some(c) => encode.push_str(&format!("5502{}", c)),
+        }
+        match self.convenience_fee_fixed {
+            None => (),
+            Some(c) => encode.push_str(&format!("56{:02}{}", c.to_string().len(), c)),
+        }
+        match self.convenience_fee_percentage {
+            None => (),
+            Some(c) => encode.push_str(&format!("57{:02}{}", c.to_string().len(), c)),
         }
         encode.push_str(&format!("5802{}", self.country_code));
         encode.push_str(&format!(
@@ -213,6 +299,9 @@ mod test {
             merchant_category_code: 0000u32,
             merchant_name: "NOME DO RECEBEDOR".to_string(),
             merchant_city: "BRASILIA".to_string(),
+            convenience: None,
+            convenience_fee_fixed: None,
+            convenience_fee_percentage: None,
             merchant_information: vec![
                 MerchantInfo {
                     id: 26,
@@ -278,6 +367,9 @@ mod test {
             merchant_category_code: 0000u32,
             merchant_name: "NOME DO RECEBEDOR".to_string(),
             merchant_city: "BRASILIA".to_string(),
+            convenience: None,
+            convenience_fee_fixed: None,
+            convenience_fee_percentage: None,
             merchant_information: vec![
                 MerchantInfo {
                     id: 26,
