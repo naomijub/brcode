@@ -282,6 +282,12 @@ fn brcode_value() -> BrCode {
 }
 ```
 
+**`BrCode` functions**
+* `pub fn is_pix(&self) -> bool` determines if BrCode is a `PIX` transaction.
+* `pub fn get_transaction_id(&self) -> Option<String>` gets `transaction_id` value (field 5 of item 65).
+* `pub fn get_alias(&self) -> Option<Vec<String>>` gets all possible values for PIX aliases. Usually only field 1 of item 26 is valid. Checks if the alias if of type `"BR.GOV.BCB.PIX"`.
+* `pub fn get_message(&self) -> Option<Vec<String>>` gets all possible massages for PIX aliases. Usually only field 2 of item 26 is valid. Checks if the alias if of type `"BR.GOV.BCB.PIX"`.
+
 ## Benchmark
 
 **from_str** in `benches/parse.rs`
