@@ -52,22 +52,23 @@ impl FromIterator<(usize, parse::Data)> for HashBrCode {
 }
 
 pub fn crc16_ccitt(message: &str) -> String {
-    let mut crc: u16 = 0xFFFF;          // initial value
-    let polynomial: u16 = 0x1021;   // 0001 0000 0010 0001  (0, 5, 12) 
+    let mut crc: u16 = 0xFFFF; // initial value
+    let polynomial: u16 = 0x1021; // 0001 0000 0010 0001  (0, 5, 12)
     let bytes = message.as_bytes();
 
     for b in bytes {
         for i in 0u16..8u16 {
-            let bit = (b   >> (7-i) & 1) == 1;
-            let c15 = (crc >> 15    & 1) == 1;
+            let bit = (b >> (7 - i) & 1) == 1;
+            let c15 = (crc >> 15 & 1) == 1;
             crc <<= 1;
-            if c15 ^ bit {crc ^= polynomial};
+            if c15 ^ bit {
+                crc ^= polynomial
+            };
         }
     }
 
     crc &= 0xffff;
-    
-    
+
     format!("{:X}", crc)
 }
 
