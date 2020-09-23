@@ -15,7 +15,6 @@ const unchecked_code = "00020104141234567890123426580014BR.GOV.BCB.PIX0136123e45
 
 const json = {
     "payload_version":1,
-    "initiation_method":null,
     "merchant_account_information": "12345678901234",
     "merchant_information":[
         {"id":26,"info":[
