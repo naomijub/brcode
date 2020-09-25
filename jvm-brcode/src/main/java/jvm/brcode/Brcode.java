@@ -12,6 +12,7 @@ public class Brcode {
     public interface LibC {
         String json_from_brcode(String s);
         String json_to_brcode(String s);
+        String crc16_ccitt_from_message(String s);
     }
 
     public boolean someBrcodeMethod() {
@@ -24,5 +25,9 @@ public class Brcode {
 
     public String jsonToBrcode(String json) {
         return libc.json_to_brcode(json);
+    }
+
+    public String crc16CCITTFromMessage(String message) {
+        return libc.crc16_ccitt_from_message(message);
     }
 }
