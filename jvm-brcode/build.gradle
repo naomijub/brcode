@@ -1,0 +1,42 @@
+plugins {
+    id 'java-library'
+    id 'maven-publish'
+}
+
+repositories {
+    jcenter()
+}
+
+publishing {
+    publications {
+        brcodeLib(MavenPublication) {
+            from components.java
+            pom {
+                name = "jvm-brcode"
+                description = "Java wrapper for PIX BRCODE"
+                url = "https://github.com/naomijub/brcode"
+                licenses {
+                    license {
+                        name = "GNU Lesser General Public License v3.0"
+                        url = "https://github.com/naomijub/brcode/blob/master/LICENSE"
+                    }
+                }
+                developers {
+                    developer {
+                        id = "naomijub"
+                        name = "Julia Naomi"
+                        email = "jnboeira@outlook.com"
+                    }
+                }
+            }
+        }
+    }
+}
+
+version = '0.1.0'
+dependencies {
+
+    implementation 'com.github.jnr:jnr-ffi:2.1.10'
+
+    testImplementation 'junit:junit:4.13'
+}
