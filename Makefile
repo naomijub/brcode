@@ -15,3 +15,7 @@ build-linux:
 
 build: build-macos
 	DOCKER_BUILDKIT=1 docker build --file Dockerfile --output out . || cp out/libbrcode.so ./
+	cp ./libbrcode.so clj-brcode/
+	cp ./libbrcode.so node-brcode/
+	cp ./libbrcode.so dartbrcode/
+	cp ./libbrcode.so jvm-brcode/
