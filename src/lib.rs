@@ -6,6 +6,7 @@ pub(crate) mod parse;
 pub use aux::crc16_ccitt;
 pub use model::{BrCode, Info, Label, MerchantInfo, Template};
 pub use parse::Data;
+pub use qrcode_generator::QrCodeEcc;
 
 pub fn from_str(code: &str) -> Vec<(usize, parse::Data)> {
     parse::parse(code, 99)
@@ -65,6 +66,23 @@ pub extern "C" fn edn_to_brcode(edn: *const c_char) -> *const c_char {
     to_c_char(&brcode_to_string(brcode))
 }
 
+#[no_mangle]
+pub extern "C" fn edn_to_svg_brcode(edn: *const c_char) -> *const c_char {
+    let edn_str = chars_to_string(edn);
+    let brcode: BrCode = edn_rs::from_str(&edn_str).unwrap();
+    let svg = brcode.to_svg_standard_string();
+
+    to_c_char(&svg)
+}
+
+#[no_mangle]
+pub extern "C" fn edn_to_svg_file(edn: *const c_char, file_path: *const c_char) {
+    let edn_str = chars_to_string(edn);
+    let file_path_str = chars_to_string(file_path);
+    let brcode: BrCode = edn_rs::from_str(&edn_str).unwrap();
+    brcode.to_standard_svg_file(&file_path_str);
+}
+
 // Json
 #[no_mangle]
 pub extern "C" fn json_from_brcode(json: *const c_char) -> *const c_char {
@@ -74,9 +92,26 @@ pub extern "C" fn json_from_brcode(json: *const c_char) -> *const c_char {
 }
 
 #[no_mangle]
-pub extern "C" fn json_to_brcode(edn: *const c_char) -> *const c_char {
-    let edn_str = chars_to_string(edn);
-    let brcode: BrCode = serde_json::from_str(&edn_str).unwrap();
+pub extern "C" fn json_to_brcode(json: *const c_char) -> *const c_char {
+    let json_str = chars_to_string(json);
+    let brcode: BrCode = serde_json::from_str(&json_str).unwrap();
 
     to_c_char(&brcode_to_string(brcode))
+}
+
+#[no_mangle]
+pub extern "C" fn json_to_svg_brcode(json: *const c_char) -> *const c_char {
+    let json_str = chars_to_string(json);
+    let brcode: BrCode = serde_json::from_str(&json_str).unwrap();
+    let svg = brcode.to_svg_standard_string();
+
+    to_c_char(&svg)
+}
+
+#[no_mangle]
+pub extern "C" fn json_to_svg_file(json: *const c_char, file_path: *const c_char) {
+    let json_str = chars_to_string(json);
+    let file_path_str = chars_to_string(file_path);
+    let brcode: BrCode = serde_json::from_str(&json_str).unwrap();
+    brcode.to_standard_svg_file(&file_path_str);
 }

@@ -11,7 +11,7 @@ A crate to parse and emit [PIX BR Code](https://www.bcb.gov.br/content/estabilid
 
 ```toml
 [dependencies]
-brcode = "1.3.1"
+brcode = "1.4.0"
 ```
 
 ### Build from source
@@ -282,11 +282,26 @@ fn brcode_value() -> BrCode {
 }
 ```
 
-**`BrCode` functions**
+**`BrCode` functions** context related
 * `pub fn is_pix(&self) -> bool` determines if BrCode is a `PIX` transaction.
 * `pub fn get_transaction_id(&self) -> Option<String>` gets `transaction_id` value (field 5 of item 65).
 * `pub fn get_alias(&self) -> Option<Vec<String>>` gets all possible values for PIX aliases. Usually only field 1 of item 26 is valid. Checks if the alias if of type `"BR.GOV.BCB.PIX"`.
 * `pub fn get_message(&self) -> Option<Vec<String>>` gets all possible massages for PIX aliases. Usually only field 2 of item 26 is valid. Checks if the alias if of type `"BR.GOV.BCB.PIX"`.
+
+**`BrCode` functions** QrCode generation related:
+* `to_svg_string(&self, ecc: QrCodeEcc, size: usize) -> String` generates a SVG xml in a String.
+* `to_svg_standard_string(&self) -> String` generates a SVG xml in a String with `QrCodeEcc::Low` and `size = 1024`.
+* `to_vec_u8(&self, ecc: QrCodeEcc, size: usize) -> Vec<u8>` generates a PNG formatted in `Vec<u8>`.
+* `to_svg_file(&self, file_path: &str, ecc: QrCodeEcc, size: usize)` creates a QR Code in format `.svg` located at file path `file_path`.
+* `to_standard_svg_file(&self, file_path: &str)` creates a QR Code in format `.svg` located at file path `file_path` with `QrCodeEcc::Low` and `size = 1024`.
+* `to_png_file(&self, file_path: &str, ecc: QrCodeEcc, size: usize)` creates a QR Code in format `.png` located at file path `file_path`.
+
+* `file_path` examples are `tests/data/file_output.png` and `tests/data/file_output.svg` from the project root. If directory doesn't exist an error will be thrown. 
+* `QrCodeEcc` is the error correction level in a QR Code symbol and `size` is the image size.
+    * `QrCodeEcc::Low` The QR Code can tolerate about 7% erroneous codewords.
+    * `QrCodeEcc::Medium` The QR Code can tolerate about 15% erroneous codewords.
+    * `QrCodeEcc::Quartile` The QR Code can tolerate about 25% erroneous codewords.
+    * `QrCodeEcc::High` The QR Code can tolerate about 30% erroneous codewords.
 
 ## Benchmark
 

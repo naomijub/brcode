@@ -2,6 +2,7 @@ use crate::aux::HashBrCode;
 use crate::parse::Data;
 use edn_derive::{Deserialize, Serialize};
 use serde_derive::{Deserialize as SerdeDeserialize, Serialize as SerdeSerialize};
+use qrcode_generator::QrCodeEcc;
 
 #[derive(Debug, PartialEq, Clone, Serialize, Deserialize, SerdeDeserialize, SerdeSerialize)]
 pub struct BrCode {
@@ -272,6 +273,39 @@ impl BrCode {
         encode.push_str(&crc16);
         encode
     }
+
+    pub fn to_svg_string(&self, ecc: QrCodeEcc, size: usize) -> String {
+        let brcode = self.clone().encode();
+        let result: String = qrcode_generator::to_svg_to_string(&brcode.clone(), ecc, size, Some(brcode)).unwrap();
+        result
+    }
+
+    pub fn to_svg_standard_string(&self) -> String {
+        let brcode = self.clone().encode();
+        let result: String = qrcode_generator::to_svg_to_string(&brcode.clone(), QrCodeEcc::Low, 1024, Some(brcode)).unwrap();
+        result
+    }
+
+    pub fn to_vec_u8(&self, ecc: QrCodeEcc, size: usize) -> Vec<u8> {
+        let brcode = self.clone().encode();
+        let result = qrcode_generator::to_png_to_vec(&brcode, ecc, size).unwrap();
+        result
+    }
+
+    pub fn to_svg_file(&self, file_path: &str, ecc: QrCodeEcc, size: usize) {
+        let brcode = self.clone().encode();
+        qrcode_generator::to_svg_to_file(&brcode.clone(), ecc, size, Some(brcode), file_path).unwrap();
+    }
+
+    pub fn to_standard_svg_file(&self, file_path: &str) {
+        let brcode = self.clone().encode();
+        qrcode_generator::to_svg_to_file(&brcode.clone(), QrCodeEcc::Low, 1024, Some(brcode), file_path).unwrap();
+    }
+
+    pub fn to_png_file(&self, file_path: &str, ecc: QrCodeEcc, size: usize) {
+        let brcode = self.clone().encode();
+        qrcode_generator::to_png_to_file(&brcode.clone(), ecc, size, file_path).unwrap();
+    }
 }
 
 #[cfg(test)]
@@ -289,6 +323,12 @@ mod test {
         let expected = encoded();
 
         assert_eq!(actual, expected);
+    }
+
+    #[test]
+    fn brcode_to_svg() {
+        let svg = expected().to_svg_standard_string();
+        assert_eq!(&svg[38..42], "<svg");
     }
 
     fn expected() -> BrCode {
