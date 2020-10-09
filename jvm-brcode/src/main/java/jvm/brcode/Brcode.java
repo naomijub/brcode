@@ -1,7 +1,6 @@
 package jvm.brcode;
 
 import jnr.ffi.LibraryLoader;
-import jnr.ffi.Runtime;
 
 public class Brcode {
     private LibC libc;

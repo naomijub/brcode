@@ -19,3 +19,4 @@ Cargo.lock
 */.dart_tool/
 */.packages
 */.calva/
+*/.idea
