@@ -19,6 +19,7 @@ brcode = "1.4.1"
 2. `make build-macos` for macos and ios files or `make build-linux` for linux and android files.
 3. Files will be located at `target/release/libbrcode.*`, `target/<target-platform>/release/libbrcode.so`.
 4. Copy them to the root of your project.
+5. For JVM it is important to run `export LD_LIBRARY_PATH=.` at the root of the project
 
 ### Copy files from Github Release
 Shellscript to get files from release:
