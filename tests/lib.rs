@@ -1,6 +1,6 @@
 use brcode::{
     self, crc16_ccitt_from_message, edn_from_brcode, edn_to_brcode, from_str, json_from_brcode,
-    json_to_brcode, str_to_brcode, BrCode, Data, Info, Label, MerchantInfo, Template,
+    json_to_brcode, str_to_brcode, read_qrcode, BrCode, Data, Info, Label, MerchantInfo, Template,
 };
 
 #[test]
@@ -69,6 +69,15 @@ fn brcode_get_alias() {
     let from = str_to_brcode(&brcode_with_alias_message());
 
     assert_eq!(from.get_alias(), Some(vec!["11999887766".to_string()]))
+}
+
+#[test]
+fn read_a_brcode_image_to_str() {
+    let brcode_str = read_qrcode("qrcode.png".to_string());
+
+    assert_eq!(
+        brcode_str, 
+        vec!["00020101021126440014br.gov.bcb.spi0122fulano2019@example.com5204000053039865802BR5913FULANO DE TAL6008BRASILIA6304DFE3"]);
 }
 
 #[test]

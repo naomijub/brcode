@@ -25,6 +25,14 @@ pub fn str_to_brcode(code: &str) -> BrCode {
     BrCode::from(codes)
 }
 
+pub fn read_qrcode(path: String) -> Vec<String> {
+    let img = image::open(&path).unwrap();
+    let decoder = bardecoder::default_decoder();
+    let results = decoder.decode(&img);
+
+    results.into_iter().map(|e| e.unwrap_or(String::from(""))).collect::<Vec<String>>()
+}
+
 // FFI
 use std::ffi::{CStr, CString};
 use std::mem;
