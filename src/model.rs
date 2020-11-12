@@ -23,7 +23,8 @@ pub struct BrCode {
     pub convenience_fee_percentage: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")] // {pub type 57 pub kind pub scalar}
     pub postal_code: Option<String>,
-    pub currency: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub currency: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub amount: Option<f64>,
     pub country_code: String,
@@ -35,7 +36,8 @@ pub struct BrCode {
 
 #[derive(Debug, PartialEq, Clone, Serialize, Deserialize, SerdeDeserialize, SerdeSerialize)]
 pub struct Label {
-    pub reference_label: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub reference_label: Option<String>,
 }
 
 #[derive(Debug, PartialEq, Clone, Serialize, Deserialize, SerdeDeserialize, SerdeSerialize)]
@@ -117,14 +119,14 @@ impl From<Vec<(usize, Data)>> for BrCode {
             merchant_name: hash[&59usize].to_str(),
             merchant_city: hash[&60usize].to_str(),
             postal_code: hash.get(&61usize).map(crate::aux::Data::to_str),
-            currency: hash[&53usize].to_str(),
+            currency: hash.get(&53usize).map(|e| e.to_str().parse().unwrap()),
             amount: hash.get(&54usize).map(|e| e.to_str().parse().unwrap()),
             convenience: hash.get(&55usize).map(crate::aux::Data::to_str),
             convenience_fee_fixed: hash.get(&56usize).map(crate::aux::Data::to_str),
             convenience_fee_percentage: hash.get(&67usize).map(crate::aux::Data::to_str),
             country_code: hash[&58usize].to_str(),
             field_template: vec![Label {
-                reference_label: hash[&62usize].to_hash()[&5usize].to_str(),
+                reference_label: hash.get(&62usize).map(|e| e.to_hash()[&5usize].to_str()),
             }],
             crc1610: hash[&63usize].to_str(),
             templates: if templates.is_empty() {
@@ -150,7 +152,7 @@ impl BrCode {
     }
 
     pub fn get_transaction_id(&self) -> Option<String> {
-        Some(self.field_template.first()?.reference_label.clone())
+        self.field_template.first()?.reference_label.clone()
     }
 
     pub fn get_alias(&self) -> Option<Vec<String>> {
@@ -218,7 +220,10 @@ impl BrCode {
             });
         });
         encode.push_str(&format!("5204{:04}", self.merchant_category_code));
-        encode.push_str(&format!("5303{:02}", self.currency));
+        match self.currency {
+            None => (),
+            Some(c) => encode.push_str(&format!("5303{:02}", c))
+        }
         match self.amount {
             None => (),
             Some(a) => encode.push_str(&format!("54{:02}{}", a.to_string().len(), a)),
@@ -251,11 +256,14 @@ impl BrCode {
             Some(p) => encode.push_str(&format!("61{:02}{}", p.to_string().len(), p)),
         }
         let field_template = self.field_template[0].reference_label.clone();
-        encode.push_str(&format!(
-            "62{:02}{}",
-            field_template.len() + 4,
-            format!("05{:02}{}", field_template.len(), field_template)
-        ));
+        match field_template {
+            None => (),
+            Some(f) => encode.push_str(&format!(
+                "62{:02}{}",
+                f.len() + 4,
+                format!("05{:02}{}", f.len(), f)
+            ))
+        }
         //80-99
         match self.templates {
             None => (),
@@ -299,7 +307,10 @@ impl BrCode {
             });
         });
         encode.push_str(&format!("5204{:04}", self.merchant_category_code));
-        encode.push_str(&format!("5303{:02}", self.currency));
+        match self.currency.clone() {
+            None => (),
+            Some(c) => encode.push_str(&format!("5303{:02}", c))
+        }
         match self.amount {
             None => (),
             Some(a) => encode.push_str(&format!("54{:02}{}", a.to_string().len(), a)),
@@ -332,11 +343,14 @@ impl BrCode {
             Some(p) => encode.push_str(&format!("61{:02}{}", p.to_string().len(), p)),
         }
         let field_template = self.field_template[0].reference_label.clone();
-        encode.push_str(&format!(
-            "62{:02}{}",
-            field_template.len() + 4,
-            format!("05{:02}{}", field_template.len(), field_template)
-        ));
+        match field_template {
+            None => (),
+            Some(f) => encode.push_str(&format!(
+                "62{:02}{}",
+                f.len() + 4,
+                format!("05{:02}{}", f.len(), f)
+            ))
+        }
         //80-99
         match self.templates.clone() {
             None => (),
@@ -485,12 +499,12 @@ mod test {
                     ],
                 },
             ],
-            currency: "986".to_string(),
+            currency: Some("986".to_string()),
             postal_code: Some("70074900".to_string()),
             amount: Some(123.45),
             country_code: "BR".to_string(),
             field_template: vec![Label {
-                reference_label: "RP12345678-2019".to_string(),
+                reference_label: Some("RP12345678-2019".to_string()),
             }],
             crc1610: "AD38".to_string(),
             templates: Some(vec![Template {
@@ -553,12 +567,12 @@ mod test {
                     ],
                 },
             ],
-            currency: "986".to_string(),
+            currency: Some("986".to_string()),
             postal_code: Some("70074900".to_string()),
             amount: Some(123.45),
             country_code: "BR".to_string(),
             field_template: vec![Label {
-                reference_label: "RP12345678-2019".to_string(),
+                reference_label: Some("RP12345678-2019".to_string()),
             }],
             crc1610: "AE38".to_string(),
             templates: Some(vec![Template {

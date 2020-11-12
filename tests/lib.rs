@@ -1,6 +1,6 @@
 use brcode::{
     self, crc16_ccitt_from_message, edn_from_brcode, edn_to_brcode, from_str, json_from_brcode,
-    json_to_brcode, str_to_brcode, read_qrcode, BrCode, Data, Info, Label, MerchantInfo, Template,
+    json_to_brcode, str_to_brcode, read_qrcode, read_qrcode_as_brcode, BrCode, Data, Info, Label, MerchantInfo, Template,
 };
 
 #[test]
@@ -35,6 +35,13 @@ fn test_brcode_to_string() {
 #[test]
 fn test_str_to_brcode() {
     assert_eq!(str_to_brcode(&code()), brcode_expected());
+}
+
+#[test]
+fn haha() {
+    let c = str_to_brcode("00020101021126440014br.gov.bcb.spi0122fulano2019@example.com5204000053039865802BR5913FULANO DE TAL6008BRASILIA6304DFE3");
+    let d = brcode_expected();
+    assert_eq!(c, d);
 }
 
 #[test]
@@ -78,6 +85,15 @@ fn read_a_brcode_image_to_str() {
     assert_eq!(
         brcode_str, 
         vec!["00020101021126440014br.gov.bcb.spi0122fulano2019@example.com5204000053039865802BR5913FULANO DE TAL6008BRASILIA6304DFE3"]);
+}
+
+#[test]
+fn read_a_brcode_image_to_brcode() {
+    let brcode_str = read_qrcode_as_brcode("qrcode.png".to_string());
+
+    assert_eq!(
+        brcode_str, 
+        vec![brcode_expected()]);
 }
 
 #[test]
@@ -195,12 +211,12 @@ fn brcode_expected() -> BrCode {
                 ],
             },
         ],
-        currency: "986".to_string(),
+        currency: Some("986".to_string()),
         postal_code: Some("70074900".to_string()),
         amount: Some(123.45),
         country_code: "BR".to_string(),
         field_template: vec![Label {
-            reference_label: "RP12345678-2019".to_string(),
+            reference_label: Some("RP12345678-2019".to_string()),
         }],
         crc1610: "AD38".to_string(),
         templates: Some(vec![Template {
