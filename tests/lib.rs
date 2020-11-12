@@ -1,6 +1,7 @@
 use brcode::{
     self, crc16_ccitt_from_message, edn_from_brcode, edn_to_brcode, from_str, json_from_brcode,
-    json_to_brcode, str_to_brcode, read_qrcode, read_qrcode_as_brcode, BrCode, Data, Info, Label, MerchantInfo, Template,
+    json_to_brcode, read_qrcode, read_qrcode_as_brcode, str_to_brcode, BrCode, Data, Info, Label,
+    MerchantInfo, Template,
 };
 
 #[test]
@@ -38,10 +39,10 @@ fn test_str_to_brcode() {
 }
 
 #[test]
-fn haha() {
-    let c = str_to_brcode("00020101021126440014br.gov.bcb.spi0122fulano2019@example.com5204000053039865802BR5913FULANO DE TAL6008BRASILIA6304DFE3");
-    let d = brcode_expected();
-    assert_eq!(c, d);
+fn reference_label_none_test() {
+    let actual = vec![str_to_brcode("00020101021126440014br.gov.bcb.spi0122fulano2019@example.com5204000053039865802BR5913FULANO DE TAL6008BRASILIA6304DFE3")];
+    let expected = read_brcode_expected();
+    assert_eq!(actual, expected);
 }
 
 #[test]
@@ -83,7 +84,7 @@ fn read_a_brcode_image_to_str() {
     let brcode_str = read_qrcode("qrcode.png".to_string());
 
     assert_eq!(
-        brcode_str, 
+        brcode_str,
         vec!["00020101021126440014br.gov.bcb.spi0122fulano2019@example.com5204000053039865802BR5913FULANO DE TAL6008BRASILIA6304DFE3"]);
 }
 
@@ -91,9 +92,7 @@ fn read_a_brcode_image_to_str() {
 fn read_a_brcode_image_to_brcode() {
     let brcode_str = read_qrcode_as_brcode("qrcode.png".to_string());
 
-    assert_eq!(
-        brcode_str, 
-        vec![brcode_expected()]);
+    assert_eq!(brcode_str, read_brcode_expected());
 }
 
 #[test]
@@ -170,6 +169,42 @@ fn json() -> String {
 fn edn() -> String {
     "{ :payload-version 1, :initiation-method nil, :merchant-account-information \"12345678901234\", :merchant-information [{ :id 26, :info [{ :id 0, :info \"BR.GOV.BCB.PIX\", }, { :id 1, :info \"123e4567-e12b-12d1-a456-426655440000\", }], }, { :id 27, :info [{ :id 0, :info \"BR.COM.OUTRO\", }, { :id 1, :info \"0123456789\", }], }], :merchant-category-code 0, :merchant-name \"NOME DO RECEBEDOR\", :merchant-city \"BRASILIA\", :convenience nil, :convenience-fee-fixed nil, :convenience-fee-percentage nil, :postal-code \"70074900\", :currency \"986\", :amount 123.45, :country-code \"BR\", :field-template [{ :reference-label \"RP12345678-2019\", }], :crc1610 \"AD38\", :templates [{ :id 80, :info [{ :id 0, :info \"BR.COM.OUTRO\", }, { :id 1, :info \"0123.ABCD.3456.WXYZ\", }], }], }"
     .to_string()
+}
+
+fn read_brcode_expected() -> Vec<BrCode> {
+    vec![BrCode {
+        payload_version: 1,
+        initiation_method: Some(11),
+        merchant_account_information: None,
+        merchant_information: vec![MerchantInfo {
+            id: 26,
+            info: vec![
+                Info {
+                    id: 0,
+                    info: "br.gov.bcb.spi".to_string(),
+                },
+                Info {
+                    id: 1,
+                    info: "fulano2019@example.com".to_string(),
+                },
+            ],
+        }],
+        merchant_category_code: 0,
+        merchant_name: "FULANO DE TAL".to_string(),
+        merchant_city: "BRASILIA".to_string(),
+        convenience: None,
+        convenience_fee_fixed: None,
+        convenience_fee_percentage: None,
+        postal_code: None,
+        currency: Some("986".to_string()),
+        amount: None,
+        country_code: "BR".to_string(),
+        field_template: vec![Label {
+            reference_label: None,
+        }],
+        crc1610: "DFE3".to_string(),
+        templates: None,
+    }]
 }
 
 fn brcode_expected() -> BrCode {

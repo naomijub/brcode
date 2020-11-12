@@ -222,7 +222,7 @@ impl BrCode {
         encode.push_str(&format!("5204{:04}", self.merchant_category_code));
         match self.currency {
             None => (),
-            Some(c) => encode.push_str(&format!("5303{:02}", c))
+            Some(c) => encode.push_str(&format!("5303{:02}", c)),
         }
         match self.amount {
             None => (),
@@ -262,7 +262,7 @@ impl BrCode {
                 "62{:02}{}",
                 f.len() + 4,
                 format!("05{:02}{}", f.len(), f)
-            ))
+            )),
         }
         //80-99
         match self.templates {
@@ -309,7 +309,7 @@ impl BrCode {
         encode.push_str(&format!("5204{:04}", self.merchant_category_code));
         match self.currency.clone() {
             None => (),
-            Some(c) => encode.push_str(&format!("5303{:02}", c))
+            Some(c) => encode.push_str(&format!("5303{:02}", c)),
         }
         match self.amount {
             None => (),
@@ -349,7 +349,7 @@ impl BrCode {
                 "62{:02}{}",
                 f.len() + 4,
                 format!("05{:02}{}", f.len(), f)
-            ))
+            )),
         }
         //80-99
         match self.templates.clone() {
