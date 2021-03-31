@@ -69,7 +69,24 @@ pub fn crc16_ccitt(message: &str) -> String {
 
     crc &= 0xffff;
 
-    format!("{:X}", crc)
+    format!("{:X}", crc).prepend_remaining_length(4, '0')
+}
+
+trait Field {
+    fn prepend_remaining_length(&self, length: usize, character: char) -> String;
+}
+
+impl Field for String {
+    fn prepend_remaining_length(&self, length: usize, character: char) -> String {
+        let mut string = self.to_owned();
+        let limit = length - string.len();
+
+        for _i in 0..limit {
+            string.insert(0, character);
+        }
+
+        string
+    }
 }
 
 #[cfg(test)]
@@ -153,5 +170,17 @@ mod test {
         let hash: HashBrCode = vec.into_iter().collect();
 
         assert_eq!(hash.0, expected);
+    }
+
+    #[test]
+    fn prepends_the_remaining_length() {
+        let missing_characters = "123".to_string();
+        let with_all_characters = "12345".to_string();
+
+        assert_eq!(missing_characters.prepend_remaining_length(5, '0'), "00123");
+        assert_eq!(
+            with_all_characters.prepend_remaining_length(5, '0'),
+            "12345"
+        );
     }
 }

@@ -33,9 +33,17 @@ fn test_brcode_to_string() {
 }
 
 #[test]
-fn test_brcode_to_string_cents_edge_case() {
+fn test_brcode_to_string_cents_edge_case1() {
     let actual = brcode::brcode_to_string(brcode_expected(Some(1.1)));
     let expected = code(Some(1.1), Some("A6C1"));
+
+    assert_eq!(actual, expected);
+}
+
+#[test]
+fn test_brcode_to_string_cents_edge_case2() {
+    let actual = brcode::brcode_to_string(brcode_expected(Some(1.0)));
+    let expected = code(Some(1.0), Some("0B9A"));
 
     assert_eq!(actual, expected);
 }
