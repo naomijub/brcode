@@ -35,7 +35,7 @@ fn test_brcode_to_string() {
 #[test]
 fn test_brcode_to_string_cents_edge_case1() {
     let actual = brcode::brcode_to_string(brcode_expected(Some(1.1)));
-    let expected = code(Some(1.1), Some("A6C1"));
+    let expected = code(Some(1.1), Some("779A"));
 
     assert_eq!(actual, expected);
 }
@@ -43,7 +43,7 @@ fn test_brcode_to_string_cents_edge_case1() {
 #[test]
 fn test_brcode_to_string_cents_edge_case2() {
     let actual = brcode::brcode_to_string(brcode_expected(Some(1.0)));
-    let expected = code(Some(1.0), Some("0B9A"));
+    let expected = code(Some(1.0), Some("5A3D"));
 
     assert_eq!(actual, expected);
 }
@@ -150,7 +150,7 @@ fn dynamic_code() -> String {
 
 fn code(amount: Option<f64>, crc16: Option<&str>) -> String {
     let amount = amount.unwrap_or(123.45);
-    let amount_size = amount.to_string().len();
+    let amount_size = format!("{:.2}", amount).len();
     format!("00020104141234567890123426580014BR.GOV.BCB.PIX0136123e4567-e12b-12d1-a456-42665544000027300012BR.COM.OUTRO0110012345678952040000530398654{:02}{:.2}5802BR5917NOME DO RECEBEDOR6008BRASILIA61087007490062190515RP12345678-201980390012BR.COM.OUTRO01190123.ABCD.3456.WXYZ6304{}", amount_size, amount, crc16.unwrap_or("AD38"))
 }
 
