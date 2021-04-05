@@ -4,7 +4,6 @@ build-macos:
 cp-macos:
 	cp target/release/libbrcode.dylib ./
 	cp target/release/libbrcode.dylib clj-brcode/
-	cp target/release/libbrcode.dylib node-brcode/
 	cp target/release/libbrcode.dylib dartbrcode/
 	cp target/release/libbrcode.dylib jvm-brcode/
 
@@ -14,7 +13,6 @@ build-linux:
 cp-linux:
 	cp target/release/libbrcode.so ./
 	cp target/release/libbrcode.so clj-brcode/
-	cp target/release/libbrcode.so node-brcode/
 	cp target/release/libbrcode.so dartbrcode/
 	cp target/release/libbrcode.so jvm-brcode/
 
