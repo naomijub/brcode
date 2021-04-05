@@ -5,13 +5,13 @@ use brcode::{
 
 #[test]
 fn test_from_str() {
-    assert_eq!(from_str(&code()), data_expected());
+    assert_eq!(from_str(&code(None, None)), data_expected());
 }
 
 #[test]
 fn test_to_string() {
     let actual = brcode::to_string(&data_expected());
-    let expected = code();
+    let expected = code(None, None);
 
     assert_eq!(actual, expected);
 }
@@ -26,15 +26,31 @@ fn assert_both_ways() {
 
 #[test]
 fn test_brcode_to_string() {
-    let actual = brcode::brcode_to_string(brcode_expected());
-    let expected = code();
+    let actual = brcode::brcode_to_string(brcode_expected(None));
+    let expected = code(None, None);
+
+    assert_eq!(actual, expected);
+}
+
+#[test]
+fn test_brcode_to_string_cents_edge_case1() {
+    let actual = brcode::brcode_to_string(brcode_expected(Some(1.1)));
+    let expected = code(Some(1.1), Some("779A"));
+
+    assert_eq!(actual, expected);
+}
+
+#[test]
+fn test_brcode_to_string_cents_edge_case2() {
+    let actual = brcode::brcode_to_string(brcode_expected(Some(1.0)));
+    let expected = code(Some(1.0), Some("5A3D"));
 
     assert_eq!(actual, expected);
 }
 
 #[test]
 fn test_str_to_brcode() {
-    assert_eq!(str_to_brcode(&code()), brcode_expected());
+    assert_eq!(str_to_brcode(&code(None, None)), brcode_expected(None));
 }
 
 #[test]
@@ -49,14 +65,14 @@ fn minimum_breaking_code() {
 
 #[test]
 fn brcode_is_pix() {
-    let from = str_to_brcode(&code());
+    let from = str_to_brcode(&code(None, None));
 
     assert!(from.is_pix())
 }
 
 #[test]
 fn brcode_label() {
-    let from = str_to_brcode(&code());
+    let from = str_to_brcode(&code(None, None));
 
     assert_eq!(
         from.get_transaction_id(),
@@ -80,7 +96,7 @@ fn brcode_get_message() {
 
 #[test]
 fn json_ffi() {
-    let code = code();
+    let code = code(None, None);
     let result = json_from_brcode(to_c_char(code));
     let actual = to_string(result);
 
@@ -89,7 +105,7 @@ fn json_ffi() {
 
 #[test]
 fn edn_ffi() {
-    let code = code();
+    let code = code(None, None);
     let result = edn_from_brcode(to_c_char(code));
     let actual = to_string(result);
 
@@ -99,7 +115,7 @@ fn edn_ffi() {
 #[test]
 fn edn_to_brcode_ffi() {
     let edn = edn();
-    let code = code();
+    let code = code(None, None);
     let result = edn_to_brcode(to_c_char(edn));
     let actual = to_string(result);
 
@@ -109,7 +125,7 @@ fn edn_to_brcode_ffi() {
 #[test]
 fn json_to_brcode_ffi() {
     let json = json();
-    let code = code();
+    let code = code(None, None);
     let result = json_to_brcode(to_c_char(json));
     let actual = to_string(result);
 
@@ -132,9 +148,10 @@ fn dynamic_code() -> String {
     .to_string()
 }
 
-fn code() -> String {
-    "00020104141234567890123426580014BR.GOV.BCB.PIX0136123e4567-e12b-12d1-a456-42665544000027300012BR.COM.OUTRO011001234567895204000053039865406123.455802BR5917NOME DO RECEBEDOR6008BRASILIA61087007490062190515RP12345678-201980390012BR.COM.OUTRO01190123.ABCD.3456.WXYZ6304AD38"
-    .to_string()
+fn code(amount: Option<f64>, crc16: Option<&str>) -> String {
+    let amount = amount.unwrap_or(123.45);
+    let amount_size = format!("{:.2}", amount).len();
+    format!("00020104141234567890123426580014BR.GOV.BCB.PIX0136123e4567-e12b-12d1-a456-42665544000027300012BR.COM.OUTRO0110012345678952040000530398654{:02}{:.2}5802BR5917NOME DO RECEBEDOR6008BRASILIA61087007490062190515RP12345678-201980390012BR.COM.OUTRO01190123.ABCD.3456.WXYZ6304{}", amount_size, amount, crc16.unwrap_or("AD38"))
 }
 
 fn json() -> String {
@@ -147,7 +164,7 @@ fn edn() -> String {
     .to_string()
 }
 
-fn brcode_expected() -> BrCode {
+fn brcode_expected(amount: Option<f64>) -> BrCode {
     BrCode {
         payload_version: 1,
         initiation_method: None,
@@ -188,7 +205,7 @@ fn brcode_expected() -> BrCode {
         ],
         currency: "986".to_string(),
         postal_code: Some("70074900".to_string()),
-        amount: Some(123.45),
+        amount: amount.or(Some(123.45)),
         country_code: "BR".to_string(),
         field_template: vec![Label {
             reference_label: "RP12345678-2019".to_string(),

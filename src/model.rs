@@ -221,7 +221,10 @@ impl BrCode {
         encode.push_str(&format!("5303{:02}", self.currency));
         match self.amount {
             None => (),
-            Some(a) => encode.push_str(&format!("54{:02}{}", a.to_string().len(), a)),
+            Some(a) => {
+                let a = format!("{:.2}", a);
+                encode.push_str(&format!("54{:02}{}", a.len(), a))
+            }
         }
         match self.convenience {
             None => (),
