@@ -23,3 +23,22 @@
   (testing "biscuit is B8CE"
     (is (= (crc16-ccitt "biscuit") "B8CE"))
     (is (= (crc16-ccitt unchecked-code) "AD38"))))
+
+(deftest drop
+  (testing "access edn after a drop"
+    (let [e edn
+          resp (edn->brcode e)]
+      (is (= resp code))
+      (is (= 1 (get e :payload-version)))))
+  (testing "access code after crc16"
+    (let [uc unchecked-code
+          crc (crc16-ccitt uc)
+          code (str uc crc)
+          expect (str unchecked-code "AD38")]
+      (is (= code expect)))
+  )
+  (testing "access code after drop"
+    (let [c code
+          edn (brcode->edn c)]
+      (is (= 1 (get edn :payload-version)))
+      (is (= (subs c 0 2) "00")))))
