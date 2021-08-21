@@ -52,4 +52,4 @@ jobs:
     - name: run-clippy
       run: |
         sudo apt-get install -y libudev-dev
-        cargo clippy -- -W clippy::perf
+        cargo clippy -- -W clippy::pedantic
