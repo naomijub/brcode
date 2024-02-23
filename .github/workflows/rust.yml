@@ -31,3 +31,25 @@ jobs:
       run: cargo build --release
     - name: Run tests
       run: cargo test --release --verbose
+  
+  clippy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: cache-build-artifacts
+      uses: actions/cache@v2
+      with:
+        path: target
+        key: cargo-clippy-${{ hashFiles('Cargo.lock') }}
+        restore-keys: |
+          cargo-clippy-${{ hashFiles('Cargo.lock') }}
+          cargo-clippy
+    - name: install-clippy
+      run: rustup component add clippy
+
+    - name: run-clippy
+      run: |
+        sudo apt-get install -y libudev-dev
+        cargo clippy -- -W clippy::pedantic
