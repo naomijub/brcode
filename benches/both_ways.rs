@@ -1,5 +1,5 @@
 use brcode::{brcode_to_string, from_str, str_to_brcode, to_string};
-use criterion::{criterion_group, criterion_main, Criterion};
+use criterion::{Criterion, criterion_group, criterion_main};
 
 fn brcode_benchmark(c: &mut Criterion) {
     let code = code();

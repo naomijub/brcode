@@ -1,5 +1,5 @@
 use brcode::{edn_from_brcode, json_from_brcode, str_to_brcode};
-use criterion::{criterion_group, criterion_main, Criterion};
+use criterion::{Criterion, criterion_group, criterion_main};
 
 fn rust_criterion_benchmark(c: &mut Criterion) {
     let code = code();

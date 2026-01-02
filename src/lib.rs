@@ -45,7 +45,7 @@ fn to_c_char(s: &str) -> *const c_char {
     ptr
 }
 
-#[no_mangle]
+#[unsafe(no_mangle)]
 pub extern "C" fn crc16_ccitt_from_message(message: *const c_char) -> *const c_char {
     let message_str = chars_to_string(message);
     let checksum = crc16_ccitt(&message_str);
@@ -54,7 +54,7 @@ pub extern "C" fn crc16_ccitt_from_message(message: *const c_char) -> *const c_c
 }
 
 // Edn
-#[no_mangle]
+#[unsafe(no_mangle)]
 pub extern "C" fn edn_from_brcode(edn: *const c_char) -> *const c_char {
     let edn_str = chars_to_string(edn);
     let brcode = str_to_brcode(&edn_str);
@@ -62,7 +62,7 @@ pub extern "C" fn edn_from_brcode(edn: *const c_char) -> *const c_char {
     to_c_char(&edn_rs::to_string(brcode))
 }
 
-#[no_mangle]
+#[unsafe(no_mangle)]
 pub extern "C" fn edn_to_brcode(edn: *const c_char) -> *const c_char {
     let edn_str = chars_to_string(edn);
     let brcode: BrCode = edn_rs::from_str(&edn_str).unwrap();
@@ -70,7 +70,7 @@ pub extern "C" fn edn_to_brcode(edn: *const c_char) -> *const c_char {
     to_c_char(&brcode_to_string(brcode))
 }
 
-#[no_mangle]
+#[unsafe(no_mangle)]
 pub extern "C" fn edn_to_svg_brcode(edn: *const c_char) -> *const c_char {
     let edn_str = chars_to_string(edn);
     let brcode: BrCode = edn_rs::from_str(&edn_str).unwrap();
@@ -79,7 +79,7 @@ pub extern "C" fn edn_to_svg_brcode(edn: *const c_char) -> *const c_char {
     to_c_char(&svg)
 }
 
-#[no_mangle]
+#[unsafe(no_mangle)]
 pub extern "C" fn edn_to_svg_file(edn: *const c_char, file_path: *const c_char) {
     let edn_str = chars_to_string(edn);
     let file_path_str = chars_to_string(file_path);
@@ -90,7 +90,7 @@ pub extern "C" fn edn_to_svg_file(edn: *const c_char, file_path: *const c_char) 
 }
 
 // Json
-#[no_mangle]
+#[unsafe(no_mangle)]
 pub extern "C" fn json_from_brcode(json: *const c_char) -> *const c_char {
     let json_str = chars_to_string(json);
     let brcode = str_to_brcode(&json_str);
@@ -98,7 +98,7 @@ pub extern "C" fn json_from_brcode(json: *const c_char) -> *const c_char {
     to_c_char(&serde_json::to_string(&brcode).unwrap_or_else(|_| "error".to_string()))
 }
 
-#[no_mangle]
+#[unsafe(no_mangle)]
 pub extern "C" fn json_to_brcode(json: *const c_char) -> *const c_char {
     let json_str = chars_to_string(json);
     let brcode: BrCode = serde_json::from_str(&json_str).unwrap();
@@ -106,7 +106,7 @@ pub extern "C" fn json_to_brcode(json: *const c_char) -> *const c_char {
     to_c_char(&brcode_to_string(brcode))
 }
 
-#[no_mangle]
+#[unsafe(no_mangle)]
 pub extern "C" fn json_to_svg_brcode(json: *const c_char) -> *const c_char {
     let json_str = chars_to_string(json);
     let brcode: BrCode = serde_json::from_str(&json_str).unwrap();
@@ -115,7 +115,7 @@ pub extern "C" fn json_to_svg_brcode(json: *const c_char) -> *const c_char {
     to_c_char(&svg)
 }
 
-#[no_mangle]
+#[unsafe(no_mangle)]
 pub extern "C" fn json_to_svg_file(json: *const c_char, file_path: *const c_char) {
     let json_str = chars_to_string(json);
     let file_path_str = chars_to_string(file_path);
