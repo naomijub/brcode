@@ -1,0 +1,1 @@
+["^ ","~:members",["^ ","httpsURLConnection",["~#set",[["^ ","~:flags",["^2",["~:public","~:field"]]]]],"DelegateHttpsURLConnection",["^2",[["^ ","^3",["^2",["~:method"]]]]],"getSSLSocketFactory",["^2",[["^ ","^3",["^2",["^7","~:protected"]]]]],"getHostnameVerifier",["^2",[["^ ","^3",["^2",["^7","^9"]]]]]]]

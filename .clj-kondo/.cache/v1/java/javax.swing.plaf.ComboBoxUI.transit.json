@@ -1,0 +1,1 @@
+["^ ","~:members",["^ ","ComboBoxUI",["~#set",[["^ ","~:flags",["^2",["~:method","~:protected"]]]]],"setPopupVisible",["^2",[["^ ","^3",["^2",["^4","~:public","~:abstract"]]]]],"isPopupVisible",["^2",[["^ ","^3",["^2",["^4","^7","^8"]]]]],"isFocusTraversable",["^2",[["^ ","^3",["^2",["^4","^7","^8"]]]]]]]

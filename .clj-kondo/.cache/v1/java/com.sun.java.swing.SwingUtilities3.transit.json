@@ -1,0 +1,1 @@
+["^ ","~:members",["^ ","setDelegateRepaintManager",["~#set",[["^ ","~:flags",["^2",["~:method","~:public","~:static"]]]]],"setVsyncRequested",["^2",[["^ ","^3",["^2",["^4","^5","^6"]]]]],"isVsyncRequested",["^2",[["^ ","^3",["^2",["^4","^5","^6"]]]]],"getDelegateRepaintManager",["^2",[["^ ","^3",["^2",["^4","^5","^6"]]]]]]]

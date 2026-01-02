@@ -1,0 +1,1 @@
+["^ ","~:members",["^ ","serialVersionUID",["~#set",[["^ ","~:flags",["^2",["~:static","~:field","~:final"]]]]],"ObjectPool",["^2",[["^ ","^3",["^2",["~:method","~:public"]]]]],"getInstanceIfFree",["^2",[["^ ","^3",["^2",["^8","^9","~:synchronized"]]]]],"getInstance",["^2",[["^ ","^3",["^2",["^8","^9","^;"]]]]],"freeInstance",["^2",[["^ ","^3",["^2",["^8","^9","^;"]]]]]]]

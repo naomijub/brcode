@@ -1,0 +1,1 @@
+["^ ","~:members",["^ ","serialVersionUID",["~#set",[["^ ","~:flags",["^2",["~:static","~:field","~:final"]]]]],"BasicTestIterator",["^2",[["^ ","^3",["^2",["~:method","~:protected"]]]]],"getNextNode",["^2",[["^ ","^3",["^2",["^8","~:abstract","^9"]]]]],"nextNode",["^2",[["^ ","^3",["^2",["^8","~:public"]]]]],"cloneWithReset",["^2",[["^ ","^3",["^2",["^8","^="]]]]]]]

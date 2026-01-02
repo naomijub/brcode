@@ -1,0 +1,1 @@
+["^ ","~:members",["^ ","ProviderVerifier",["~#set",[["^ ","~:flags",["^2",["~:method"]]]]],"verify",["^2",[["^ ","^3",["^2",["^4"]]]]],"verifyPolicySigned",["^2",[["^ ","^3",["^2",["^4","~:static"]]]]],"isTrustedCryptoProvider",["^2",[["^ ","^3",["^2",["^4","^7"]]]]],"getPermissions",["^2",[["^ ","^3",["^2",["^4"]]]]]]]

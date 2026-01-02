@@ -1,0 +1,1 @@
+["^ ","~:members",["^ ","FtpClientProvider",["~#set",[["^ ","~:flags",["^2",["~:method","~:protected"]]]]],"createFtpClient",["^2",[["^ ","^3",["^2",["^4","~:public","~:abstract"]]]]],"provider",["^2",[["^ ","^3",["^2",["^4","^7","~:static"]]]]],"run",["^2",[["^ ","^3",["^2",["^4","^7"]]]]]]]

@@ -1,0 +1,1 @@
+["^ ","~:members",["^ ","NotificationResult",["~#set",[["^ ","~:flags",["^2",["~:method","~:public"]]]]],"getEarliestSequenceNumber",["^2",[["^ ","^3",["^2",["^4","^5"]]]]],"getNextSequenceNumber",["^2",[["^ ","^3",["^2",["^4","^5"]]]]],"getTargetedNotifications",["^2",[["^ ","^3",["^2",["^4","^5"]]]]],"toString",["^2",[["^ ","^3",["^2",["^4","^5"]]]]]]]

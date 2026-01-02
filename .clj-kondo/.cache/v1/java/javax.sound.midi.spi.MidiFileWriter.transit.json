@@ -1,0 +1,1 @@
+["^ ","~:members",["^ ","MidiFileWriter",["~#set",[["^ ","~:flags",["^2",["~:method","~:protected"]]]]],"getMidiFileTypes",["^2",[["^ ","^3",["^2",["^4","~:public","~:abstract"]]]]],"isFileTypeSupported",["^2",[["^ ","^3",["^2",["^4","^7"]]]]],"write",["^2",[["^ ","^3",["^2",["^4","^7","^8"]]]]]]]

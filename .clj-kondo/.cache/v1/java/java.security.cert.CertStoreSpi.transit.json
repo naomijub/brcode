@@ -1,0 +1,1 @@
+["^ ","~:members",["^ ","CertStoreSpi",["~#set",[["^ ","~:flags",["^2",["~:method","~:public"]]]]],"engineGetCertificates",["^2",[["^ ","^3",["^2",["^4","^5","~:abstract"]]]]],"engineGetCRLs",["^2",[["^ ","^3",["^2",["^4","^5","^7"]]]]]]]

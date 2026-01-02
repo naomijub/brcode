@@ -1,0 +1,1 @@
+["^ ","~:members",["^ ","AbstractFileTypeDetector",["~#set",[["^ ","~:flags",["^2",["~:method","~:protected"]]]]],"getExtension",["^2",[["^ ","^3",["^2",["^4","~:final","^5"]]]]],"probeContentType",["^2",[["^ ","^3",["^2",["^4","~:public","^7"]]]]],"implProbeContentType",["^2",[["^ ","^3",["^2",["^4","~:abstract","^5"]]]]]]]

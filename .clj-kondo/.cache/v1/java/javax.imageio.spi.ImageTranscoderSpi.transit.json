@@ -1,0 +1,1 @@
+["^ ","~:members",["^ ","ImageTranscoderSpi",["~#set",[["^ ","~:flags",["^2",["~:method","~:protected"]]],["^ ","^3",["^2",["^4","~:public"]]]]],"getReaderServiceProviderName",["^2",[["^ ","^3",["^2",["^4","^6","~:abstract"]]]]],"getWriterServiceProviderName",["^2",[["^ ","^3",["^2",["^4","^6","^8"]]]]],"createTranscoderInstance",["^2",[["^ ","^3",["^2",["^4","^6","^8"]]]]]]]

@@ -1,0 +1,1 @@
+["^ ","~:members",["^ ","MidiDeviceProvider",["~#set",[["^ ","~:flags",["^2",["~:method","~:protected"]]]]],"isDeviceSupported",["^2",[["^ ","^3",["^2",["^4","~:public"]]]]],"getDeviceInfo",["^2",[["^ ","^3",["^2",["^4","^7","~:abstract"]]]]],"getDevice",["^2",[["^ ","^3",["^2",["^4","^7","^9"]]]]]]]

@@ -1,0 +1,1 @@
+["^ ","~:members",["^ ","MidiFileReader",["~#set",[["^ ","~:flags",["^2",["~:method","~:protected"]]]]],"getMidiFileFormat",["^2",[["^ ","^3",["^2",["^4","~:public","~:abstract"]]]]],"getSequence",["^2",[["^ ","^3",["^2",["^4","^7","^8"]]]]]]]

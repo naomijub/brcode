@@ -2,7 +2,7 @@
 name = "brcode"
 version = "1.4.3"
 authors = ["Julia Naomi <jnboeira@outlook.com>"]
-edition = "2018"
+edition = "2021"
 description = "Crate to parse and emit BR Codes"
 readme = "README.md"
 documentation = "https://docs.rs/brcode/"

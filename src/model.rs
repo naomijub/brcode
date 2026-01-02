@@ -112,7 +112,7 @@ impl From<Vec<(usize, Data)>> for BrCode {
             payload_version: hash[&0usize].to_str().parse().unwrap(),
             initiation_method: hash.get(&1usize).map(|e| e.to_str().parse().unwrap()),
             merchant_account_information: hash.get(&4usize).map(crate::aux::Data::to_str),
-            merchant_information: merchant_information,
+            merchant_information,
             merchant_category_code: hash[&52usize].to_str().parse().unwrap(),
             merchant_name: hash[&59usize].to_str(),
             merchant_city: hash[&60usize].to_str(),
@@ -255,9 +255,9 @@ impl BrCode {
         }
         let field_template = self.field_template[0].reference_label.clone();
         encode.push_str(&format!(
-            "62{:02}{}",
+            "62{:02}05{:02}{field_template}",
             field_template.len() + 4,
-            format!("05{:02}{}", field_template.len(), field_template)
+            field_template.len()
         ));
         //80-99
         match self.templates {
@@ -336,9 +336,9 @@ impl BrCode {
         }
         let field_template = self.field_template[0].reference_label.clone();
         encode.push_str(&format!(
-            "62{:02}{}",
+            "62{:02}05{:02}{field_template}",
             field_template.len() + 4,
-            format!("05{:02}{}", field_template.len(), field_template)
+            field_template.len()
         ));
         //80-99
         match self.templates.clone() {
@@ -366,34 +366,33 @@ impl BrCode {
     pub fn to_svg_string(&self, ecc: QrCodeEcc, size: usize) -> String {
         let brcode = self.clone().encode();
         let result: String =
-            qrcode_generator::to_svg_to_string(&brcode.clone(), ecc, size, Some(brcode)).unwrap();
+            qrcode_generator::to_svg_to_string(brcode.clone(), ecc, size, Some(brcode)).unwrap();
         result
     }
 
     pub fn to_svg_standard_string(&self) -> String {
         let brcode = self.clone().encode();
         let result: String =
-            qrcode_generator::to_svg_to_string(&brcode.clone(), QrCodeEcc::Low, 1024, Some(brcode))
+            qrcode_generator::to_svg_to_string(brcode.clone(), QrCodeEcc::Low, 1024, Some(brcode))
                 .unwrap();
         result
     }
 
     pub fn to_vec_u8(&self, ecc: QrCodeEcc, size: usize) -> Vec<u8> {
         let brcode = self.clone().encode();
-        let result = qrcode_generator::to_png_to_vec(&brcode, ecc, size).unwrap();
-        result
+        qrcode_generator::to_png_to_vec(&brcode, ecc, size).unwrap_or_default()
     }
 
     pub fn to_svg_file(&self, file_path: &str, ecc: QrCodeEcc, size: usize) {
         let brcode = self.clone().encode();
-        qrcode_generator::to_svg_to_file(&brcode.clone(), ecc, size, Some(brcode), file_path)
+        qrcode_generator::to_svg_to_file(brcode.clone(), ecc, size, Some(brcode), file_path)
             .unwrap();
     }
 
     pub fn to_standard_svg_file(&self, file_path: &str) {
         let brcode = self.clone().encode();
         qrcode_generator::to_svg_to_file(
-            &brcode.clone(),
+            brcode.clone(),
             QrCodeEcc::Low,
             1024,
             Some(brcode),
@@ -404,7 +403,7 @@ impl BrCode {
 
     pub fn to_png_file(&self, file_path: &str, ecc: QrCodeEcc, size: usize) {
         let brcode = self.clone().encode();
-        qrcode_generator::to_png_to_file(&brcode.clone(), ecc, size, file_path).unwrap();
+        qrcode_generator::to_png_to_file(brcode.clone(), ecc, size, file_path).unwrap();
     }
 }
 
@@ -428,7 +427,7 @@ mod test {
     #[test]
     fn brcode_to_svg() {
         let svg = expected().to_svg_standard_string();
-        assert_eq!(&svg[38..42], "<svg");
+        assert_eq!(&svg[39..43], "<svg");
     }
 
     #[test]

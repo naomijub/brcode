@@ -1,0 +1,1 @@
+["^ ","~:members",["^ ","getSafepointCount",["~#set",[["^ ","~:flags",["^2",["~:method","~:public"]]]]],"getTotalSafepointTime",["^2",[["^ ","^3",["^2",["^4","^5"]]]]],"getSafepointSyncTime",["^2",[["^ ","^3",["^2",["^4","^5"]]]]],"getInternalRuntimeCounters",["^2",[["^ ","^3",["^2",["^4","^5"]]]]]]]

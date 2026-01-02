@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v6
     - name: Build
       run: cargo build --release
     - name: Run tests
@@ -26,7 +26,7 @@ jobs:
     runs-on: macos-latest
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v6
     - name: Build
       run: cargo build --release
     - name: Run tests
@@ -36,10 +36,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v6
 
     - name: cache-build-artifacts
-      uses: actions/cache@v2
+      uses: actions/cache@v4
       with:
         path: target
         key: cargo-clippy-${{ hashFiles('Cargo.lock') }}

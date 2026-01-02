@@ -1,0 +1,1 @@
+["^ ","~:members",["^ ","HotspotRuntime",["~#set",[["^ ","~:flags",["^2",["~:method"]]]]],"getSafepointCount",["^2",[["^ ","^3",["^2",["^4","~:public"]]]]],"getTotalSafepointTime",["^2",[["^ ","^3",["^2",["^4","^6"]]]]],"getSafepointSyncTime",["^2",[["^ ","^3",["^2",["^4","^6"]]]]],"getInternalRuntimeCounters",["^2",[["^ ","^3",["^2",["^4","^6"]]]]]]]
