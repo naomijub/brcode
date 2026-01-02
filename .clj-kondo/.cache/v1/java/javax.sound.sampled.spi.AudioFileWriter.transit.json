@@ -1,1 +1,0 @@
-["^ ","~:members",["^ ","AudioFileWriter",["~#set",[["^ ","~:flags",["^2",["~:method","~:protected"]]]]],"getAudioFileTypes",["^2",[["^ ","^3",["^2",["^4","~:public","~:abstract"]]]]],"isFileTypeSupported",["^2",[["^ ","^3",["^2",["^4","^7"]]]]],"write",["^2",[["^ ","^3",["^2",["^4","^7","^8"]]]]]]]

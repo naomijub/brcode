@@ -1,1 +1,0 @@
-["^ ","~:members",["^ ","serialVersionUID",["~#set",[["^ ","~:flags",["^2",["~:static","~:field","~:final"]]]]],"SyncProviderException",["^2",[["^ ","^3",["^2",["~:method","~:public"]]]]],"getSyncResolver",["^2",[["^ ","^3",["^2",["^8","^9"]]]]],"setSyncResolver",["^2",[["^ ","^3",["^2",["^8","^9"]]]]]]]

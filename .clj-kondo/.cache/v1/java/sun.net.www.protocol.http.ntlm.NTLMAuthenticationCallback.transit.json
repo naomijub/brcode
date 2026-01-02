@@ -1,1 +1,0 @@
-["^ ","~:members",["^ ","setNTLMAuthenticationCallback",["~#set",[["^ ","~:flags",["^2",["~:method","~:public","~:static"]]]]],"getNTLMAuthenticationCallback",["^2",[["^ ","^3",["^2",["^4","^5","^6"]]]]],"isTrustedSite",["^2",[["^ ","^3",["^2",["^4","^5","~:abstract"]]]]]]]

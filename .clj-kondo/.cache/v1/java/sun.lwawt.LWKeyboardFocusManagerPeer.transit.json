@@ -1,1 +1,0 @@
-["^ ","~:members",["^ ","getInstance",["~#set",[["^ ","~:flags",["^2",["~:method","~:public","~:static"]]]]],"setCurrentFocusedWindow",["^2",[["^ ","^3",["^2",["^4","^5"]]]]],"getCurrentFocusedWindow",["^2",[["^ ","^3",["^2",["^4","^5"]]]]],"getCurrentFocusOwner",["^2",[["^ ","^3",["^2",["^4","^5"]]]]],"setCurrentFocusOwner",["^2",[["^ ","^3",["^2",["^4","^5"]]]]]]]

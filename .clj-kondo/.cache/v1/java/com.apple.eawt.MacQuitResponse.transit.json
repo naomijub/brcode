@@ -1,1 +1,0 @@
-["^ ","~:members",["^ ","appEventHandler",["~#set",[["^ ","~:flags",["^2",["~:field","~:final"]]]]],"MacQuitResponse",["^2",[["^ ","^3",["^2",["~:method"]]]]],"performQuit",["^2",[["^ ","^3",["^2",["^7","~:public"]]]]],"cancelQuit",["^2",[["^ ","^3",["^2",["^7","^9"]]]]]]]

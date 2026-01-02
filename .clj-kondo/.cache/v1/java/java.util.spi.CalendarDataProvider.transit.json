@@ -1,1 +1,0 @@
-["^ ","~:members",["^ ","CalendarDataProvider",["~#set",[["^ ","~:flags",["^2",["~:method","~:protected"]]]]],"getFirstDayOfWeek",["^2",[["^ ","^3",["^2",["^4","~:public","~:abstract"]]]]],"getMinimalDaysInFirstWeek",["^2",[["^ ","^3",["^2",["^4","^7","^8"]]]]]]]

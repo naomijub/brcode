@@ -1,1 +1,0 @@
-["^ ","~:members",["^ ","AbstractScope",["~#set",[["^ ","~:flags",["^2",["~:method","~:protected"]]]]],"getRecvr",["^2",[["^ ","^3",["^2",["^4","^5"]]]]],"computeEnclosingScope",["^2",[["^ ","^3",["^2",["^4","~:abstract","^5"]]]]],"getEnclosingScope",["^2",[["^ ","^3",["^2",["^4","^5"]]]]],"lookup",["^2",[["^ ","^3",["^2",["^4","~:public"]]]]]]]

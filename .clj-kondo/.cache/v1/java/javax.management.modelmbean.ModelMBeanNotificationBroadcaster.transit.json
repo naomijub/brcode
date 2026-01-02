@@ -1,1 +1,0 @@
-["^ ","~:members",["^ ","sendNotification",["~#set",[["^ ","~:flags",["^2",["~:method","~:public"]]]]],"sendAttributeChangeNotification",["^2",[["^ ","^3",["^2",["^4","^5"]]]]],"addAttributeChangeNotificationListener",["^2",[["^ ","^3",["^2",["^4","^5"]]]]],"removeAttributeChangeNotificationListener",["^2",[["^ ","^3",["^2",["^4","^5"]]]]]]]

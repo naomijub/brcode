@@ -1,1 +1,0 @@
-["^ ","~:members",["^ ","headerSize",["~#set",[["^ ","~:flags",["^2",["~:field"]]]]],"handshakeHeaderSize",["^2",[["^ ","^3",["^2",["^4"]]]]],"headerPlusMaxIVSize",["^2",[["^ ","^3",["^2",["^4"]]]]],"maxPlaintextPlusSize",["^2",[["^ ","^3",["^2",["^4"]]]]],"maxRecordSize",["^2",[["^ ","^3",["^2",["^4"]]]]],"minCertPlaintextSize",["^2",[["^ ","^3",["^2",["^4"]]]]]]]

@@ -1,1 +1,0 @@
-["^ ","~:members",["^ ","UserPrincipalLookupService",["~#set",[["^ ","~:flags",["^2",["~:method","~:protected"]]]]],"lookupPrincipalByName",["^2",[["^ ","^3",["^2",["^4","~:public","~:abstract"]]]]],"lookupPrincipalByGroupName",["^2",[["^ ","^3",["^2",["^4","^7","^8"]]]]]]]

@@ -1,1 +1,0 @@
-["^ ","~:members",["^ ","ReferralException",["~#set",[["^ ","~:flags",["^2",["~:method","~:protected"]]]]],"getReferralInfo",["^2",[["^ ","^3",["^2",["^4","~:public","~:abstract"]]]]],"getReferralContext",["^2",[["^ ","^3",["^2",["^4","^7","^8"]]]]],"skipReferral",["^2",[["^ ","^3",["^2",["^4","^7","^8"]]]]],"retryReferral",["^2",[["^ ","^3",["^2",["^4","^7","^8"]]]]]]]

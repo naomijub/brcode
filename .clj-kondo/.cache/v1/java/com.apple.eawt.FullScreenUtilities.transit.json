@@ -1,1 +1,0 @@
-["^ ","~:members",["^ ","FullScreenUtilities",["~#set",[["^ ","~:flags",["^2",["~:method"]]]]],"setWindowCanFullScreen",["^2",[["^ ","^3",["^2",["^4","~:public","~:static"]]]]],"addFullScreenListenerTo",["^2",[["^ ","^3",["^2",["^4","^6","^7"]]]]],"removeFullScreenListenerFrom",["^2",[["^ ","^3",["^2",["^4","^6","^7"]]]]]]]
