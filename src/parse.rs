@@ -57,7 +57,7 @@ fn parse_code(chars: &mut Chars) -> Option<(usize, String)> {
 
 #[cfg(test)]
 mod test {
-    use super::{parse, Data};
+    use super::{Data, parse};
 
     #[test]
     fn helloworld_in_tag_00() {
