@@ -305,7 +305,10 @@ impl BrCode {
         encode.push_str(&format!("5303{:02}", self.currency));
         match self.amount {
             None => (),
-            Some(a) => encode.push_str(&format!("54{:02}{}", a.to_string().len(), a)),
+            Some(a) => {
+                let a = format!("{:.2}", a);
+                encode.push_str(&format!("54{:02}{}", a.len(), a))
+            }
         }
         match self.convenience.clone() {
             None => (),
@@ -447,6 +450,22 @@ mod test {
         let expected = "{\"payload_version\":1,\"merchant_account_information\":\"12345678901234\",\"merchant_information\":[{\"id\":26,\"info\":[{\"id\":0,\"info\":\"BR.GOV.BCB.PIX\"},{\"id\":1,\"info\":\"123e4567-e12b-12d1-a456-426655440000\"}]},{\"id\":27,\"info\":[{\"id\":0,\"info\":\"BR.COM.OUTRO\"},{\"id\":1,\"info\":\"0123456789\"}]}],\"merchant_category_code\":0,\"merchant_name\":\"NOME DO RECEBEDOR\",\"merchant_city\":\"BRASILIA\",\"postal_code\":\"70074900\",\"currency\":\"986\",\"amount\":123.45,\"country_code\":\"BR\",\"field_template\":[{\"reference_label\":\"RP12345678-2019\"}],\"crc1610\":\"AD38\",\"templates\":[{\"id\":80,\"info\":[{\"id\":0,\"info\":\"BR.COM.OUTRO\"},{\"id\":1,\"info\":\"0123.ABCD.3456.WXYZ\"}]}]}";
 
         assert_eq!(json, expected);
+    }
+
+    #[test]
+    fn amount_with_one_decimal_uses_the_brcode_crc() {
+        let mut code = brcode_value();
+        code.amount = Some(10.5);
+        let brcode = code.clone().encode();
+        let crc = &brcode[brcode.len() - 4..];
+        let json = code.to_crc16_json();
+
+        assert!(brcode.contains("540510.50"), "{}", brcode);
+        assert!(
+            json.contains(&format!("\"crc1610\":\"{}\"", crc)),
+            "{}",
+            json
+        );
     }
 
     fn expected() -> BrCode {
